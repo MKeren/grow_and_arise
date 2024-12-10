@@ -108,7 +108,6 @@ def Home(request):
 def home(request):
     return render(request, "core/home.html", {"user": request.user})
 
-
 def index(request):
     return render(request, "core/index.html", {"user": request.user})
 
