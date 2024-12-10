@@ -1,0 +1,11 @@
+<h1>Mes Tâches</h1>
+<ul>
+    {% for task in tasks %}
+        <li>{{ task.title }} - {{ task.get_status_display }}</li>
+    {% empty %}
+        <p>Aucune tâche trouvée.</p>
+    {% endfor %}
+</ul>
+<a href="{% url 'tracker:create_task' %}">Créer une Tâche</a>
+
+

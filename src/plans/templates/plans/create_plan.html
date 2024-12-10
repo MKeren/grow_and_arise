@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un Plan</title>
+</head>
+<body>
+    <h1>Créer un Nouveau Plan</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Afficher les champs du formulaire -->
+        <button type="submit">Créer le plan</button>
+    </form>
+
+    <a href="{% url 'plans:plan_list' %}">Retour à la liste des plans</a>
+</body>
+</html>

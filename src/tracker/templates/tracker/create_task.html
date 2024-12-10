@@ -1,0 +1,7 @@
+<h1>Créer une Tâche</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter</button>
+</form>
+<a href="{% url 'task_list' %}">Retour à la liste des tâches</a>

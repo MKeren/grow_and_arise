@@ -1,0 +1,9 @@
+<h1>Liste des Habitudes</h1>
+<ul>
+    {% for habit in habits %}
+        <li>{{ habit.name }} - {{ habit.frequency }}</li>
+    {% empty %}
+        <p>Aucune habitude trouvée.</p>
+    {% endfor %}
+</ul>
+<a href="{% url 'tracker:create_habit' %}">Ajouter une Habitude</a>

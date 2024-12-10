@@ -1,0 +1,138 @@
+ /* Sidebar Styling */
+ main {
+    transition: margin-left 0.3s ease;
+}
+.sidebar.show {
+    transform: translateX(0); 
+    opacity: 1;
+    transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+#sidebar.show {
+    display: block;
+}
+.sidebar.show + main {
+    margin-left: 250px;
+}
+.sidebar.d-none + .main-content {
+    margin-left: 0;
+}
+/* Sidebar Styling */
+.sidebar {
+    background-color: #2f2f2f; /* Dark background */
+    color: black; /* Default text color */
+    height: calc(100vh - 106px); /* Subtract navbar (56px) and footer (50px) heights */
+    position: fixed;
+    top: 56px; /* Below navbar */
+    left: 0;
+    width: 250px;
+    transform: translateX(0); /* Fully visible */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Fluidité de l'animation */
+    opacity: 1;
+    z-index: 999; /* Above the main content */
+    display:none;
+    flex-direction: column;
+    overflow-y: auto; /* Enable scrolling */
+}
+/* Gray scrollbar design */
+.sidebar::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+    background-color: #333; /* Arrière-plan de la scrollbar */
+    transition: background-color 0.3s ease; /* Ajout d'une transition */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #888; /* Medium gray thumb */
+    border-radius: 10px; /* Rounded edges */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Light gray thumb on hover */
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #222; /* Darker gray track */
+    border-radius: 10px;
+}
+
+/* Sidebar navigation items */
+.sidebar .nav {
+    flex-grow: 1;
+    padding-bottom: 15px;
+}
+
+.sidebar .nav-link {
+    color: black; /* Default text color */
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px; /* Rounded hover effect */
+    margin: 5px 10px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect with small gray background */
+.sidebar .nav-link:hover {
+    color: white; /* Text turns white */
+    background-color: #555; /* Small gray background on hover */
+}
+
+/* Active state */
+.sidebar .nav-link.active {
+    color: white; /* Text turns white */
+    background-color: #666; /* Slightly darker gray for active item */
+}
+
+/* Sidebar icons */
+.sidebar .nav-link .fas {
+    color: black; /* Default icon color */
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+/* Icon hover and active colors */
+.sidebar .nav-link:hover .fas,
+.sidebar .nav-link.active .fas {
+    color: white;
+}
+
+/* Footer positioned at the bottom of the sidebar */
+.sidebar footer {
+    margin-top: auto; /* Push footer to the bottom of the sidebar */
+    text-align: center;
+    background-color: #444;
+    color: #ddd;
+    padding: 15px 0;
+    font-size: 14px;
+    width: 100%;
+    border-top: 1px solid #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Slightly smaller for mobile */
+        height: calc(100vh - 106px); /* Adjust height dynamically for mobile */
+    }
+
+    .sidebar .nav-link {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .sidebar .nav-link .fas {
+        font-size: 16px;
+    }
+}
+
+/* Sidebar réduite */
+.sidebar.collapsed {
+    width: 50px; /* Réduire la largeur */
+    overflow: hidden; /* Masquer les éléments */
+}
+
+.sidebar.collapsed .nav-link {
+    font-size: 12px;
+    justify-content: center; /* Centrer les éléments */
+}

@@ -1,0 +1,80 @@
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.welcome-section {
+    background: linear-gradient(90deg, #fbfdff, #7c8894);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.inspirational-section, 
+.encouragement-section, 
+.daily-reminder-section, 
+.toolbox-section, 
+.contact-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.inspirational-section h2, 
+.encouragement-section h4, 
+.toolbox-section h4 {
+    color: #333;
+}
+.toolbox-section ul ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.toolbox-section ul ul li {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.toolbox-section ul ul li a {
+    text-decoration: none;
+    color: #6c757d;
+    transition: color 0.2s;
+}
+
+.toolbox-section ul ul li a:hover {
+    color: #0d6efd;
+}
+
+/* Animation for elements on scroll */
+.welcome-section, .inspirational-section, .encouragement-section, .daily-reminder-section, .toolbox-section, .contact-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.welcome-section.visible, .inspirational-section.visible, .encouragement-section.visible, .daily-reminder-section.visible, .toolbox-section.visible, .contact-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.welcome-section, .inspirational-section, .encouragement-section, .daily-reminder-section, .toolbox-section, .contact-section {
+    transition: all 0.5s ease-in-out;
+}
+
+/* Add smooth hover effect on toolbox links */
+.toolbox-section ul ul li a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+/* Style the buttons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

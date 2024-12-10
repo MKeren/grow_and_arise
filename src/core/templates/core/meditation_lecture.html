@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Méditation et Lecture</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <style>
+    /* Style global */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px;
+      background: #84a9ac;
+      color: white;
+      border-bottom: 3px solid #2d3b3e;
+    }
+
+    h1 {
+      font-size: 3em;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+
+    /* Section de méditation */
+    .meditation {
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .meditation-header p {
+      font-style: italic;
+      font-size: 1.1em;
+    }
+
+    .meditation-content h2 {
+      color: #084d60;
+    }
+
+    /* Formulaire de prise de notes */
+    .note-taking {
+      background: #fef5e9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+    }
+
+    .note-taking h2 {
+      color: #3c6255;
+    }
+
+    .note-taking textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .note-taking button {
+      background-color: #6c9f84;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .note-taking button:hover {
+      background-color: #507b62;
+    }
+
+    .saved-notes {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .saved-notes p {
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style pour les liens */
+    .meditation-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .link-item {
+      background: #e0f7fa;
+      padding: 20px;
+      border-radius: 8px;
+      width: 48%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .link-item a {
+      text-decoration: none;
+      color: #00796b;
+    }
+
+    /* Musique d'ambiance */
+    .audio-player {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-top: 10px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="meditation">
+    <header class="meditation-header">
+      <h1>MÉDITATION ET LECTURE</h1>
+      <p>Puisqu'il s'agit d'une sorte de chambre de prière, j'ai tout prévu pour toi afin que tu sois vraiment focus et que les distractions soient réduites. Il y a un coin méditation et lecture et un coin où tu peux mettre tes programmes inspirants préférés.</p>
+      <p><strong>Matthieu 6:6</strong> "Mais quand tu pries, entre dans ta chambre, ferme ta porte, et prie ton Père qui est là dans le lieu secret; et ton Père, qui voit dans le secret, te le rendra."</p>
+    </header>
+
+    <div class="meditation-content">
+      <h2>🧘‍♂️ MEDITATION</h2>
+      <p>(Muni d’un carnet, tu pourras lire ici la bible et faire ton étude)</p>
+      
+      <div class="meditation-links">
+        <div class="link-item">
+          <a href="https://emcitv.com/bible/audio/" target="_blank">
+            <p>Bible : écouter la bible audio, télécharger la bible mp3 :: EMCI TV</p>
+            <p>Bienvenue sur l'espace Bible audio, vous pouvez écouter la Bible audio en français.</p>
+          </a>
+        </div>
+        <div class="link-item">
+          <a href="https://emcitv.com/bible/lire-la-bible.html" target="_blank">
+            <p>Lire la bible en français :: EMCI TV</p>
+            <p>Il y a même un programme si tu souhaites lire la Bible en un an.</p>
+          </a>
+        </div>
+      </div>
+
+      <h2>📖 PETIT GUIDE DE MEDITATION</h2>
+      <p>La Bible est le livre le plus important qu'on puisse lire. Beaucoup de gens ne savent pas comment écouter ce que Dieu est en train de leur dire à travers sa Parole. Pour avoir une bonne communion avec le Seigneur, il nous faut écouter et comprendre ce qu’il est en train de nous dire.</p>
+
+      <div class="steps">
+        <h3>Les étapes à suivre 👇</h3>
+        <div class="step-items">
+          <div class="step">
+            <h4>🤔 I. L’Observation</h4>
+            <p>Dans cette étape, vous relèverez ce que dit le passage. Peut-être qu’il vous faudra lire le passage plusieurs fois pour remarquer tous les détails du passage.</p>
+          </div>
+          <div class="step">
+            <h4>👌🏻 II. L’Interprétation</h4>
+            <p>La deuxième étape implique la question : « Que veulent dire ces idées principales que vous avez relevées dans ce texte ? »</p>
+          </div>
+          <div class="step">
+            <h4>✍🏻 III. L’Application</h4>
+            <p>Dans cette étape, vous vous posez les questions suivantes :</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Choix de musique instrumentale -->
+    <div class="audio-player">
+      <label for="music-select"><strong>Choisir une musique instrumentale :</strong></label>
+      <select id="music-select">
+        <option value="https://www.bensound.com/bensound-music/bensound-relaxing.mp3">Relaxing Music 1</option>
+        <option value="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3">Slow Motion</option>
+        <option value="https://www.bensound.com/bensound-music/bensound-ukulele.mp3">Ukulele</option>
+        <option value="https://www.bensound.com/bensound-music/bensound-newdawn.mp3">New Dawn</option>
+        <option value="https://www.bensound.com/bensound-music/bensound-buddy.mp3">Buddy</option>
+      </select>
+      <audio id="audio-player" controls autoplay loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas la balise audio.
+      </audio>
+    </div>
+
+    <!-- Lien YouTube pour la musique -->
+<div class="audio-player">
+    <label for="music-select"><strong>Choisir une musique instrumentale :</strong></label>
+    <select id="music-select">
+        <option value="https://www.youtube.com/embed/xjDnIQM4LJY">Musique Relaxante 1</option>
+        <option value="https://www.youtube.com/embed/CcFNoX1Yp4g">Musique Relaxante 2</option>
+        <option value="https://www.youtube.com/embed/dA6aTx0Z1Gc">Musique Relaxante 3</option>
+        <option value="https://www.youtube.com/embed/SjJAlqAqY8A">Musique Relaxante 4</option>
+        <option value="https://www.youtube.com/embed/M3V4o-td6nE">Musique Relaxante 5</option>
+    </select>
+    <iframe id="music-player" width="560" height="315" src="https://www.youtube.com/embed/xjDnIQM4LJY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
+    <div class="note-taking">
+      <h2>📝 PRIS DES NOTES</h2>
+      <p>Tu peux maintenant prendre des notes personnelles. Elles seront sauvegardées localement dans ton navigateur.</p>
+
+      <!-- Formulaire de prise de notes -->
+      <form id="note-form">
+        <textarea id="user-notes" placeholder="Écris tes notes ici..." rows="6" cols="50"></textarea><br>
+        <button type="submit">Enregistrer la note</button>
+      </form>
+
+      <!-- Affichage de la note sauvegardée -->
+      <div class="saved-notes" id="notes-display">
+        <!-- La note sera affichée ici -->
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    // JavaScript pour la gestion de la musique et des notes
+    document.getElementById('music-select').addEventListener('change', function() {
+      var audioPlayer = document.getElementById('audio-player');
+      audioPlayer.src = this.value;
+      audioPlayer.play();
+    });
+
+    document.getElementById('note-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var notes = document.getElementById('user-notes').value;
+      var date = new Date().toLocaleString();
+      
+      if (notes.trim() !== "") {
+        document.getElementById('notes-display').innerHTML = `<strong>Note enregistrée à :</strong> ${date}<br><p>${notes}</p>`;
+      }
+    });
+
+    /////////
+
+    // Sauvegarder la note dans le localStorage
+document.getElementById('note-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var notes = document.getElementById('user-notes').value;
+    var date = new Date().toLocaleString();
+    
+    if (notes.trim() !== "") {
+        var savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+        savedNotes.push({ note: notes, date: date });
+        localStorage.setItem('notes', JSON.stringify(savedNotes));
+
+        // Afficher les notes sauvegardées
+        displayNotes();
+    }
+});
+
+// Fonction pour afficher les notes sauvegardées
+function displayNotes() {
+    var savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+    var notesDisplay = document.getElementById('notes-display');
+    notesDisplay.innerHTML = ""; // Vider avant de réafficher les notes
+    savedNotes.forEach(function(noteObj) {
+        notesDisplay.innerHTML += `<strong>Note enregistrée à :</strong> ${noteObj.date}<br><p>${noteObj.note}</p><hr>`;
+    });
+}
+
+// Afficher les notes au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    displayNotes();
+});
+
+  </script>
+
+</body>
+</html>
+{% endblock %}

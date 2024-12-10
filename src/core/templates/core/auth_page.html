@@ -1,0 +1,38 @@
+<form method="post">
+    {% csrf_token %}
+    <!-- Login Form -->
+    <div id="login-section" class="auth-section">
+        {{ login_form.non_field_errors }}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Email or Username</label>
+            {{ login_form.username }}
+        </div>
+        <div class="mb-3">
+            <label for="id_password" class="form-label">Password</label>
+            {{ login_form.password }}
+        </div>
+        <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="register-section" class="auth-section mt-4">
+        {{ register_form.non_field_errors }}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Username</label>
+            {{ register_form.username }}
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            {{ register_form.email }}
+        </div>
+        <div class="mb-3">
+            <label for="id_password1" class="form-label">Password</label>
+            {{ register_form.password1 }}
+        </div>
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">Confirm Password</label>
+            {{ register_form.password2 }}
+        </div>
+        <button type="submit" name="register" class="btn btn-secondary w-100">Register</button>
+    </div>
+</form>

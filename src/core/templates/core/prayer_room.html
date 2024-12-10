@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Better Me - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 20px;
+      gap: 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: calc(33% - 20px);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #4CAF50;
+    }
+
+    .section p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .section a {
+      display: block;
+      margin: 10px 0;
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .section a:hover {
+      text-decoration: underline;
+    }
+
+    .table-container {
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 0;
+      background: #4CAF50;
+      color: white;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+    <header>
+      <h1 style="color: #f5f5f5; font-size: 1.8rem;">🛐 My Prayer Room</h1>
+    </header>
+  
+    <!-- Introduction My Prayer Room -->
+    <section class="intro">
+      <div style="margin: 20px; padding: 15px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <p style="color: #555; font-size: 1rem; line-height: 1.6; margin: 10px 0;">
+          <em>Ici tu commenceras à noter tes sujets de prières mais aussi conserver des outils de prière qui t’aideront à mieux prier. Tes sujets de prière peuvent être personnels (toi, ta vie, des blessures que tu veux guérir, des demandes particulières que tu as à faire à Dieu etc.) mais aussi pour les autres !</em>
+        </p>
+        <p style="color: #555; font-size: 1rem; line-height: 1.6; margin: 10px 0;">
+          <strong>En tant que chrétien, nous avons un rôle important à jouer</strong> dans cette société, dans nos familles, nos mariages, nos études, nos ami(e)s. Ma prière est que le Seigneur t’encourage à avoir une routine de prière pour prier pour ces sujets que tu auras écrits ici.
+        </p>
+        <p style="color: #555; font-size: 1rem; line-height: 1.6; margin: 10px 0;">
+          Tu te demandes peut-être pourquoi noter ses sujets de prières alors que tu peux tout simplement les programmer et te retirer pour le faire. Mais tu sais, parfois la charge que nous portons est trop lourde et l'écriture est un moyen efficace de "vider son sac". Ici, tu ne feras pas que noter des sujets de prière ; tu feras ce que j’appelle le “<strong>journaling prayer</strong>”.
+        </p>
+        <p style="color: #555; font-size: 1rem; line-height: 1.6; margin: 10px 0;">
+          Cette rubrique est conçue pour te permettre d’écrire tes sujets de prière mais aussi de noter la date et les circonstances de l’exaucement de ces prières. Ainsi, tu pourras toujours te rappeler des bontés de Dieu dans ta vie.
+        </p>
+      </div>
+    </section>
+  
+    <div class="container">
+      <!-- Playlist Section -->
+      <div class="section" onclick="window.location='#playlist'">
+        <h2>🎼 Ma Playlist</h2>
+        <p>Ajoute tes chants ou écoute ceux que j'ai suggérés.</p>
+        <a href="https://youtu.be/Lcprnily8tg?si=RJyb__R1aQnK7aCU" target="_blank">🎧 Chant 1</a>
+        <a href="https://youtu.be/RoNyPAckUpY?si=hcgeWoLmBwmeZm48" target="_blank">🎧 Chant 2</a>
+      </div>
+  
+      <!-- Prayer Topics Section -->
+      <div class="section" onclick="window.location='#sujets-priere'">
+        <h2>🙏 Mes Sujets de Prière</h2>
+        <p>Note tes sujets de prière et garde un historique des réponses.</p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Sujet de Prière</th>
+                <th>Date</th>
+                <th>Circonstances</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Guérison</td>
+                <td>02/12/2024</td>
+                <td>Rétablissement complet</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Meditation Section -->
+      <div class="section" onclick="window.location='#meditation'">
+        <h2>📖 Méditation et Lecture</h2><a href="{% url 'core:meditation_lecture' %}">Méditation et Lecture</a>
+
+        <p>Consulte la Bible et suis un guide de méditation structuré.</p>
+        <a href="https://emcitv.com/bible/audio/" target="_blank">📖 Bible Audio</a>
+        <a href="https://emcitv.com/bible/lire-la-bible.html" target="_blank">📖 Lire la Bible</a>
+      </div>
+    </div>
+  
+    <footer>
+      <p>&copy; 2024 Better Me | Créé pour une vie de prière et de méditation transformée.</p>
+    </footer>
+  </body>
+  {% endblock %}

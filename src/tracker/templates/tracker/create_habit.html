@@ -1,0 +1,7 @@
+<h1>Créer une Habitude</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter</button>
+</form>
+<a href="{% url 'habit_list' %}">Retour à la liste des habitudes</a>

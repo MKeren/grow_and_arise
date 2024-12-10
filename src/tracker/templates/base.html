@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow and Arise</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'core:home' %}">Grow and Arise</a></h1>
+    </header>
+    <nav>
+        <!-- Navigation links -->
+        <a href="{% url 'core:home' %}">Accueil</a>
+        <a href="{% url 'plans:plan_list' %}">Plans</a>
+        <a href="{% url 'tracker:task_list' %}">Tâches</a>
+        <a href="{% url 'tracker:habit_list' %}">Habitudes</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Grow and Arise</p>
+    </footer>
+</body>
+</html>

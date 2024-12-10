@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans</title>
+</head>
+<body>
+    <h1>Liste des Plans</h1>
+
+    <a href="{% url 'plans:create_plan' %}">Créer un nouveau plan</a>
+
+    <ul>
+        {% for plan in plans %}
+            <li>
+                <a href="{% url 'plans:plan_detail' plan.pk %}">{{ plan.title }}</a> - {{ plan.description }}
+            </li>
+        {% empty %}
+            <p>Aucun plan trouvé.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>
