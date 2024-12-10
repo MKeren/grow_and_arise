@@ -47,12 +47,12 @@ INSTALLED_APPS = [
     'tracker',
     'ai',
     'rest_framework',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
+    #'django.contrib.sites',
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
+    #'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +122,38 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+#////////////////////////////////////////////////////////////
+
+#SITE_ID = 1
+
+#AUTHENTICATION_BACKENDS = [
+    #'django.contrib.auth.backends.ModelBackend',
+    #'allauth.account.auth_backends.AuthenticationBackend',
+#]
+
+#LOGIN_REDIRECT_URL = '/'
+#LOGOUT_REDIRECT_URL = '/login/'
+
+#ACCOUNT_LOGOUT_ON_GET = True
+#SOCIALACCOUNT_PROVIDERS = {
+    #'google': {
+        #'APP': {
+            #'client_id': 'YOUR_GOOGLE_CLIENT_ID',
+            #'secret': 'YOUR_GOOGLE_SECRET_KEY',
+            #'key': ''
+        #}
+    #},
+    #'facebook': {
+        #'APP': {
+            #'client_id': 'YOUR_FACEBOOK_APP_ID',
+            #'secret': 'YOUR_FACEBOOK_SECRET_KEY',
+        #}
+    #}
+#}
+
+#///////////////////////////////////////////////////////
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -163,5 +195,8 @@ LOCALE_PATHS = [
 LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_AGE = 365 * 24 * 60 * 60  # Durée de vie du cookie en secondes (1 an)
 LANGUAGE_COOKIE_SECURE = False  # Mettre True en production si HTTPS est utilisé
+
+LOGIN_REDIRECT_URL = "/home/"  # Changez l'URL selon vos besoins
+
 
 

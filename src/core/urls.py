@@ -4,7 +4,7 @@ from . import views
 app_name = 'core'
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('profile/', views.profile, name='profile'),
 
 
@@ -13,15 +13,14 @@ urlpatterns = [
     path('meditation-notes/', views.meditation_notes, name='meditation_notes'),
 
 
-    #path('home/', views.home, name='home'),
-    path('register/', views.signup_view, name='register'),
     path('change-language/', views.change_language, name='change_language'),
     path('debug/', views.debug_language, name='debug'),
     
 
-    path('accounts/', include('allauth.urls')),  # URLs pour l'authentification sociale
-    path('login/', views.login_register_view, name='login'),
-    path('register/', views.login_register_view, name='register'),
+    #path('accounts/', include('allauth.urls')),  # URLs pour l'authentification sociale
+    #path('login/', views.login_view, name="login"),
+    path('register/', views.register_view, name="register"),
+    #path('logout/', views.logout_view, name="logout"),
 
 ]
 
