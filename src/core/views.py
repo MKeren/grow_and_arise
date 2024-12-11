@@ -17,36 +17,29 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 @login_required
-def Login_view(request):
-    if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        
-        # Vérifier les identifiants
-        user = authenticate(request, username=email, password=password)
-        if user:
-            login(request, user)
-            messages.success(request, "Vous êtes connecté avec succès!")
-            return redirect("home")  # Redirige vers la page d'accueil
-        else:
-            messages.error(request, "Identifiants invalides. Veuillez réessayer.")
-
-    return render(request, "core/login.html")
-
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
         
-        # Django User Model requires username or custom user with email
-        user = authenticate(request, username=email, password=password)
+        # Rechercher l'utilisateur avec l'e-mail
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+        
+        # Authentification via le username de l'utilisateur
         if user:
-            login(request, user)
-            messages.success(request, "Connexion réussie!")
-            return redirect("home")  # Remplacez par l'URL de votre page d'accueil
+            user = authenticate(request, username=user.username, password=password)
+            if user:
+                login(request, user)
+                messages.success(request, "Connexion réussie!")
+                return redirect("core:home")  # Remplacez par l'URL de votre page d'accueil
+            else:
+                messages.error(request, "Mot de passe incorrect.")
         else:
-            messages.error(request, "Identifiants invalides. Veuillez réessayer.")
-    
+            messages.error(request, "Aucun utilisateur trouvé avec cet e-mail.")
+        
     return render(request, "core/login.html")
 
 @login_required
@@ -99,14 +92,12 @@ def signup_view(request):
         form = UserCreationForm()
     return render(request, 'core/signup.html', {'form': form})
 
-def Home(request):
+@login_required
+def home(request):
     plans = Plan.objects.filter(creator=request.user)
     tasks = Task.objects.filter(user=request.user).order_by('-id')[:5]
+    #return render(request, "core/home.html", {"user": request.user})
     return render(request, 'core/home.html', {'plans': plans, 'tasks': tasks})
-
-#@login_required
-def home(request):
-    return render(request, "core/home.html", {"user": request.user})
 
 def index(request):
     return render(request, "core/index.html", {"user": request.user})

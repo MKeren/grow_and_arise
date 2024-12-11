@@ -54,9 +54,7 @@
         </div>
         <div class="form-container">
             <h2>Login</h2>
-            <form action="{% url 'core:login' %}" method="POST">
-                {% csrf_token %}
-                {% if messages %}
+            {% if messages %}
                     <div class="alert-container">
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} text-center">
@@ -65,6 +63,9 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required>
