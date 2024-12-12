@@ -95,6 +95,7 @@ def profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, "Votre profil a été mis à jour avec succès !")
             return redirect('profile')
     else:
         form = UserProfileForm(instance=profile)
@@ -102,14 +103,8 @@ def profile(request):
 
 def profile_view(request):
     profile = request.user.UserProfile
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')  # Redirection après mise à jour
-    else:
-        form = UserProfileForm(instance=profile)
-    return render(request, 'core/profile.html', {'form': form})
+    return render(request, 'core/profile_view.html', {'profile': profile})
+
 
 def update_profile(request):
     if request.method == "POST":

@@ -1,6 +1,72 @@
-<h1>Profil Utilisateur</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Mettre à jour</button>
-</form>
+{% extends 'base.html' %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Utilisateur</title>
+    
+    <!-- Ajouter des liens vers des fichiers CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Vous pouvez également ajouter d'autres fichiers CSS ou balises metadata si nécessaire -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Mon Profil</h1>
+
+        <!-- Affichage des messages de succès ou d'erreur -->
+        {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulaire de mise à jour du profil -->
+        <form method="POST" enctype="multipart/form-data" action="{% url 'profile_update' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="name" class="form-label">Nom complet</label>
+                {{ form.name|add_class:"form-control" }}
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ form.email|add_class:"form-control" }}
+            </div>
+
+            <div class="mb-3">
+                <label for="interests" class="form-label">Centres d'intérêt</label>
+                {{ form.interests|add_class:"form-control" }}
+            </div>
+
+            <div class="mb-3">
+                <label for="profile_picture" class="form-label">Photo de profil</label>
+                {{ form.profile_picture|add_class:"form-control" }}
+            </div>
+            
+            <!-- Bouton de soumission -->
+            <button type="submit" class="btn btn-primary w-100">Mettre à jour</button>
+        </form>
+    </div>
+
+    {% endblock %}
+    
+    <!-- Ajouter des scripts JS si nécessaires -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
