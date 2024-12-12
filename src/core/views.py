@@ -16,31 +16,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-@login_required
 def login_view(request):
-    if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        
-        # Rechercher l'utilisateur avec l'e-mail
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            user = None
-        
-        # Authentification via le username de l'utilisateur
-        if user:
-            user = authenticate(request, username=user.username, password=password)
-            if user:
-                login(request, user)
-                messages.success(request, "Connexion réussie!")
-                return redirect("core:home")  # Remplacez par l'URL de votre page d'accueil
-            else:
-                messages.error(request, "Mot de passe incorrect.")
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
         else:
-            messages.error(request, "Aucun utilisateur trouvé avec cet e-mail.")
-        
-    return render(request, "core/login.html")
+            return render(request, 'core/login.html', {'error': 'Invalid username or password'})
+    else:
+        return render(request, 'core/login.html')
 
 @login_required
 def register_view(request):
@@ -112,6 +99,41 @@ def profile(request):
     else:
         form = UserProfileForm(instance=profile)
     return render(request, 'core/profile.html', {'form': form})
+
+def profile_view(request):
+    profile = request.user.UserProfile
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirection après mise à jour
+    else:
+        form = UserProfileForm(instance=profile)
+    return render(request, 'core/profile.html', {'form': form})
+
+def update_profile(request):
+    if request.method == "POST":
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            # Logique pour mettre à jour l'utilisateur dans la base de données
+            user = request.user
+            user.name = form.cleaned_data['name']
+            user.email = form.cleaned_data['email']
+            user.interests = form.cleaned_data['interests']
+            if form.cleaned_data['password'] == form.cleaned_data['confirm_password']:
+                user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            messages.success(request, "Vos informations ont été mises à jour avec succès !")
+            return redirect('profile')  # Redirection vers la page de profil
+    else:
+        form = UserProfileForm(initial={
+            'name': request.user.name,
+            'email': request.user.email,
+            'interests': request.user.interests,  # Ajouter l'intérêt de l'utilisateur dans la base
+        })
+
+    return render(request, 'core/profile_update.html', {'form': form})
 
 def prayer_room(request):
     return render(request, 'core/prayer_room.html', {'title': _('My Prayer Room')})

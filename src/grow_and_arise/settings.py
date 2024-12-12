@@ -197,6 +197,8 @@ LANGUAGE_COOKIE_AGE = 365 * 24 * 60 * 60  # Durée de vie du cookie en secondes 
 LANGUAGE_COOKIE_SECURE = False  # Mettre True en production si HTTPS est utilisé
 
 LOGIN_REDIRECT_URL = "/home/"  # Changez l'URL selon vos besoins
+LOGIN_URL = '/login/'
+
 
 
 

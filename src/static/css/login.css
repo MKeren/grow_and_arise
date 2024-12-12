@@ -1,0 +1,166 @@
+html, body {
+    background: linear-gradient(to right, #74ebd5, #9face6);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 60px; 
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    height: 90%;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    grid-template-columns: 1fr 1fr; 
+    flex: 1;
+    flex-direction: row;
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    padding: 20px;
+}
+
+.left-section video {
+    max-width: 50%;
+    height: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: float 4s ease-in-out infinite;
+}
+
+.left-section, .right-section {
+    flex: 1;
+    height: 100%;
+    overflow: hidden; /* Supprime les barres de défilement internes */
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.inspirational-text {
+    text-align: left;
+    color: #495057;
+    line-height: 1.6;
+    animation: float 4s ease-in-out infinite;
+}
+
+.inspirational-text h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+    font-family: 'Cardo', serif;
+}
+
+.inspirational-text p {
+    font-family: 'Raleway', sans-serif;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.lottie-container {
+    background: #f4f6ff;
+    padding: 20px;
+}
+
+button {
+    border-radius: 20px;
+    background: linear-gradient(to right, #74ebd5, #9face6);
+    color: rgb(48, 44, 44)  !important;;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: all 0.3s ease-in-out; /* Ajoute une transition fluide */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(to right, #9face6, #74ebd5); /* Inverse le gradient */
+    color: #ffffff;
+    transform: translateY(-3px); /* Élève légèrement le bouton */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Accentue l'ombre */
+}
+
+button:active {
+    transform: translateY(1px); /* Effet d'enfoncement lors du clic */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Réduit légèrement l'ombre */
+}
+
+
+a {
+    text-decoration: none;
+    color: #0b0b0b;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #ffffff;
+color: #495057;
+font-size: 0.9rem;
+padding: 10px 0;
+text-align: center;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: #2d2d2d;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section {
+        flex: none;
+        width: 100%;
+    }
+}

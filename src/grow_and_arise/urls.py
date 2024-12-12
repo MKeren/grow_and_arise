@@ -31,10 +31,9 @@ urlpatterns += i18n_patterns(
     path('core/', include('core.urls')),
     
     path('', core_views.index, name='index'),
-    path('home/', core_views.home, name='home'),
     path('login/', core_views.login_view, name="login"),
     path('register/', core_views.register_view, name="register"),
-    path('logout/', core_views.logout_view, name="logout"),
+    #path('logout/', core_views.logout_view, name="logout"),
 )
 
 
