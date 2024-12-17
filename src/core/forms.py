@@ -11,7 +11,7 @@ class UserSignupForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['name', 'photo', 'goals','goal', 'motivation', 'interests']
+        fields = ['name', 'photo','goals', 'motivation', 'interests']
         widgets = {
             'interests': forms.TextInput(attrs={'placeholder': 'E.g., Productivity, Stress Management'}),
         }

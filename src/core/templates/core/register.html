@@ -44,7 +44,8 @@
                         <h2>Register</h2>
                     </p>
                     
-                    <form action="/register" method="POST">
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
                         {% if messages %}
                             <div class="alert-container">
                                 {% for message in messages %}

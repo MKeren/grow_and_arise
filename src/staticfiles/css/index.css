@@ -1,80 +1,370 @@
-.container {
-    max-width: 900px;
-    margin: auto;
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
 }
 
-.welcome-section {
-    background: linear-gradient(90deg, #fbfdff, #7c8894);
-    color: white;
-    padding: 2rem;
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
     border-radius: 10px;
 }
 
-.inspirational-section, 
-.encouragement-section, 
-.daily-reminder-section, 
-.toolbox-section, 
-.contact-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    border-radius: 8px;
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
 }
 
-.inspirational-section h2, 
-.encouragement-section h4, 
-.toolbox-section h4 {
-    color: #333;
-}
-.toolbox-section ul ul {
-    margin-top: 10px;
-    padding-left: 20px;
-}
-
-.toolbox-section ul ul li {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-
-.toolbox-section ul ul li a {
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
     text-decoration: none;
-    color: #6c757d;
-    transition: color 0.2s;
+    cursor: pointer;
 }
 
-.toolbox-section ul ul li a:hover {
-    color: #0d6efd;
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(255, 255, 255);
+            position: relative;
+        }
+
+        /* Ajout de l'animation en arrière-plan de chaque côté de la page */
+        #left-animation, #right-animation {
+            position: fixed;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Animation à gauche */
+        #left-animation {
+            left: 0;
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            animation: moveLeft 8s linear infinite;
+        }
+
+        /* Animation à droite */
+        #right-animation {
+            right: 0;
+            background: linear-gradient(135deg, #ffffff, #fcfeff);
+            animation: moveRight 8s linear infinite;
+        }
+
+        /* Animations pour l'effet de mouvement */
+        @keyframes moveLeft {
+            0% {
+                transform: translateX(-20px);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+            100% {
+                transform: translateX(-20px);
+            }
+        }
+
+        @keyframes moveRight {
+            0% {
+                transform: translateX(20px);
+            }
+            50% {
+                transform: translateX(-20px);
+            }
+            100% {
+                transform: translateX(20px);
+            }
+        }
+
+
+        #lottie-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #lottie-background-right {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #lottie-background svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw; /* 100% de la largeur de la fenêtre */
+            height: 100vh; /* 100% de la hauteur de la fenêtre */
+            object-fit: cover; /* Cette propriété permet d'ajuster l'animation à la taille de la page sans déformation */
+        }
+
+         /* Style de la bannière */
+         .banner {
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .features, .cta, .questionnaire {
+            padding: 50px;
+            text-align: center;
+        }
+        .features h2, .cta h2, .questionnaire h2 {
+            color: #10dca2;
+            margin-bottom: 20px;
+        }
+        .features .row, .extra-section .row {
+            margin-top: 30px;
+        }
+        .features img, .extra-section img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .features h4, .extra-section h4 {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .extra-section {
+            padding: 50px;
+            background-color: #f6f6f6;
+        }
+
+        .banner {
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .features, .cta, .questionnaire {
+            padding: 50px;
+            text-align: center;
+        }
+        .features h2, .cta h2, .questionnaire h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .features .row, .extra-section .row {
+            margin-top: 30px;
+        }
+        .features img, .extra-section img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .features h4, .extra-section h4 {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .extra-section {
+            padding: 50px;
+            background-color: #f6f6f6;
+        }
+
+    /* Global Styles */
+    body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f1f1;
 }
 
-/* Animation for elements on scroll */
-.welcome-section, .inspirational-section, .encouragement-section, .daily-reminder-section, .toolbox-section, .contact-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+.text-black {
+    color: black !important;
 }
 
-.welcome-section.visible, .inspirational-section.visible, .encouragement-section.visible, .daily-reminder-section.visible, .toolbox-section.visible, .contact-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+
+/* Card Styling */
+.questionnaire .card {
+    max-width: 100%; /* Limite la largeur */
+    margin: auto;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 2rem; /* Réduit le padding */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.welcome-section, .inspirational-section, .encouragement-section, .daily-reminder-section, .toolbox-section, .contact-section {
-    transition: all 0.5s ease-in-out;
+.questionnaire .card:hover {
+    transform: scale(1.02); /* Légère mise en avant au survol */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Add smooth hover effect on toolbox links */
-.toolbox-section ul ul li a:hover {
-    color: #0d6efd;
-    text-decoration: underline;
+/* Title Styling */
+.questionnaire h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; /* Taille plus petite */
+    color: #1a1a1a;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.8rem; /* Réduction de l'espacement */
 }
 
-/* Style the buttons */
-.btn-primary {
-    background-color: #007bff;
+/* Description Styling */
+.questionnaire p {
+    font-size: 1rem; /* Taille plus petite */
+    color: #1a1a1b;
+    margin-bottom: 1.2rem; /* Espacement compact */
+}
+
+/* Button Styling */
+.btn-primary, .btn-secondary {
+    font-size: 1rem; /* Taille réduite pour s'adapter */
+    padding: 0.8rem 2rem; /* Plus compact */
+    border-radius: 30px; /* Forme plus arrondie */
+}
+
+/* Response Options */
+.response-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.response-option {
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.response-option:hover {
+    transform: scale(1.05);
+    background-color: #f0f8ff;
     border-color: #007bff;
-    transition: background-color 0.3s ease;
+    color: #007bff;
+}
+
+.response-option.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: #007bff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(90, 98, 104, 0.3);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .response-row {
+        flex-direction: column;
+    }
+    .response-option {
+        margin-bottom: 1rem;
+    }
+}
+
+
+    #questionnaire .card {
+    padding: 1.5rem; /* Réduction de l'espace interne */
+}
+
+#questionnaire h2 {
+    font-size: 1.5rem; /* Réduction de la taille du titre */
+}
+
+#questionnaire p {
+    font-size: 1rem; /* Réduction de la taille du texte */
+    line-height: 1.4; /* Espacement plus compact */
+}
+
+#questionnaire button {
+    padding: 0.5rem 1.5rem; /* Boutons plus petits */
+    font-size: 0.9rem; /* Taille du texte des boutons */
+}
+
+
+    /* Icône Styling */
+.response-option i {
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.response-option:hover i {
+    transform: scale(1.2);
+    color: #0056b3;
+}
+
+/* Typography for response text */
+.response-option div {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .response-option i {
+        font-size: 1.5rem;
+    }
 }

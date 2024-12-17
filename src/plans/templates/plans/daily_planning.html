@@ -1,2 +1,233 @@
-<h1>{{ title }}</h1>
-<p>Page pour planifier la journée.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-bold mb-4 text-center">Planning de la Journée</h1>
+    <p>Ici, tu vas faire le planning de ta journée : ce que tu as à faire et où tu dois te rendre. En fin de journée, coche les activités accomplies.</p>
+
+    <div class="alert alert-info p-4">
+        💡 <strong>Conseil :</strong> Je te conseille de toujours faire ton planning la veille. Cela te permettra de gagner du temps et d’être plus productif. 😉
+    </div>
+
+    <!-- Section: Planning Hebdomadaire -->
+    <div class="accordion shadow-sm" id="weeklyPlanner">
+        <!-- LUNDI -->
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingLUNDI">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLUNDI" aria-expanded="true" aria-controls="collapseLUNDI">
+                    <strong>LUNDI</strong>
+                </button>
+            </h2>
+            <div id="collapseLUNDI" class="accordion-collapse collapse show" aria-labelledby="headingLUNDI" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <!-- Sections -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Matin</strong></h5>
+                            <ul id="morningTasksLundi" class="list-unstyled"></ul>
+                            <input type="text" class="form-control mb-2" id="newTaskMorningLundi" placeholder="Ajouter une tâche..." />
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksLundi')">Ajouter</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Après-midi</strong></h5>
+                            <ul id="afternoonTasksLundi" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksLundi')">Ajouter une tâche</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Soir</strong></h5>
+                            <ul id="eveningTasksLundi" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksLundi')">Ajouter une tâche</button>
+                        </div>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarLundi" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- AUTRES JOURS -->
+        {% for day in days %}
+        <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="heading{{ day }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day }}" aria-expanded="false" aria-controls="collapse{{ day }}">
+                    <strong>{{ day }}</strong>
+                </button>
+            </h2>
+            <div id="collapse{{ day }}" class="accordion-collapse collapse" aria-labelledby="heading{{ day }}" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Matin</strong></h5>
+                            <ul id="morningTasks{{ day }}" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasks{{ day }}')">Ajouter une tâche</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Après-midi</strong></h5>
+                            <ul id="afternoonTasks{{ day }}" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasks{{ day }}')">Ajouter une tâche</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Soir</strong></h5>
+                            <ul id="eveningTasks{{ day }}" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasks{{ day }}')">Ajouter une tâche</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBar{{ day }}" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Data Section -->
+    <div class="container py-4">
+        <h2>Performance Hebdomadaire</h2>
+        <div class="alert alert-info" id="coherenceMessage"></div>
+        <canvas id="performanceChart" width="400" height="200"></canvas>
+
+        <h3>Récapitulatif des Semaines Précédentes</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Performance (%)</th>
+                </tr>
+            </thead>
+            <tbody id="weeklySummary"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Ajout d'une nouvelle tâche
+function addTask(listId) {
+    const list = document.getElementById(listId);
+    const newTask = document.createElement("li");
+    newTask.innerHTML = `
+        <input type="checkbox" class="me-2" onchange="updateProgress('${listId.split('Tasks')[1]}')">
+        <input contenteditable="true" class="task-text" onblur="updateTaskText(this)"></input>
+        <button class="btn btn-sm btn-danger ms-2" onclick="removeTask(this)">Supprimer</button>
+    `;
+    list.appendChild(newTask);
+}
+
+// Supprimer une tâche
+function removeTask(button) {
+    button.parentElement.remove();
+}
+
+// Mise à jour du texte de la tâche lorsqu'on quitte le champ (focus perdu)
+function updateTaskText(taskText) {
+    taskText.innerText = taskText.innerText.trim(); // Enlève les espaces superflus autour du texte
+    updateProgress(taskText.closest('.accordion-body').querySelector('.accordion-header').textContent.trim()); // Met à jour la progression après modification
+}
+
+// Calcul de la progression
+function updateProgress(day) {
+    const sections = ['morningTasks' + day, 'afternoonTasks' + day, 'eveningTasks' + day];
+    let totalTasks = 0, completedTasks = 0;
+
+    sections.forEach(sectionId => {
+        const tasks = document.querySelectorAll(`#${sectionId} input[type='checkbox']`);
+        tasks.forEach(task => {
+            totalTasks++;
+            if (task.checked) completedTasks++;
+        });
+    });
+
+    const progressBar = document.getElementById(`progressBar${day}`);
+    const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    progressBar.style.width = `${percentage}%`;
+    progressBar.setAttribute('aria-valuenow', percentage);
+    progressBar.innerText = `${percentage}%`;
+
+    // Sauvegarde dans localStorage
+    saveWeeklyData(day, completedTasks, totalTasks);
+}
+
+// Sauvegarde des données dans localStorage
+function saveWeeklyData(day, completedTasks, totalTasks) {
+    let weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    weeklyData[day] = {
+        completed: completedTasks,
+        total: totalTasks,
+        percentage: (completedTasks / totalTasks) * 100
+    };
+    localStorage.setItem('weeklyData', JSON.stringify(weeklyData));
+}
+
+// Affichage du graphique de performance
+function showPerformanceGraph() {
+    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    const days = Object.keys(weeklyData);
+    const data = days.map(day => weeklyData[day].percentage);
+
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: days,
+            datasets: [{
+                label: 'Performance (%)',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// Affichage du résumé des performances hebdomadaires
+function displayWeeklySummary() {
+    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    const summaryTable = document.getElementById('weeklySummary');
+    summaryTable.innerHTML = '';
+    for (const [day, data] of Object.entries(weeklyData)) {
+        const row = `<tr><td>${day}</td><td>${data.percentage.toFixed(2)}%</td></tr>`;
+        summaryTable.innerHTML += row;
+    }
+}
+
+// Vérification de la cohérence des performances
+function checkCoherence() {
+    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    const percentages = Object.values(weeklyData).map(data => data.percentage);
+    const consistencyMessage = document.getElementById('coherenceMessage');
+
+    if (percentages.length < 2) {
+        consistencyMessage.textContent = 'Pas encore de données suffisantes pour vérifier la cohérence.';
+    } else {
+        const isConsistent = percentages.every(val => Math.abs(val - percentages[0]) < 10);
+        consistencyMessage.textContent = isConsistent ? 'Cohérence des performances maintenue.' : 'Les performances varient trop pour une cohérence optimale.';
+    }
+}
+
+// Initialisation
+window.onload = function() {
+    showPerformanceGraph();
+    displayWeeklySummary();
+    checkCoherence();
+};
+</script>
+
+{% endblock %}

@@ -1,5 +1,5 @@
-/* General Styles */
-body {
+ /* General Styles */
+ body {
     margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
@@ -35,6 +35,7 @@ body {
 
 /* Main Content */
 .main-content {
+    margin-left: 250px;/* Matches the sidebar width */
     padding: 20px;
     transition: margin-left 0.3s ease-in-out;
     padding-bottom: 60px; /* Matches or slightly exceeds the footer height */   
@@ -61,16 +62,6 @@ main {
     .main-content {
         margin-left: 0;
     }
-}
-
-#sidebar {
-    height: calc(100vh - 50px); /* Adjust to subtract the footer's height */
-    overflow-y: auto; /* Add a scrollbar to the sidebar if the content overflows */
-    position: fixed; /* Ensure the sidebar stays in place while scrolling */
-    top: 0;
-    left: 0;
-    bottom: 50px; /* Reserve space for the footer */
-    width: 250px; /* Adjust based on your sidebar's width */
 }
 
 /* Footer */
@@ -102,4 +93,3 @@ main {
         margin-top: 56px;
     }
 }
-

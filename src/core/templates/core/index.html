@@ -9,58 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/indexx.css' %}">
 <style>
-    .btn-primary {
-    background-color: #333333; /* Noir léger */
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-primary:hover {
-    background-color: #add8e6; /* Bleu très léger */
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-}
-
-.btn-secondary {
-    background-color: #444444; /* Noir légèrement plus foncé */
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-secondary:hover {
-    background-color: #d3e5f2; /* Bleu encore plus léger */
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(90, 98, 104, 0.2);
-}
-#transparent-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.6); /* Couleur blanche avec transparence */
-    z-index: -1; /* Toujours sous le contenu principal */
-}
-body {
-    color: #000000; /* Texte noir */
-}
-
-h1, h2, h3, h4, h5, h6, p, span, div {
-    color: #000000; /* Texte noir pour les éléments courants */
-}
-
-.text-black {
-    color: black !important; /* Classe personnalisée pour forcer le noir */
-}
-
+    
 </style>
 
 <title>Grow and Arise</title>
@@ -70,50 +21,80 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     <!-- Animation à gauche -->
     <div id="left-animation"></div>
     
-
-
     <!-- Animation à droite -->
     <div id="right-animation"></div>
 
     <div id="transparent-overlay"></div>
 
-
     <!-- Animation Lottie à gauche -->
     <div id="lottie-background"></div>
-
 
     <!-- Animation Lottie à droite -->
     <div id="lottie-background-right"></div>
     <div id="transparent-overlay"></div>
-
-    <header class="text-center py-5" style="background-color: #eef6fc;">
-        <h1 class="fw-bold text-primary">Grow and Arise | Your Personal Companion Growth App</h1>
+    
+    <header class="text-center py-5" style="background-color: #eef6fc; height:150px;">
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+            <!-- Partie texte 1 -->
+            <h1 class="fw-bold" style="color: #333;">Grow and Arise</h1>
+            
+            <!-- Logo (vidéo MP4) -->
+            <div class="logo-container">
+                <video autoplay loop muted playsinline class="logo-video" style="width: 100px; height: 85px;">
+                    <source src="{% static 'videos/Grow_and_Aris (3).mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <!-- Partie texte 2 -->
+            <h1 class="fw-bold" style="color: #333;">| Your Personal Companion Growth App</h1>
+        </div>
     </header>
     
-
-    <!-- Sliding Banner -->
-    <div id="bannerCarousel" class="carousel slide banner" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://cdn.pixabay.com/photo/2016/07/13/06/51/target-1513758_1280.jpg" alt="Inspiration 1">
-            </div>
-            <div class="carousel-item">
-                <img src="https://cdn.pixabay.com/photo/2016/11/14/03/38/achieve-1822503_1280.jpg" alt="Inspiration 2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://cdn.pixabay.com/photo/2015/04/11/08/11/chinese-717344_1280.jpg" alt="Inspiration 3">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>  
-   
+  <!-- Slider Container -->
+  <div id="slider-container" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static '/images/56e74cd0-b92e-4094-ae01-a11754511295.JPG' %}" class="d-block w-100" alt="Image 1">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static '/images/320891d7-1a2a-4a16-9446-acedd83d127b.JPG' %}" class="d-block w-100" alt="Image 2">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static '/images/87923740-7ea2-4362-ae45-927311ae0b11.JPG' %}" class="d-block w-100" alt="Image 3">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static '/images/ce01a2ed-a217-44d9-a9d2-1b678cfe2770.JPG' %}" class="d-block w-100" alt="Image 4">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static '/images/f030ee36-ee3a-4318-aaa3-b7ac6d136791.JPG' %}" class="d-block w-100" alt="Image 5">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static '/images/daisy-5383056_1280.jpg' %}" class="d-block w-100" alt="Image 6">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#slider-container" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#slider-container" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <style>
+   #slider-container {
+      max-width: 100%; /* Pour s'adapter au conteneur parent */
+      max-height: 450px; /* Limite la hauteur */
+      overflow:hidden; /* Empêche les débordements */
+    }
+    #slider-container img {
+      max-height: 500px; /* Assure que l'image reste dans la hauteur maximale */
+      object-fit:unset; /* Les images remplissent leur conteneur de manière uniforme */
+      width: 100%; /* Assure la largeur complète */
+    }
+</style>
+  
   <!-- Première section -->
 <section class="questionnaire my-3">
     <div class="card p-4 shadow-lg border-4 rounded" style="background: #1caca0; border: 1px solid #ffffff;">
@@ -147,46 +128,16 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     <div class="inspirational-section mb-3 p-4 bg-light shadow-sm rounded" style="background: #1caca0; border: 1px solid #dcdcdc;">
         <form id="introspectionForm" class="text-center">
             <div id="question-container" class="py-2"></div>
-            <button type="button" class="btn btn-primary btn-sm mt-3 px-4" id="nextBtn">⏭️ Suivant</button>
+            <button type="button" class="btn btn-primary btn-sm mt-3 px-4" id="nextBtn"><i class="fas fa-arrow-right me-3"></i>Suivant
+            </button>
             <div class="mb-2 mt-3" id="resultButtonContainer" style="display: none;">
-                <button type="button" class="btn btn-secondary btn-sm px-4" onclick="calculateScore()">📊 Voir mes résultats</button>
+                <button type="button" class="btn btn-secondary btn-sm px-4" onclick="calculateScore()"><i class="fas fa-chart-bar me-2"></i>Voir mes résultats</button>
             </div>
         </form>
     </div>
 </section>
 
-<!-- CSS additionnel -->
-<style>
-    .inspirational-section, .card {
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour plus de profondeur */
-    }
-
-    .inspirational-section:hover, .card:hover {
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Effet de survol pour ajouter de la profondeur */
-    }
-
-    .text-center {
-        font-family: 'Times New Roman', serif;
-    }
-
-    .mb-3, .mb-2 {
-        margin-bottom: 1rem !important;
-    }
-
-    .my-3 {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .title-glow {
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-
-        <!-- Modal for displaying results -->
+<!-- Modal for displaying results -->
 <div id="resultModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -196,7 +147,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     </div>
 </div>
 
-     <!-- Features Section -->
+<!-- Features Section -->
 <section class="features">
         
     <div class="card p-4 shadow-lg border-4 rounded" style="background: #1caca0; border: 1px solid #ffffff;">
@@ -235,14 +186,14 @@ h1, h2, h3, h4, h5, h6, p, span, div {
         <p class="text-dark" style="font-family: 'Times New Roman', serif; font-size: 1.1rem;">
             Rejoignez notre communauté et commencez votre voyage de croissance personnelle aujourd'hui.
         </p>
-        <button class="btn btn-primary" onclick="window.location.href='/login'">Commencez votre voyage</button>
+        <button class="btn btn-primary" onclick="window.location.href='/login'"><i class="fas fa-road me-2"></i>Commencez votre voyage</button>
     </div>
 </section>
 
 <!-- Script section -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>  
-    <script>
+<script>
        const questions = [
     { label: "1. À quel point êtes-vous satisfait(e) de vos progrès actuels dans la vie ?", name: "q1" },
     { label: "2. Vous sentez-vous motivé(e) chaque matin pour atteindre vos objectifs ?", name: "q2" },
@@ -308,7 +259,7 @@ function showQuestion(index) {
 
 }
 
-    function highlightResponse(element) {
+function highlightResponse(element) {
     // Reset underline for all response options
     const allResponses = document.querySelectorAll(".response-option");
     allResponses.forEach((response) => {
@@ -420,7 +371,7 @@ showQuestion(currentQuestionIndex);
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
-    <script>
+<script>
         lottie.loadAnimation({
             container: document.getElementById('lottie-background'),
             renderer: 'svg',
@@ -436,7 +387,7 @@ showQuestion(currentQuestionIndex);
             autoplay: true,
             path: 'https://lottie.host/5ff20cc6-8ed9-4298-acd4-1aad14d615d7/s0gTxrjgEi.json' // Même chemin pour l'animation
         });
-    </script>
+</script>
 
 </body>
 </html>

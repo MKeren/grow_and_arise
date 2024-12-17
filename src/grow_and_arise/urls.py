@@ -34,6 +34,8 @@ urlpatterns += i18n_patterns(
     path('login/', core_views.login_view, name="login"),
     path('register/', core_views.register_view, name="register"),
     #path('logout/', core_views.logout_view, name="logout"),
+    path('profile_view/', core_views.profile_view, name='profile_view'),
+    path('home/', core_views.home, name='home'),
 )
 
 

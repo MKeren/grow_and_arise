@@ -4,98 +4,339 @@
 
 {% block content %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/Hom.css' %}">
 <style>
     
+.welcome-section {
+    margin-bottom: 20px; /* Ajoute de l'espace entre Welcome Section et le carousel */
+}
+
+   .inspirational-section {
+    background-color: white;
+    border-left: 5px solid #007bff; /* Bordure colorée pour souligner l'inspiration */
+    font-family: 'Georgia', serif;
+}
+
+.inspirational-section h4 {
+    color: #007bff;
+}
+
+.inspirational-section p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+ 
+</style>
+<style>
+    .encouragement-section, .toolbox-section {
+    min-height: 300px; /* Garde les deux colonnes de la même hauteur */
+}
+
+.list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+    padding: 10px 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.widgets-section iframe {
+    border-radius: 8px; /* Coins arrondis pour les widgets */
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ombres douces */
+}
+
+.widgets-section {
+    background: linear-gradient(135deg, #f9f9f9, #ffffff); /* Dégradé léger */
+    border: 1px solid #e0e0e0; /* Bordure légère */
+    border-radius: 12px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    text-align: center; /* Centrer le contenu */
+}
+
+.widgets-section h4 {
+    font-size: 1.5rem; /* Agrandir le titre */
+    margin-bottom: 20px; /* Espacement sous le titre */
+    color: #5a5a5a; /* Couleur du texte */
+}
+
+.widgets-section iframe {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    border-radius: 8px; /* Coins arrondis des iframes */
+    transition: transform 0.3s ease; /* Animation au survol */
+}
+
+.widgets-section iframe:hover {
+    transform: scale(1.05); /* Zoom léger au survol */
+}
+
+.widgets-section .row {
+    justify-content: center; /* Centrer les colonnes */
+}
+
+.widgets-section .col-md-4 {
+    display: flex; /* Flexbox pour aligner les iframes */
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+}
+
+
+
 </style>
 
 <div class="container">
     <!-- Welcome Section -->
-    <div class="welcome-section p-4 mb-4 bg-primary text-white rounded">
-        <h1 class="mb-3">Bienvenue, {{ user.username }} !</h1>
-        <p class="fs-5">Prêt à continuer votre chemin avec <strong>Grow and Arise</strong> ?</p>
-    </div>
-
-    <!-- Inspirational Section -->
-    <div class="inspirational-section mb-4 p-4 bg-light shadow-sm rounded">
-        <h2 class="text-center text-uppercase fw-bold mb-3 text-secondary">Better Me</h2>
-        <p>
-            On dit de la discipline qu’elle est la clé du succès mais quand il en vient à l’appliquer, le challenge s’impose vraiment entre ce que l’on veut et ce que l’on doit faire. D’où l’importance de toujours bien garder en vue ses objectifs dans tout ce que nous faisons.
-        </p>
-        <div class="mt-3 border-start border-4 border-primary ps-3">
-            <h4 class="text-primary">❓ Question</h4>
-            <p class="mb-0"><strong>Q/ Est-ce que ce que je fais présentement contribue à la réalisation de mes objectifs ?</strong></p>
+    <div class="p-4 mb-4 bg-gradient text-white rounded" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
+        <!-- Welcome Section (fixe) -->
+        <div>
+            <h1 class="mb-3 text-uppercase fw-bold">Bienvenue dans ton espace {{ user.username }} !</h1>
+            
+        </div>
+    
+        <!-- Carousel pour Inspirational Section et Daily Reminder -->
+        <div id="dynamicContentCarousel" class="carousel slide mt-4" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <!-- Inspirational Section -->
+                <div class="carousel-item active">
+                    <div class="inspirational-section p-4 bg-light bg-opacity-75 shadow-sm rounded">
+                        <h4 class="fw-bold text-primary">✨ Inspirational Quote of the Moment</h4>
+                        <p id="inspirationalText" class="fst-italic text-secondary">
+                            <!-- La citation sera injectée ici par JavaScript -->
+                        </p>
+                    </div>
+                </div>
+    
+                <!-- Daily Reminder -->
+                <div class="carousel-item">
+                    <div class="daily-reminder-section p-4 bg-light bg-opacity-75 rounded shadow-sm">
+                        <h4 class="fw-bold text-primary">🍀 Daily Reminder: “Something good is going to happen to me, because God is good!”</h4>
+                        <blockquote class="blockquote">
+                            <p id="verse" style="color: black !important;"></p>
+                        </blockquote>
+                        <p id="encouragement" style="color: black;"></p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#dynamicContentCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#dynamicContentCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
+    
+<!-- Encouragement and Widgets Section -->
+<div class="container mb-4">
+    <div class="row">
+        <!-- Section Encouragement -->
+        <div class="col-md-6 mb-4">
+            <div class="p-4 mb-4 shadow-sm rounded bg-gradient" style="height: 400px;">
+                <h3 class="fw-bold text-white text-center" style="text-decoration: underline;">7 life-defining pre-decisions to keep in mind:</h3>
+                <div id="encouragementCarousel" class="carousel slide" data-bs-ride="carousel" style="height: calc(100% - 60px); display: flex; align-items: center;">
+                    <div class="carousel-inner text-white text-center">
+                        <div class="p-4 mb-4 shadow-sm rounded bg-gradient position-relative" style="height: 200px;background: url('https://cdn.pixabay.com/photo/2020/02/02/03/41/man-4811938_1280.jpg') no-repeat center center / cover !important;">
+                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                            <div class="carousel-item active">
+                                <h1 class="fw-bold">🔑 I will be a finisher</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be ready</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be an influencer</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be devoted</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be generous</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be faithful</h1>
+                            </div>
+                            <div class="carousel-item">
+                                <h1 class="fw-bold">🔑 I will be consistent</h1>
+                            </div>
+                        </div></div>
+                        <!-- Carousel Controls -->
+                     <button class="carousel-control-prev" type="button" data-bs-target="#encouragementCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#encouragementCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Encouragement Section -->
-    <div class="encouragement-section mb-4 p-4 bg-white shadow-sm rounded">
-        <p>Très cher utilisateur, merci de me faire confiance afin de t’aider à organiser tes programmes et ainsi te permettre de mieux atteindre tes objectifs et être de plus en plus intentionnel. Éventuellement, je ne garantis pas le 100% de réussite mais je peux t’assurer qu’avec ceci tu avanceras dès aujourd’hui de façon considérable et consistante.</p>
-        <h4 class="fw-bold text-secondary mt-4">7 life-defining pre-decisions to keep in mind:</h4>
-        <ul class="list-group">
-            <li class="list-group-item">🔑 <strong>I will be a finisher</strong> / Je serai un finisseur</li>
-            <li class="list-group-item">🔑 <strong>I will be ready</strong> / Je serai prêt</li>
-            <li class="list-group-item">🔑 <strong>I will be an influencer</strong> / Je serai un influenceur</li>
-            <li class="list-group-item">🔑 <strong>I will be devoted</strong> / Je serai dévoué</li>
-            <li class="list-group-item">🔑 <strong>I will be generous</strong> / Je serai généreux</li>
-            <li class="list-group-item">🔑 <strong>I will be faithful</strong> / Je serai reconnaissant</li>
-            <li class="list-group-item">🔑 <strong>I will be consistent</strong> / Je serai consistant</li>
-        </ul>
+        <!-- Section Widgets -->
+        <div class="col-md-6 mb-4">
+            <div class="p-4 mb-4 shadow-sm rounded bg-gradient" style="height: 400px;">
+                <h3 class="fw-bold text-white text-center" style="text-decoration: underline;"> Widgets Utiles</h3>
+                <div id="widgetsCarousel" class="carousel slide" data-bs-ride="carousel" style="height: calc(100% - 60px); display: flex; align-items: center;">
+                    <div class="carousel-inner text-center">
+                        <div class="carousel-item active">
+                            <!-- Progress Bar Widget -->
+                            <iframe
+                                src="https://indify.co/widgets/live/progressBar/5rdbhZJKo0pRIAZx2D4k"
+                                style="border: none; width: 100%; height: 150px; background: rgba(255, 255, 255, 0.2); border-radius: 10px;"
+                                title="Progress Bar Widget"
+                            ></iframe>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- Calendar Widget -->
+                            <iframe
+                                src="https://widgetbox.app/embed/calendar/simple/g6HcVzkD5ddN94rcfH5JnN?flag=true"
+                                style="border: none; width: 100%; height: 250px; background: rgba(255, 255, 255, 0.2); border-radius: 10px;"
+                                title="Calendar Widget"
+                            ></iframe>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- Clock Widget -->
+                            <iframe
+                                src="https://widgetbox.app/embed/clock/digital/N3hP6wuRuRS3sc2AcrktXk?flag=true"
+                                style="border: none; width: 100%; height: 150px; background: rgba(255, 255, 255, 0.2); border-radius: 10px;"
+                                title="Clock Widget"
+                            ></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#widgetsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#widgetsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- Daily Reminder -->
-    <div class="daily-reminder-section mb-4 p-4 bg-light rounded shadow-sm">
-        <h4 class="fw-bold text-primary">🍀 Daily Reminder:</h4>
-        <blockquote class="blockquote">
-            <p>2 Kings 6:16 “Don’t be afraid, the prophet answered. Those who are with us are more than those who are with them”.</p>
-        </blockquote>
-        <p>
-            <strong>🇺🇸</strong> If you feel surrounded by difficulties and under attack, remember that when everything seems to be against you, God has a mighty army that can come deliver you.<br>
-            <strong>🇫🇷</strong> Si vous vous sentez entouré de difficultés et attaqué, rappelez-vous que lorsque tout semble être contre vous, Dieu a une puissante armée qui peut venir vous délivrer.
-        </p>
-        <p class="text-center fw-bold">“Something good is going to happen to me, because God is good!”</p>
-    </div>
+<!-- Section Toolbox -->
+<div class="container mb-4">
+    <div class="p-4 mb-4 shadow-sm rounded bg-gradient" >
+    <h4 class="fw-bold text-white text-center mb-4">🧰 Ma Boîte à Outils</h4>
+    
+    <div class="row g-4">
+        <!-- Section 1: My Daily Success Tools -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2021/01/28/07/00/checklist-5957074_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">✨ My Daily Success Tools</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-calendar-day text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Planning de la Journée</a></li>
+                        <li><i class="fas fa-stream text-info me-2"></i><a href="{% url 'plans:daily_routines' %}" class="text-white">Mes Routines Journalières</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 2: My Plans -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2015/09/02/12/41/office-918428_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">📋 My Plans</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-wallet text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">Bilan de Mes Finances</a></li>
+                        <li><i class="fas fa-heart text-primary me-2"></i><a href="{% url 'tracker:self_evaluation' %}" class="text-white">Auto-évaluation</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <!-- Toolbox Section -->
-<div class="toolbox-section mb-4 p-4 bg-white rounded shadow-sm">
-    <h4 class="fw-bold text-secondary">
-        <i class="fas fa-toolbox me-2 text-primary"></i> Ma Boîte à Outils
-    </h4>
-    <p>Quoi de mieux qu’une boîte à outils à ta portée afin de te permettre d’être plus intentionnel dans tes journées. N’oublies surtout pas de l’utiliser sans modération 😉</p>
+        <!-- Section 3: Finances and Budget -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2016/11/22/19/03/checkbook-1850938_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">💰 Finances and Budget</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-wallet text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">Bilan de Mes Finances</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <ul class="list-unstyled">
-        <!-- Section: Planification et Bilan -->
-        <li class="mt-3">
-            <i class="fas fa-chart-line text-success me-2"></i>
-            <strong>Planification et Bilan</strong>
-        </li>
-        <ul class="ps-4">
-            <li><i class="fas fa-calendar-day text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}">Planning de la Journée</a></li>
-            <li><i class="fas fa-stream text-info me-2"></i><a href="{% url 'plans:daily_routines' %}">Mes Routines Journalières</a></li>
-            <li><i class="fas fa-wallet text-danger me-2"></i><a href="{% url 'plans:finance_review' %}">Bilan de Mes Finances</a></li>
-            <li><i class="fas fa-heart text-primary me-2"></i><a href="{% url 'tracker:self_evaluation' %}">Auto-évaluation</a></li>
-        </ul>
+        <!-- Section 4: Relationship with God -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2017/02/07/11/29/people-2045566_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">🙏 Relationship with God</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-praying-hands text-success me-2"></i><a href="{% url 'core:prayer_room' %}" class="text-white">My Prayer Room</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        <!-- Section: Ton Coin Précieux -->
-        <li class="mt-4">
-            <i class="fas fa-gem text-purple me-2"></i>
-            <strong>Ton Coin Précieux</strong>
-        </li>
-        <ul class="ps-4">
-            <li><i class="fas fa-praying-hands text-success me-2"></i><a href="{% url 'core:prayer_room' %}">My Prayer Room</a></li>
-            <li><i class="fas fa-pen text-info me-2"></i><a href="{% url 'tracker:smart_method' %}">La Méthode SMART</a></li>
-            <li><i class="fas fa-lightbulb text-warning me-2"></i><a href="{% url 'tracker:no_procrastination' %}">Conseils pour ne plus procrastiner</a></li>
-        </ul>
-    </ul>
+        <!-- Section 5: Tips -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2017/03/27/14/56/smart-2173106_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">💡 Tips</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-lightbulb text-warning me-2"></i><a href="{% url 'tracker:no_procrastination' %}" class="text-white">Conseils pour ne plus procrastiner</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Bilans -->
+        <div class="col-md-6">
+            <div class="p-4 shadow-sm rounded position-relative" 
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2016/02/19/10/00/graph-1206576_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" 
+                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+                <div class="position-relative text-white">
+                    <h5 class="fw-bold">📊 Bilans</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-chart-line text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Bilan Quotidien</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div></div>
 </div>
 
 
-    <!-- Contact Section -->
-    <div class="contact-section mb-4 text-center p-3 bg-light shadow-sm rounded">
-        <p>Si tu as des questions ou des avis à me suggérer, tu peux me contacter via cet email :</p>
-        <a href="mailto:matondokera19@gmail.com" class="btn btn-primary">📩 matondokera19@gmail.com</a>
-    </div>
 </div>
 
 <script>
@@ -114,6 +355,158 @@
             observer.observe(section);
         });
     });
+</script>
+<script>
+    // Liste des versets bibliques et encouragements
+const reminders = [
+  {
+    verse: '2 Kings 6:16',
+    text: '“Don’t be afraid, the prophet answered. Those who are with us are more than those who are with them.”',
+    encouragement: 'If you feel surrounded by difficulties and under attack, remember that God has a mighty army to deliver you.'
+  },
+  {
+    verse: 'Jeremiah 29:11',
+    text: '“For I know the plans I have for you,” declares the Lord, “plans to prosper you and not to harm you, plans to give you hope and a future.”',
+    encouragement: 'No matter how uncertain your situation may seem, trust in God’s plan for your life—it is full of hope and blessings.'
+  },
+  {
+    verse: 'Psalm 46:1',
+    text: '“God is our refuge and strength, an ever-present help in trouble.”',
+    encouragement: 'When troubles surround you, find comfort in knowing that God is your safe place and your strength.'
+  },
+  {
+    verse: 'Isaiah 41:10',
+    text: '“So do not fear, for I am with you; do not be dismayed, for I am your God.”',
+    encouragement: 'Even in your darkest moments, God is always with you—His presence brings peace and courage.'
+  },
+  {
+    verse: 'Philippians 4:13',
+    text: '“I can do all things through Christ who strengthens me.”',
+    encouragement: 'Remember, through Christ, you have the strength to overcome any challenge today!'
+  },
+  {
+    verse: 'Luke 1:37',
+    text: '“For no word from God will ever fail.”',
+    encouragement: 'Whatever challenges you face, trust that God’s promises are sure and His Word never fails.'
+  },
+  {
+    verse: 'Isaiah 60:22',
+    text: '“The least of you will become a thousand, the smallest a mighty nation. I am the Lord; in its time I will do this swiftly.”',
+    encouragement: 'God’s timing is perfect. Trust Him to fulfill His promises in your life at the right moment.'
+  },
+  {
+    verse: 'John 14:1',
+    text: '“Do not let your hearts be troubled. You believe in God; believe also in me.”',
+    encouragement: 'Let go of your worries and rest in God’s peace. Trust in Him completely.'
+  }
+
+];
+
+// Sélectionner le verset du jour
+function getDailyReminder() {
+  const today = new Date();
+  const index = today.getDate() % reminders.length; // Changer chaque jour
+  const dailyReminder = reminders[index];
+  
+  document.getElementById('verse').innerText = `${dailyReminder.verse} ${dailyReminder.text}`;
+  document.getElementById('encouragement').innerText = dailyReminder.encouragement;
+}
+
+// Charger le rappel quotidien
+getDailyReminder();
+</script>
+<script>
+    // Liste des citations inspirantes
+const inspirationalQuotes = [
+  "Believe you can and you're halfway there. - Theodore Roosevelt",
+  "Start where you are. Use what you have. Do what you can. - Arthur Ashe",
+  "The best way to predict the future is to create it. - Peter Drucker",
+  "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+  "It does not matter how slowly you go as long as you do not stop. - Confucius",
+  "The only limit to our realization of tomorrow is our doubts of today. - Franklin D. Roosevelt",
+  "Happiness is not something ready-made. It comes from your own actions. - Dalai Lama",
+  "What you get by achieving your goals is not as important as what you become by achieving your goals. - Zig Ziglar",
+  "The harder you work for something, the greater you’ll feel when you achieve it. - Anonymous",
+  "Success doesn’t just find you. You have to go out and get it. - Anonymous",
+  "Don’t stop when you’re tired. Stop when you’re done. - Anonymous",
+  "Wake up with determination. Go to bed with satisfaction. - Anonymous",
+  "Little things make big days. - Anonymous",
+  "Do something today that your future self will thank you for. - Anonymous",
+  "It’s going to be hard, but hard does not mean impossible. - Anonymous",
+  "Don’t wait for opportunity. Create it. - Anonymous",
+  "Dream it. Wish it. Do it. - Anonymous",
+  "Great things never come from comfort zones. - Anonymous",
+  "Dream bigger. Do bigger. - Anonymous",
+  "Push yourself, because no one else is going to do it for you. - Anonymous",
+  "Sometimes later becomes never. Do it now. - Anonymous",
+  "Success is what happens after you have survived all your disappointments. - Anonymous",
+  "The way to get started is to quit talking and begin doing. - Walt Disney",
+  "The man who has confidence in himself gains the confidence of others. - Hasidic Proverb",
+  "Do what you can with all you have, wherever you are. - Theodore Roosevelt",
+  "Only the paranoid survive. - Andy Grove",
+  "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+  "Do not wait to strike till the iron is hot; but make it hot by striking. - William Butler Yeats",
+  "Keep your face always toward the sunshine—and shadows will fall behind you. - Walt Whitman",
+  "It is always the simple that produces the marvelous. - Amelia Barr",
+  "What lies behind us and what lies before us are tiny matters compared to what lies within us. - Ralph Waldo Emerson",
+  "Act as if what you do makes a difference. It does. - William James",
+  "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+  "The only way to do great work is to love what you do. - Steve Jobs",
+  "I never dreamed about success, I worked for it. - Estée Lauder",
+  "Don’t be pushed around by the fears in your mind. Be led by the dreams in your heart. - Roy T. Bennett",
+  "If you want to achieve greatness stop asking for permission. - Anonymous",
+  "Opportunities don't happen. You create them. - Chris Grosser",
+  "Good things come to people who wait, but better things come to those who go out and get them. - Anonymous",
+  "Success is walking from failure to failure with no loss of enthusiasm. - Winston Churchill",
+  "All our dreams can come true if we have the courage to pursue them. - Walt Disney",
+  "Your limitation—it’s only your imagination. - Anonymous",
+  "People who are crazy enough to think they can change the world, are the ones who do. - Rob Siltanen",
+  "Learn as if you will live forever, live like you will die tomorrow. - Mahatma Gandhi",
+  "When you give joy to other people, you get more joy in return. You should give a good thought to happiness that you can give out. - Eleanor Roosevelt",
+  "When you change your thoughts, remember to also change your world. - Norman Vincent Peale",
+  "It is better to fail in originality than to succeed in imitation. - Herman Melville",
+  "What would you do if you weren’t afraid? - Sheryl Sandberg",
+  "Don’t wait. The time will never be just right. - Napoleon Hill",
+  "Whether you think you can or think you can’t, you’re right. - Henry Ford",
+  "If you want to fly give up everything that weighs you down. - Anonymous",
+  "If you don’t like the road you’re walking, start paving another one. - Dolly Parton",
+  "Quality is not an act, it is a habit. - Aristotle",
+  "Do something wonderful, people may imitate it. - Albert Schweitzer",
+  "Do not be embarrassed by your failures, learn from them and start again. - Richard Branson",
+  "The secret of getting ahead is getting started. - Mark Twain",
+  "It always seems impossible until it’s done. - Nelson Mandela",
+  "Opportunities don’t happen, you create them. - Chris Grosser",
+  "Go the extra mile. It’s never crowded there. - Wayne Dyer",
+  "Try not to become a man of success, but rather become a man of value. - Albert Einstein",
+  "You can’t go back and change the beginning, but you can start where you are and change the ending. - C.S. Lewis",
+  "Don’t count the days, make the days count. - Muhammad Ali",
+  "Keep going. Everything you need will come to you at the perfect time. - Anonymous",
+  "Do what you love and the money will follow. - Marsha Sinetar"
+];
+
+// Fonction pour afficher une citation
+function getInspirationalQuote() {
+  const now = new Date();
+  const hour = now.getHours();
+  let index;
+
+  if (hour < 12) {
+    // Matin
+    index = 0;
+  } else if (hour < 18) {
+    // Après-midi
+    index = 1;
+  } else {
+    // Soir
+    index = 2;
+  }
+  const quote = inspirationalQuotes[index % inspirationalQuotes.length];
+  document.getElementById('inspirationalText').innerText = quote;
+}
+
+// Charger la citation
+getInspirationalQuote();
+
 </script>
 
 {% endblock %}

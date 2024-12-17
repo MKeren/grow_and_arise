@@ -89,7 +89,7 @@ def home(request):
 def index(request):
     return render(request, "core/index.html", {"user": request.user})
 
-def profile(request):
+def profile_view(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
@@ -100,11 +100,6 @@ def profile(request):
     else:
         form = UserProfileForm(instance=profile)
     return render(request, 'core/profile.html', {'form': form})
-
-def profile_view(request):
-    profile = request.user.UserProfile
-    return render(request, 'core/profile_view.html', {'profile': profile})
-
 
 def update_profile(request):
     if request.method == "POST":

@@ -1,0 +1,161 @@
+      /* Sidebar Styling */
+      main {
+        transition: margin-left 0.3s ease;
+    }
+    .sidebar.show {
+        transform: translateX(0); 
+        opacity: 1;
+        transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+    }
+    
+    #sidebar.show {
+        display: block;
+    }
+    .sidebar.show + main {
+        margin-left: 250px;
+    }
+    .sidebar.d-none + .main-content {
+        margin-left: 0;
+    }
+    /* Sidebar Styling */
+    .sidebar {
+        background-color: #2f2f2f; /* Dark background */
+        color: rgb(67, 65, 65); /* Default text color */
+        height: calc(100vh - 106px); /* Subtract navbar (56px) and footer (50px) heights */
+        position: fixed;
+        top: 56px; /* Below navbar */
+        left: 0;
+        width: 250px;
+        transform: translateX(0); /* Fully visible */
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Fluidité de l'animation */
+        opacity: 1;
+        z-index: 999; /* Above the main content */
+        display:none;
+        flex-direction: column;
+        overflow-y:scroll; /* Enable scrolling */
+        padding-top: 0; 
+    }
+
+
+    /* Footer Styling */
+.sidebar footer {
+    margin-top: auto; /* Pousse le footer en bas */
+    text-align: center;
+    background-color: #444; /* Couleur de fond */
+    color: #ddd; /* Couleur du texte */
+    padding: 15px 0; /* Espacement */
+    font-size: 14px;
+    border-top: 1px solid #555; /* Ligne séparatrice */
+    position: relative; /* Relative pour qu'il reste dans la sidebar */
+    bottom: 0; /* Nécessaire uniquement pour un contrôle supplémentaire */
+    width: 100%; /* S'étend à la largeur de la sidebar */
+}
+    
+
+    /* Gray scrollbar design */
+    .sidebar::-webkit-scrollbar {
+        width: 8px; /* Thin scrollbar */
+        background-color: #333; /* Arrière-plan de la scrollbar */
+        transition: background-color 0.3s ease; /* Ajout d'une transition */
+    }
+    
+    .sidebar::-webkit-scrollbar-thumb {
+        background-color: #888; /* Medium gray thumb */
+        border-radius: 10px; /* Rounded edges */
+    }
+    
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background-color: #3e3e3e; /* Light gray thumb on hover */
+    }
+    
+    .sidebar::-webkit-scrollbar-track {
+        background-color: #f9f9f9; /* Darker gray track */
+        border-radius: 10px;
+    }
+    
+    /* Sidebar navigation items */
+    .sidebar .nav {
+        flex-grow: 1;
+        padding-bottom: 15px;
+    }
+    
+    .sidebar .nav-link {
+        color: black; /* Default text color */
+        font-size: 16px;
+        padding: 10px 15px;
+        border-radius: 5px; /* Rounded hover effect */
+        margin: 5px 10px;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Hover effect with small gray background */
+    .sidebar .nav-link:hover {
+        color: white; /* Text turns white */
+        background-color: rgba(127, 127, 127, 0.8);/* Small gray background on hover */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombrage léger */
+        border: 1px solid #eaeaea;
+    }
+    
+    /* Active state */
+    .sidebar .nav-link.active {
+        color: white; /* Text turns white */
+        background-color: #666; /* Slightly darker gray for active item */
+    }
+    
+    /* Sidebar icons */
+    .sidebar .nav-link .fas {
+        color: black; /* Default icon color */
+        font-size: 18px;
+        margin-right: 10px;
+    }
+    
+    /* Icon hover and active colors */
+    .sidebar .nav-link:hover .fas,
+    .sidebar .nav-link.active .fas {
+        color: white;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 200px; /* Slightly smaller for mobile */
+            height: calc(100vh - 106px); /* Adjust height dynamically for mobile */
+        }
+    
+        .sidebar .nav-link {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+    
+        .sidebar .nav-link .fas {
+            font-size: 16px;
+        }
+    }
+    
+    /* Sidebar réduite */
+    .sidebar.collapsed {
+        width: 50px; /* Réduire la largeur */
+        overflow: hidden; /* Masquer les éléments */
+    }
+    
+    .sidebar.collapsed .nav-link {
+        font-size: 12px;
+        justify-content: center; /* Centrer les éléments */
+    }
+    
+    .nav-item {
+        margin: 0; /* Réduit les marges inutiles */
+    }
+    .fa-home, .fa-user-plus, .fa-tasks, .fa-check-circle, .fa-heartbeat {
+        font-size: 1rem; /* Ajustez selon vos besoins */
+    }
+    
+    .nav-item {
+        border-bottom: 1px solid #343434 !important; /* Couleur et épaisseur de la ligne */
+    }
+    .nav-item:last-child {
+        border-bottom: none; /* Pas de ligne pour le dernier élément */
+    }
+    

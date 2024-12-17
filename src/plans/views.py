@@ -51,3 +51,7 @@ def daily_routines(request):
 
 def finance_review(request):
     return render(request, 'plans/finance_review.html', {'title': _('Bilan de Mes Finances')})
+
+def daily_planning(request):
+    days = ["MARDI", "MERCREDI", "JEUDI", "VENDREDI", "SAMEDI", "DIMANCHE"]
+    return render(request, 'plans/daily_planning.html', {'days': days})
