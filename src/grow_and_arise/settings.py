@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+import django
 from django.utils.translation import gettext_lazy as _
 
 
@@ -198,7 +199,5 @@ LANGUAGE_COOKIE_SECURE = False  # Mettre True en production si HTTPS est utilis√
 
 LOGIN_REDIRECT_URL = "/home/"  # Changez l'URL selon vos besoins
 LOGIN_URL = '/login/'
-
-
 
 

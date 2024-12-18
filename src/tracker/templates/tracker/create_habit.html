@@ -1,7 +1,61 @@
-<h1>Créer une Habitude</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Ajouter</button>
-</form>
-<a href="{% url 'habit_list' %}">Retour à la liste des habitudes</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Habit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Create a New Habit</h1>
+        
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Habit Name -->
+                    <div class="mb-3">
+                        <label for="id_name" class="form-label"><strong>Habit Name</strong></label>
+                        {{ form.name }}
+                    </div>
+
+                    <!-- Motivation -->
+                    <div class="mb-3">
+                        <label for="id_motivation" class="form-label"><strong>What motivates you to build this habit?</strong></label>
+                        {{ form.motivation }}
+                    </div>
+
+                    <!-- Frequency -->
+                    <div class="mb-3">
+                        <label for="id_frequency" class="form-label"><strong>Frequency</strong></label>
+                        {{ form.frequency }}
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="mb-3">
+                        <label for="id_category" class="form-label"><strong>Category</strong></label>
+                        {{ form.category }}
+                        <div class="form-text">
+                            Suggested categories: Food, Self-care, Perfect Morning, Self-development, Family.
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Create Habit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'tracker:habits' %}" class="btn btn-link">Back to Habit List</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes:wght@400;700&display=swap');
+  
 
 /* Modal Styles */
 .modal {
@@ -38,13 +40,21 @@
     cursor: pointer;
 }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: rgb(255, 255, 255);
-            position: relative;
-        }
+        
+ /* Global Styles */
+ body {
+    background-color: #f1f1f1;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+}
+header h1{
+    font-family: "Great Vibes" !important;
+    text-transform: capitalize;
+    font-size:50px;
+  }  
 
         /* Ajout de l'animation en arrière-plan de chaque côté de la page */
         #left-animation, #right-animation {
@@ -197,11 +207,7 @@
             background-color: #f6f6f6;
         }
 
-    /* Global Styles */
-    body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f1f1f1;
-}
+   
 
 .text-black {
     color: black !important;

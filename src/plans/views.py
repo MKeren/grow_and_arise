@@ -55,3 +55,8 @@ def finance_review(request):
 def daily_planning(request):
     days = ["MARDI", "MERCREDI", "JEUDI", "VENDREDI", "SAMEDI", "DIMANCHE"]
     return render(request, 'plans/daily_planning.html', {'days': days})
+
+def my_view(request):
+    my_string = "lundi,mardi,mercredi"  # Exemple
+    split_days = my_string.split(",")
+    return render(request, "plans/template.html", {"split_days": split_days})

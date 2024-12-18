@@ -1,9 +1,36 @@
-<h1>Liste des Habitudes</h1>
-<ul>
-    {% for habit in habits %}
-        <li>{{ habit.name }} - {{ habit.frequency }}</li>
-    {% empty %}
-        <p>Aucune habitude trouvée.</p>
-    {% endfor %}
-</ul>
-<a href="{% url 'tracker:create_habit' %}">Ajouter une Habitude</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit List</title>
+</head>
+<body>
+    <h1>Your Habit List</h1>
+
+    <!-- Button to create a new habit -->
+    <a href="{% url 'tracker:create_habit' %}" class="btn">Create New Habit</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Habit Name</th>
+                <th>Category</th>
+                <th>Frequency</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for habit in habits %}
+            <tr>
+                <td>{{ habit.name }}</td>
+                <td>{{ habit.category.name }}</td>
+                <td>{{ habit.get_frequency_display }}</td>
+                <td>
+                    <a href="{% url 'tracker:habit_report' habit.id %}">View Habit Report</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

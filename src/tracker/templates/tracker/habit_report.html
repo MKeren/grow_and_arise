@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Report for {{ habit.name }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Habit Report for "{{ habit.name }}"</h1>
+    <p><strong>Motivation:</strong> {{ habit.motivation }}</p>
+    <p><strong>Category:</strong> {{ habit.category }}</p>
+    <p><strong>Frequency:</strong> {{ habit.get_frequency_display }}</p>
+
+    <h2>Progress Summary</h2>
+    <canvas id="progressChart" width="400" height="200"></canvas>
+
+    <h2>Habit Tracking Table</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, completed in progress.items %}
+            <tr>
+                <td>{{ date }}</td>
+                <td>
+                    <input type="checkbox" {% if completed %}checked{% endif %} disabled>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+     <!-- Form to update tracking -->
+     <h3>Update Tracking</h3>
+     <form method="POST">
+         {% csrf_token %}
+         {{ tracking_form.as_p }}
+         <button type="submit">Update Tracking</button>
+     </form>
+
+    <!-- Add data in a script tag for safety -->
+    <script type="application/json" id="chart-data">
+        {
+            "completed_count": {{ completed_count }},
+            "missed_count": {{ missed_count }}
+        }
+    </script>
+
+    <script>
+        // Safely parse the data from Django
+        const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Completed', 'Missed'],
+                datasets: [{
+                    label: 'Progress',
+                    data: [chartData.completed_count, chartData.missed_count],
+                    backgroundColor: ['#4caf50', '#f44336'], // Green and red
+                    borderColor: ['#4caf50', '#f44336'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const dataset = tooltipItem.dataset.data;
+                                const total = dataset.reduce((a, b) => a + b, 0);
+                                const value = dataset[tooltipItem.dataIndex];
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

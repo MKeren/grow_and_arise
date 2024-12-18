@@ -2,113 +2,200 @@
 {% load static %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning de la Journée</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <!-- jQuery (obligatoire pour DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Liens vers Bootstrap et CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Style personnalisé */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .bg-gradient {
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            color: #fff;
+        }
+        h1, h2, h5 {
+            color: #333;
+        }
+        .accordion-button {
+            font-size: 1.2rem;
+        }
+        .accordion-button:hover {
+        background: linear-gradient(to right, #3a3a3a, #c4c7c7); /* Inverse le gradient */
+        color: #ffffff;
+        transform: translateY(-3px); /* Élève légèrement le bouton */
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Accentue l'ombre */
+        }
+
+        .accordion-button:active {
+            transform: translateY(1px); /* Effet d'enfoncement lors du clic */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) ; /* Réduit légèrement l'ombre */
+        }
+
+        .progress {
+            height: 20px;
+        }
+        .btn-outline-primary {
+            font-size: 0.9rem;
+        }
+
+        /* Style global pour un fond légèrement transparent */
+.transparent-bg {
+    background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
+    backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 15px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Espacement entre les sections */
+}
+
+    </style>
+</head>
+
+<body>
 <div class="container py-4">
-    <h1 class="fw-bold mb-4 text-center">Planning de la Journée</h1>
-    <p>Ici, tu vas faire le planning de ta journée : ce que tu as à faire et où tu dois te rendre. En fin de journée, coche les activités accomplies.</p>
-
-    <div class="alert alert-info p-4">
-        💡 <strong>Conseil :</strong> Je te conseille de toujours faire ton planning la veille. Cela te permettra de gagner du temps et d’être plus productif. 😉
-    </div>
-
-    <!-- Section: Planning Hebdomadaire -->
-    <div class="accordion shadow-sm" id="weeklyPlanner">
-        <!-- LUNDI -->
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header" id="headingLUNDI">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLUNDI" aria-expanded="true" aria-controls="collapseLUNDI">
-                    <strong>LUNDI</strong>
-                </button>
-            </h2>
-            <div id="collapseLUNDI" class="accordion-collapse collapse show" aria-labelledby="headingLUNDI" data-bs-parent="#weeklyPlanner">
-                <div class="accordion-body">
-                    <!-- Sections -->
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5>🌅 <strong>Matin</strong></h5>
-                            <ul id="morningTasksLundi" class="list-unstyled"></ul>
-                            <input type="text" class="form-control mb-2" id="newTaskMorningLundi" placeholder="Ajouter une tâche..." />
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksLundi')">Ajouter</button>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>🔅 <strong>Après-midi</strong></h5>
-                            <ul id="afternoonTasksLundi" class="list-unstyled"></ul>
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksLundi')">Ajouter une tâche</button>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>🌙 <strong>Soir</strong></h5>
-                            <ul id="eveningTasksLundi" class="list-unstyled"></ul>
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksLundi')">Ajouter une tâche</button>
-                        </div>
-                    </div>
-                    <!-- Progress Bar -->
-                    <div class="mt-4">
-                        <div class="progress">
-                            <div id="progressBarLundi" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Header avec une bannière -->
+    <div class="banner shadow-sm rounded mb-4" style="position: relative; height: 250px; overflow: hidden;">
+        <!-- Image de fond -->
+        <img src="https://cdn.pixabay.com/photo/2018/03/04/22/27/office-3199438_1280.jpg" alt="Bannière" class="img-fluid w-100 h-100" style="object-fit:fill;">
+        
+        <!-- Texte sur la bannière -->
+        <div class="banner-overlay d-flex flex-column justify-content-center align-items-center text-white text-center" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);">
+            <h1 class="fw-bold mb-2" style="color: #f8f9fa;">Planning de la Journée</h1>
+            <p class="mb-0">Organise ta journée pour gagner du temps et être plus productif !</p>
         </div>
     
-        <!-- AUTRES JOURS -->
-        {% for day in days %}
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header" id="heading{{ day }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day }}" aria-expanded="false" aria-controls="collapse{{ day }}">
-                    <strong>{{ day }}</strong>
-                </button>
-            </h2>
-            <div id="collapse{{ day }}" class="accordion-collapse collapse" aria-labelledby="heading{{ day }}" data-bs-parent="#weeklyPlanner">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5>🌅 <strong>Matin</strong></h5>
-                            <ul id="morningTasks{{ day }}" class="list-unstyled"></ul>
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasks{{ day }}')">Ajouter une tâche</button>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>🔅 <strong>Après-midi</strong></h5>
-                            <ul id="afternoonTasks{{ day }}" class="list-unstyled"></ul>
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasks{{ day }}')">Ajouter une tâche</button>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>🌙 <strong>Soir</strong></h5>
-                            <ul id="eveningTasks{{ day }}" class="list-unstyled"></ul>
-                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasks{{ day }}')">Ajouter une tâche</button>
-                        </div>
+    </div>
+    <!-- Corps de la section - Sommaire -->
+<div class="content transparent-bg shadow-sm" style="border-left: 5px solid #e7e7e7;">
+    <h2 class="fw-bold mb-3 text-primary">Sommaire de la Page</h2>
+    <p class="mb-4">
+        <strong>Ici, tu vas organiser le planning de ta journée :</strong> ce que tu as à faire et où tu dois te rendre. 
+        En fin de journée, tu pourras cocher les activités accomplies pour suivre ton avancement.
+    </p>
+
+    <div class="alert alert-info p-4 rounded" style="background-color: #e7f3fe; border-left: 5px solid #e6e8e8;">
+        💡 <strong>Conseil :</strong> <em>Je te conseille de toujours préparer ton planning la veille.</em> 
+        Cela te permettra de gagner du temps et d’être plus productif. 😉
+    </div>
+</div>
+
+<!-- Section: Planning Hebdomadaire -->
+<div class="accordion shadow-sm" id="weeklyPlanner">
+    <!-- LUNDI -->
+    <div class="accordion-item mb-3 transparent-bg">
+        <h2 class="accordion-header" id="headingLUNDI">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLUNDI" aria-expanded="true" aria-controls="collapseLUNDI">
+                <strong>LUNDI</strong>
+            </button>
+        </h2>
+        <div id="collapseLUNDI" class="accordion-collapse collapse show" aria-labelledby="headingLUNDI" data-bs-parent="#weeklyPlanner">
+            <div class="accordion-body">
+                <!-- Sections -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>🌅 <strong>Matin</strong></h5>
+                        <ul id="morningTasksLundi" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksLundi')">Ajouter une tâche</button>
                     </div>
-                    <div class="mt-4">
-                        <div class="progress">
-                            <div id="progressBar{{ day }}" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                        </div>
+                    <div class="col-md-4">
+                        <h5>🔅 <strong>Après-midi</strong></h5>
+                        <ul id="afternoonTasksLundi" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksLundi')">Ajouter une tâche</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>🌙 <strong>Soir</strong></h5>
+                        <ul id="eveningTasksLundi" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksLundi')">Ajouter une tâche</button>
+                    </div>
+                </div>
+                <!-- Progress Bar -->
+                <div class="mt-4">
+                    <div class="progress">
+                        <div id="progressBarLundi" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
 
-    <!-- Data Section -->
-    <div class="container py-4">
-        <h2>Performance Hebdomadaire</h2>
-        <div class="alert alert-info" id="coherenceMessage"></div>
-        <canvas id="performanceChart" width="400" height="200"></canvas>
-
-        <h3>Récapitulatif des Semaines Précédentes</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Performance (%)</th>
-                </tr>
-            </thead>
-            <tbody id="weeklySummary"></tbody>
-        </table>
+    <!-- AUTRES JOURS -->
+    {% for day in days %}
+    <div class="accordion-item mb-3 transparent-bg">
+        <h2 class="accordion-header" id="heading{{ day }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day }}" aria-expanded="false" aria-controls="collapse{{ day }}">
+                <strong>{{ day }}</strong>
+            </button>
+        </h2>
+        <div id="collapse{{ day }}" class="accordion-collapse collapse" aria-labelledby="heading{{ day }}" data-bs-parent="#weeklyPlanner">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>🌅 <strong>Matin</strong></h5>
+                        <ul id="morningTasks{{ day }}" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasks{{ day }}')">Ajouter une tâche</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>🔅 <strong>Après-midi</strong></h5>
+                        <ul id="afternoonTasks{{ day }}" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasks{{ day }}')">Ajouter une tâche</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>🌙 <strong>Soir</strong></h5>
+                        <ul id="eveningTasks{{ day }}" class="list-unstyled"></ul>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasks{{ day }}')">Ajouter une tâche</button>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="progress">
+                        <div id="progressBar{{ day }}" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    {% endfor %}
+
+</div>
+
+<!-- Data Section -->
+<div class="container py-4 transparent-bg">
+    <h2>Performance Hebdomadaire</h2>
+    <div class="alert alert-info" id="coherenceMessage"></div>
+    <canvas id="performanceChart" width="400" height="200"></canvas>
+
+    <h3>Récapitulatif des Semaines Précédentes</h3>
+    <table id="performanceTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Performance (%)</th>
+            </tr>
+        </thead>
+        <tbody id="weeklySummary"></tbody>
+    </table>
+    
+</div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <script>
 // Ajout d'une nouvelle tâche
 function addTask(listId) {
@@ -116,7 +203,7 @@ function addTask(listId) {
     const newTask = document.createElement("li");
     newTask.innerHTML = `
         <input type="checkbox" class="me-2" onchange="updateProgress('${listId.split('Tasks')[1]}')">
-        <input contenteditable="true" class="task-text" onblur="updateTaskText(this)"></input>
+        <input contenteditable="true"  class="form-control mb-2" onblur="updateTaskText(this)" placeholder="Ajouter une tâche..." /input>
         <button class="btn btn-sm btn-danger ms-2" onclick="removeTask(this)">Supprimer</button>
     `;
     list.appendChild(newTask);
@@ -201,12 +288,34 @@ function showPerformanceGraph() {
 function displayWeeklySummary() {
     const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
     const summaryTable = document.getElementById('weeklySummary');
-    summaryTable.innerHTML = '';
-    for (const [day, data] of Object.entries(weeklyData)) {
+    summaryTable.innerHTML = ''; // Réinitialiser le tableau avant d'ajouter les nouvelles lignes
+    
+    for (const [day,data] of Object.entries(weeklyData)) {
         const row = `<tr><td>${day}</td><td>${data.percentage.toFixed(2)}%</td></tr>`;
         summaryTable.innerHTML += row;
     }
 }
+
+$(document).ready(function() {
+    // Initialiser DataTables après que le tableau est peuplé
+    $('#performanceTable').DataTable({
+        "columnDefs": [
+            {
+                "targets": 0, // Première colonne (Date)
+                "render": function(data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return moment(data).format('dddd, DD MMMM YYYY'); // Format complet (jour, date, mois, année)
+                    }
+                    return data; // Format brut pour les traitements internes
+                }
+            }
+        ],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json" // Traduction française
+        },
+        "pageLength": 5 // Nombre de lignes par page par défaut
+    });
+});
 
 // Vérification de la cohérence des performances
 function checkCoherence() {
@@ -229,5 +338,10 @@ window.onload = function() {
     checkCoherence();
 };
 </script>
+<!-- Moment.js pour le formatage des dates -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
+
+</body>
+</html>
 {% endblock %}
