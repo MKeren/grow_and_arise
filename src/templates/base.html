@@ -9,99 +9,301 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/BS.css' %}">
-    <link rel="stylesheet" href="{% static 'css/SIDE.css' %}">
+    <link rel="stylesheet" href="{% static 'css/SideBar.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Popper.js et Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <style>
+        /* Vous pouvez ajouter un peu de style pour les sous-menus */
+.submenu {
+    margin-left: 20px; /* Indentation pour les sous-menus */
+    padding-left: 10px;
+}
+/* Espacements pour le Top Navigation Bar */
+.navbar .form-select-sm {
+    width: auto;
+    font-size: 14px;
+}
+
+.dropdown-menu li a {
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+    font-size: 14px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+}
+
+/* Color Pickers */
+.form-control-color {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Bouton pour le toggle de la sidebar */
+#sidebarToggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    </style>
 
     <style>
-   
+        .sidebar{
+            margin-bottom: -20px;
+            margin-top: 2%;
+            height: 420px;
+        
+        }
+    /* Scrollbar style */
+.sidebar::-webkit-scrollbar {
+    width: 12px; /* Largeur de la scrollbar */
+    background-color: #333; /* Arrière-plan de la scrollbar */
+    border-radius: 8px; /* Coins arrondis */
+}
+
+/* Track (arrière-plan de la scrollbar) */
+.sidebar::-webkit-scrollbar-track {
+    background: #444; /* Un fond neutre pour la track */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Thumb (partie déplaçante de la scrollbar) */
+.sidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #6c757d, #a3b1b8); /* Dégradé doux et neutre */
+    border-radius: 8px; /* Coins arrondis */
+    border: 3px solid #333; /* Bordure discrète */
+    transition: transform 0.3s ease; /* Animation de transformation */
+}
+
+/* Animation avec particules */
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #9e9e9e, #d6d6d6); /* Dégradé plus clair pour le survol */
+    animation: thumb-particle-animation 3s infinite linear; /* Animation de particules dans le thumb */
+}
+
+/* Animation des particules à l'intérieur du thumb */
+@keyframes thumb-particle-animation {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* Track active pendant le défilement */
+.sidebar::-webkit-scrollbar-thumb:active {
+    background-color: #ced4da; /* Couleur active subtile */
+}
+
+/* Effet de particules dans le thumb */
+.sidebar::-webkit-scrollbar-thumb::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/coffee-lattice.png'); /* Texture subtile */
+    background-size: 10px 10px; /* Taille de la texture */
+    opacity: 0.5; /* Transparence pour que la texture ne soit pas trop présente */
+    animation: thumb-particle-motion 6s infinite linear; /* Mouvement lent des particules */
+}
+
+/* Mouvement lent des particules */
+@keyframes thumb-particle-motion {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(20px) translateY(20px); /* Déplacement des particules */
+    }
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+/* Flèches de direction (optionnel) */
+.scrollbar-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Flèches au survol */
+.scrollbar-arrow:hover {
+    color: #ffcc00; /* Couleur douce pour les flèches */
+    transform: scale(1.1); /* Effet de zoom sur les flèches */
+}
+
+
     </style>
 </head>
 <body>
-    
 
     <!-- Top Navigation Bar -->
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Sidebar Toggle (Moved to the left side, before the logo) -->
-            <button class="btn btn-outline-secondary" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
-                <img src="{% static 'images/logo.png' %}" height="40">
-                <span class="ms-2 fw-bold text-secondary">Grow and Arise</span> <!-- Texte neutre -->
-            </a>
-            <!-- Right-side Controls -->
-            <div class="d-flex align-items-center">
-                <!-- Language Switch -->
-                <form method="get" action="{% url 'core:change_language' %}">
-                    <select name="lang" onchange="this.form.submit()">
-                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-                        <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
-                    </select>
-                </form>
-                
-                <!-- Color Picker for Page Background -->
-                <input type="color" id="colorPickerPage" title="Choisir la couleur de la page" class="btn btn-outline-secondary" />
-                <!-- Color Picker for Sidebar -->
-                <input type="color" id="colorPickerSidebar" title="Choisir la couleur de la sidebar" class="btn btn-outline-secondary ms-2" />
-                <!-- Color Picker for Footer -->
-                <input type="color" id="colorPickerFooter" title="Choisir la couleur du footer" class="btn btn-outline-secondary ms-2" />
+<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Sidebar Toggle (Moved to the left side, before the logo) -->
+        <button class="btn btn-outline-secondary d-flex align-items-center" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+            <img src="{% static 'images/logo.png' %}" height="40" alt="Logo">
+            <span class="ms-2 fw-bold text-secondary">Grow and Arise</span> <!-- Texte neutre -->
+        </a>
+        <!-- Right-side Controls -->
+        <div class="d-flex align-items-center">
+            <!-- Language Switch -->
+            <form method="get" action="{% url 'core:change_language' %}" class="me-3">
+                <select name="lang" onchange="this.form.submit()" class="form-select form-select-sm">
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                    <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
+                </select>
+            </form>
+
+            <!-- Profile Menu -->
+            <div class="dropdown">
+                <a href="javascript:void(0);" class="btn btn-outline-secondary dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none;">
+                    <i class="fas fa-user me-2"></i> My Profile
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user-edit text-info me-2"></i> Modify My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'core:logout' %}" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt text-danger me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Color Pickers -->
+            <div class="d-flex align-items-center ms-3">
+                <input type="color" id="colorPickerPage" title=" Choose the page color" class="form-control form-control-color me-2" />
+                <input type="color" id="colorPickerSidebar" title="Choose the sidebar color" class="form-control form-control-color me-2" />
+                <input type="color" id="colorPickerFooter" title="Choose the footer color" class="form-control form-control-color" />
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Main Layout -->
     <div>
-        <!-- Sidebar -->
-       
-<nav id="sidebar" class="sidebar bg-gradient shadow">
     
+     <!-- Sidebar -->
+<nav id="sidebar" class="sidebar bg-gradient shadow">
     <ul class="nav flex-column py-4">
         <li class="nav-item border-bottom">
             <a href="{% url 'core:home' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-home me-3"></i> Accueil
-            </a>
-        </li>
-        <li class="nav-item border-bottom">
-            <a href="{% url 'core:profile_view' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-user me-3"></i> My Profile
-            </a>
-        </li>
-        <li class="nav-item border-bottom">
-            <a href="{% url 'plans:plan_list' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-tasks me-3"></i> Plans
-            </a>
-        </li>
-        <li class="nav-item border-bottom">
-            <a href="{% url 'tracker:task_list' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-check-circle me-3"></i> Tâches
-            </a>
-        </li>
-        <li class="nav-item border-bottom">
-            <a href="{% url 'tracker:habits' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-heartbeat me-3"></i> Habitudes
-            </a>
-        </li>
-        <li class="nav-item border-bottom">
-            <a href="{% url 'plans:things_to_achieve' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-heartbeat me-3"></i> Things to Achieve
+                <i class="fas fa-home me-3"></i> Home
             </a>
         </li>
 
+        <!-- My Daily Tools -->
         <li class="nav-item border-bottom">
-            <a href="{% url 'core:logout' %}" class="nav-link d-flex align-items-center">
-                <i class="fas fa-sign-out-alt me-3"></i> Logout
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('dailyTools')">
+                <i class="fas fa-calendar-check me-3"></i> My Daily Tools
             </a>
+            <ul id="dailyTools" class="submenu list-unstyled" style="display: none;">
+                <li><a href="{% url 'plans:daily_planning' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-calendar-check text-warning me-2"></i> Daily Planning</a></li>
+                <li><a href="{% url 'tracker:habits' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-stream text-info me-2"></i> Habit Tracker</a></li>
+            </ul>
+        </li>
+
+        <!-- My Plans -->
+        <li class="nav-item border-bottom">
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('myPlans')">
+                <i class="fas fa-tasks me-3"></i> My Plans
+            </a>
+            <ul id="myPlans" class="submenu list-unstyled" style="display: none;">
+                <li><a href="#" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-tasks text-warning me-2"></i> Plan List</a></li>
+                <li><a href="#" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-plus text-info me-2"></i> Create Plan</a></li>
+            </ul>
+        </li>
+
+        <!-- Finances and Budget -->
+        <li class="nav-item border-bottom">
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('finances')">
+                <i class="fas fa-piggy-bank me-3"></i> Finances and Budget
+            </a>
+            <ul id="finances" class="submenu list-unstyled" style="display: none;">
+                <li><a href="{% url 'plans:finance_review' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-credit-card text-danger me-2"></i> My Finances Overview</a></li>
+            </ul>
+        </li>
+
+        <!-- Devotional Section -->
+        <li class="nav-item border-bottom">
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('devotional')">
+                <i class="fas fa-praying-hands me-3"></i> Devotional Section
+            </a>
+            <ul id="devotional" class="submenu list-unstyled" style="display: none;">
+                <li><a href="{% url 'core:prayer_room' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-praying-hands text-success me-2"></i> My Prayer Room</a></li>
+            </ul>
+        </li>
+
+        <!-- Tips -->
+        <li class="nav-item border-bottom">
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('tips')">
+                <i class="fas fa-lightbulb me-3"></i> Tips
+            </a>
+            <ul id="tips" class="submenu list-unstyled" style="display: none;">
+                <li><a href="{% url 'tracker:no_procrastination' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-bell-slash text-warning me-2"></i> Overcoming Procrastination</a></li>
+                <li><a href="{% url 'tracker:pomodoro' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-clock text-warning me-2"></i> Pomodoro Technique</a></li>
+                <li><a href="{% url 'tracker:smart_method' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-check-circle text-warning me-2"></i> SMART Goals</a></li>
+            </ul>
+        </li>
+
+        <!-- Reviews -->
+        <li class="nav-item border-bottom">
+            <a href="javascript:void(0);" class="nav-link d-flex align-items-center" onclick="toggleSubmenu('reviews')">
+                <i class="fas fa-tasks me-3"></i> Reviews
+            </a>
+            <ul id="reviews" class="submenu list-unstyled" style="display: none;">
+                <li><a href="{% url 'plans:things_to_achieve' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-check-circle text-info me-2"></i> Things to Achieve</a></li>
+                <li><a href="{% url 'tracker:self_evaluation' %}" class="nav-link d-flex align-items-center" style="font-size: 16px;"><i class="fas fa-check-square text-primary me-2"></i> Self Evaluation</a></li>
+            </ul>
         </li>
     </ul>
+
     <footer id="footer">
         &copy; 2024 Grow and Arise
     </footer>
 </nav>
+
 <!-- Footer positioned at the bottom -->
 
         <!-- Main Content -->
@@ -173,5 +375,19 @@
             localStorage.setItem('footerColor', selectedFooterColor);
         });
     </script>
+
+    <script>
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id);
+                if (submenu.style.display === "none") {
+                    submenu.style.display = "block";
+                } else {
+                    submenu.style.display = "none";
+                }
+        }
+
+
+    </script>
+
 </body>
 </html>
