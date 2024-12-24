@@ -19,3 +19,14 @@ class Step(models.Model):
 
     def __str__(self):
         return f"Étape {self.order} : {self.title} ({self.plan.title})"
+
+class ThingsToAchieve(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    main_goal = models.TextField()
+    steps = models.TextField()
+    motivation = models.TextField()
+    deadline = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.main_goal[:50]}"

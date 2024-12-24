@@ -51,3 +51,16 @@ class HabitTracking(models.Model):
 
     def __str__(self):
         return f"{self.habit.name} on {self.date}"
+    
+class AutoEvaluation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Utilisateur qui a rempli l'évaluation
+    date = models.DateField(auto_now_add=True)  # Date de l'évaluation
+    mots = models.CharField(max_length=200)  # Les 3 mots
+    sentiment = models.TextField()  # Comment tu te sens
+    amelioration = models.TextField()  # Comment améliorer ce sentiment
+    fiers = models.TextField()  # Les 5 choses dont tu es fière
+    difficultes = models.TextField()  # Difficultés rencontrées
+    message = models.TextField()  # Message à Dieu
+
+    def __str__(self):
+        return f"Évaluation du {self.date} par {self.user.username}"

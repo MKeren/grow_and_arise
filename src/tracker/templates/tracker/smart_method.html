@@ -1,2 +1,352 @@
-<h1>{{ title }}</h1>
-<p>Page pour découvrir la méthode SMART.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méthode SMART</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafc;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section-title {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+        }
+        .content-section {
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .alert-info {
+            background-color: #dfeffc;
+            color: #2c3e50;
+            border: none;
+        }
+        .btn-secondary {
+            background-color: #3498db;
+            color: white;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            font-style: italic;
+            color: #2c3e50;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        ol li {
+            margin-bottom: 10px;
+        }
+    </style>
+
+<style>
+    body {
+        background-color: #f9fbfc;
+        font-family: 'Arial', sans-serif;
+    }
+    .container {
+        margin-top: 20px;
+    }
+    .banner {
+        height: 250px;
+        background-image: url('https://cdn.pixabay.com/photo/2020/05/26/14/25/banner-5223286_1280.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        color: #fff;
+        text-align: center;
+    }
+    .banner-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .banner-overlay h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+    .content-section {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-top: 20px;
+    }
+    .content-section h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .content-section aside {
+        background-color: #f8f9fa;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        font-style: italic;
+        color: #555;
+    }
+    .form-control, .form-check-label {
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .highlight {
+        font-weight: 600;
+        color: #007bff;
+    }
+    .section-title {
+        color: #007bff;
+        margin-top: 20px;
+    }
+    .answer-text {
+        font-size: 1rem;
+        color: #555;
+    }
+    .quill-editor {
+        height: 300px;
+    }
+    
+    .transparent-bg {
+        background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
+        backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 15px; /* Espacement intérieur */
+        margin-bottom: 20px; /* Espacement entre les sections */
+    }
+
+    .transparent-bg h1{
+        color:#fff;
+    }
+    .transparent-bg p{
+        color:#000;
+    }
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Banner Section -->
+        <div class="banner">
+            <div class="banner-overlay">
+                <div class="content transparent-bg shadow-sm">
+                    <h1 class="section-title">📌 La Méthode SMART</h1>
+                    <p class="text-center">
+                        Un principe clé dans la gestion de projet est de pouvoir atteindre les objectifs du projet dans les délais impartis, tout en n’altérant pas la qualité des résultats attendus.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section Introduction, Image et Acronyme SMART -->
+        <div class="container my-5">
+            <div class="row g-4">
+                <!-- Colonne 1 : Introduction -->
+                <div class="col-md-4">
+                    <div class="content-section h-100 d-flex flex-column justify-content-center">
+                        <aside class="alert alert-info h-100 d-flex flex-column justify-content-center">
+                            <h5 class="text-center">💡 The Importance of SMART Goal Setting :</h5>
+                            <ul class="list-unstyled text-start mt-3">
+                                <li>
+                                    <p>
+                                        Often, individuals or businesses will set themselves up for failure by setting general and unrealistic goals such as “I want to be the best at X.” This goal is vague, with no sense of direction.
+                                    </p>
+                                    <p>
+                                        SMART goals set you up for success by making goals specific, measurable, achievable, realistic, and timely. The SMART method helps push you further, gives you a sense of direction, and helps you organize and reach your goals.
+                                    </p>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+
+                <!-- Colonne 2 : Image -->
+                <div class="col-md-4">
+            <div class="content-section h-100 d-flex justify-content-center align-items-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMvzVPiLKYUBULOpMbF4uxyFHFtXgFdZ7o5w&s" alt="Diagramme de la Méthode SMART" class="img-fluid rounded shadow" style="max-width: 100%; height: auto;">
+            </div>
+                </div>
+
+                <!-- Colonne 3 : Acronyme SMART -->
+                <div class="col-md-4">
+            <div class="content-section h-100 d-flex flex-column justify-content-center">
+                <aside class="alert alert-info h-100 d-flex flex-column justify-content-center">
+                    <h5 class="text-center">💡 Les caractéristiques de la méthode SMART :</h5>
+                    <ul class="list-unstyled text-start mt-3">
+                        <li>✔️ <strong>S</strong> : <em>Spécifique</em></li>
+                        <li>✔️ <strong>M</strong> : <em>Mesurable</em></li>
+                        <li>✔️ <strong>A</strong> : <em>Atteignable ou Acceptable</em></li>
+                        <li>✔️ <strong>R</strong> : <em>Réaliste</em></li>
+                        <li>✔️ <strong>T</strong> : <em>Temporel</em></li>
+                    </ul>
+                </aside>
+            </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comment créer des objectifs SMART -->
+        <div class="content-section">
+            <h2 class="text-center">Comment créer des objectifs SMART ?</h2>
+            <p><em>Pour créer des objectifs SMART (Spécifiques, Mesurables, Atteignables, Réalistes et Temporellement définis), suivez ces étapes :</em></p>
+            
+            <ol>
+                <li>
+                    <strong>Spécifique :</strong> Il ne s’agit pas d’être généraliste, mais d’être pragmatique et précis sur chaque objectif à définir.
+                </li>
+                <li>
+                    <strong>Mesurable :</strong> Il faudra définir des KPIs SMART qui permettront de mesurer et de suivre, au fur et à mesure, le niveau d’atteinte de l’objectif.
+                    En plus, de façon transversale à l’ensemble des objectifs, des indicateurs pourraient être définis pour mesurer les performances des ressources humaines et matérielles pendant le déroulement du projet.
+                </li>
+                <li>
+                    <strong>Atteignable ou Acceptable :</strong> Les objectifs à définir devraient être suffisamment réalistes pour être atteignables dans la durée du projet.
+                    Pour la définition de ces objectifs, il est aussi important de prendre en compte les ressources allouées au projet et leur disponibilité. L’objectif en question doit aussi être accepté par toutes les parties prenantes concernant l’activité menant à l'atteindre.
+                </li>
+                <li>
+                    <strong>Réaliste :</strong> Prenez en compte les contraintes internes et externes.
+                </li>
+                <li>
+                    <strong>Temporel :</strong> Fixez un délai précis pour chaque objectif.
+                    Il faudra donc les définir en prenant en compte le fait que l’ensemble des objectifs devraient être réalisables avant la date de fin prévue du projet.
+                </li>
+                <p>
+                    En suivant ces étapes, vous pourrez formuler des objectifs SMART qui seront plus précis, mesurables, réalisables et alignés sur les besoins du projet.
+                </p>
+            </ol>
+        </div>
+
+        <!-- Section Exemples -->
+        <div class="content transparent-bg shadow-sm">
+            <h2 class="text-center">Exemples d'objectifs SMART :</h2>
+        <!-- Bootstrap Carousel -->
+        <div id="smartExamplesCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Exemple 1 -->
+                <div class="carousel-item active">
+                    <blockquote class="blockquote ">
+                        <h5 class="section-title ">Lancement d’une application mobile</h5>
+                        <p><strong>Spécifique :</strong> Développer une application mobile pour aider les étudiants à organiser leurs cours et leurs devoirs.</p>
+                        <p><strong>Mesurable :</strong> Atteindre 1 000 téléchargements sur Google Play et App Store dans les trois premiers mois.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Réaliser un MVP avec les fonctionnalités essentielles en 8 semaines.</p>
+                        <p><strong>Réaliste :</strong> L’équipe dispose de deux développeurs, un designer et un chef de projet.</p>
+                        <p><strong>Temporel :</strong> Le MVP sera lancé avant le 15 mars 2025.</p>
+                    </blockquote>
+                </div>
+
+                <!-- Exemple 2 -->
+                <div class="carousel-item">
+                    <blockquote class="blockquote ">
+                        <h5 class="section-title ">Création d’une chaîne de podcast</h5>
+                        <p><strong>Spécifique :</strong> Lancer une chaîne de podcast sur le développement personnel pour les jeunes adultes.</p>
+                        <p><strong>Mesurable :</strong> Publier un épisode par semaine pendant 6 mois, avec un objectif de 500 écoutes par épisode.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Rechercher 3 invités influents pour les épisodes des deux premiers mois.</p>
+                        <p><strong>Réaliste :</strong> Planifier et enregistrer à l’avance pour rester cohérent.</p>
+                        <p><strong>Temporel :</strong> Le premier épisode sera publié le 1er février 2025.</p>
+                    </blockquote>
+                </div>
+
+                <!-- Exemple 3 -->
+                <div class="carousel-item">
+                    <blockquote class="blockquote">
+                        <h5 class="section-title ">Réduction de la consommation énergétique</h5>
+                        <p><strong>Spécifique :</strong> Réduire de 20 % la consommation énergétique des bureaux.</p>
+                        <p><strong>Mesurable :</strong> Mesurer la consommation en kWh avant et après la mise en œuvre des actions.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Installer des capteurs de mouvement et encourager des pratiques économes.</p>
+                        <p><strong>Réaliste :</strong> Les coûts d’installation des capteurs sont budgétés.</p>
+                        <p><strong>Temporel :</strong> Objectif à atteindre avant décembre 2025.</p>
+                    </blockquote>
+                </div>
+
+                <!-- Exemple 4 -->
+                <div class="carousel-item">
+                    <blockquote class="blockquote">
+                        <h5 class="section-title ">Organisation d’un événement communautaire</h5>
+                        <p><strong>Spécifique :</strong> Organiser un événement sportif pour sensibiliser la communauté à l’importance de l’activité physique.</p>
+                        <p><strong>Mesurable :</strong> Réunir au moins 200 participants et collecter 5 000 € pour une association caritative.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Prévoir une course de 5 km, des activités pour les enfants et un stand d’information.</p>
+                        <p><strong>Réaliste :</strong> Collaborer avec les associations locales et obtenir des sponsors pour couvrir les coûts.</p>
+                        <p><strong>Temporel :</strong> L’événement aura lieu le 15 juin 2025.</p>
+                    </blockquote>
+                </div>
+
+                <!-- Exemple 5 -->
+                <div class="carousel-item">
+                    <blockquote class="blockquote">
+                        <h5 class="section-title ">Apprentissage d’une nouvelle compétence</h5>
+                        <p><strong>Spécifique :</strong> Apprendre à coder en Python pour automatiser des tâches au travail.</p>
+                        <p><strong>Mesurable :</strong> Suivre 3 cours en ligne et réaliser 5 projets pratiques en 6 mois.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Consacrer 5 heures par semaine à l’apprentissage et à la pratique.</p>
+                        <p><strong>Réaliste :</strong> Le cours sélectionné est adapté aux débutants, et les projets sont pertinents pour le travail.</p>
+                        <p><strong>Temporel :</strong> Finaliser les cours et projets avant le 30 juin 2025.</p>
+                    </blockquote>
+                </div>
+
+                <!-- Exemple 6 -->
+                <div class="carousel-item">
+                    <blockquote class="blockquote">
+                        <h5 class="section-title ">Développement d’un produit dans une startup</h5>
+                        <p><strong>Spécifique :</strong> Concevoir un prototype de drone pour les livraisons sur de courtes distances.</p>
+                        <p><strong>Mesurable :</strong> Construire un prototype fonctionnel qui passe 10 tests de vol sur une distance de 2 km.</p>
+                        <p><strong>Ambitieux mais atteignable :</strong> Recruter un ingénieur supplémentaire pour respecter les délais.</p>
+                        <p><strong>Réaliste :</strong> Les ressources financières et humaines nécessaires sont disponibles.</p>
+                        <p><strong>Temporel :</strong> Le prototype sera prêt pour une démonstration d’ici septembre 2025.</p>
+                    </blockquote>
+                </div>
+
+            </div>
+
+            <!-- Contrôles du carrousel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#smartExamplesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#smartExamplesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
+        </div>
+        </div>
+
+        <!-- Lien vers la page précédente -->
+        <div class="text-center">
+            <a href="{% url 'plans:things_to_achieve' %}" class="btn btn-secondary">Retour à Things to Achieve</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

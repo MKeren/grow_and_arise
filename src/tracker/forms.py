@@ -1,5 +1,5 @@
 from django import forms
-from .models import HabitTracking, Task, Habit
+from .models import AutoEvaluation, HabitTracking, Task, Habit
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -21,3 +21,16 @@ class HabitTrackingForm(forms.ModelForm):
     class Meta:
         model = HabitTracking
         fields = ["date", "completed"]
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = AutoEvaluation
+        fields = ['mots', 'sentiment', 'amelioration', 'fiers', 'difficultes', 'message']
+        widgets = {
+            'mots': forms.Textarea(attrs={'class': 'form-control'}),
+            'sentiment': forms.Textarea(attrs={'class': 'form-control'}),
+            'amelioration': forms.Textarea(attrs={'class': 'form-control'}),
+            'fiers': forms.Textarea(attrs={'class': 'form-control'}),
+            'difficultes': forms.Textarea(attrs={'class': 'form-control'}),
+            'message': forms.Textarea(attrs={'class': 'form-control'}),
+        }

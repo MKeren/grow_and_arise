@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Détails de l'évaluation du {{ evaluation.date }}</h1>
+
+    <div class="content-section">
+        <h3>Les 3 mots qui te définissent :</h3>
+        <p>{{ evaluation.mots }}</p>
+    </div>
+
+    <div class="content-section">
+        <h3>Comment tu te sens ?</h3>
+        <p>{{ evaluation.sentiment }}</p>
+    </div>
+
+    <div class="content-section">
+        <h3>Comment améliorer ce sentiment ?</h3>
+        <p>{{ evaluation.amelioration }}</p>
+    </div>
+
+    <div class="content-section">
+        <h3>Les 5 choses dont tu es fière :</h3>
+        <p>{{ evaluation.fiers }}</p>
+    </div>
+
+    <div class="content-section">
+        <h3>Difficultés rencontrées :</h3>
+        <p>{{ evaluation.difficultes }}</p>
+    </div>
+
+    <div class="content-section">
+        <h3>Message à Dieu :</h3>
+        <p>{{ evaluation.message }}</p>
+    </div>
+
+    <a href="{% url 'tracker:evaluation_list' %}" class="btn btn-secondary">Retour à la liste des évaluations</a>
+{% endblock %}

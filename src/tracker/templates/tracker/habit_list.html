@@ -1,21 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Habit List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Habitudes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Style personnalisé */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section h1 {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .header-section .btn {
+            background-color: #6dd5ed;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        .header-section .btn:hover {
+            background-color: #2193b0;
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2018/03/04/22/27/office-3199438_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: white;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .banner-overlay h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .banner-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+        }
+        table th {
+            background-color: #6dd5ed;
+            color: white;
+            font-size: 1.1rem;
+        }
+        table td {
+            background-color: #f8f9fa;
+        }
+        table tbody tr:nth-child(even) td {
+            background-color: #e9ecef;
+        }
+        table tbody tr:hover {
+            background-color: #dbe9f1;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Your Habit List</h1>
+<div class="container">
+    <!-- Banner Section -->
+    <div class="banner">
+        <div class="banner-overlay">
+            <h2>Organise et Suis Tes Habitudes</h2>
+            <p>La clé de la réussite réside dans les petites habitudes quotidiennes. Suis tes progrès et améliore-toi chaque jour !</p>
+        </div>
+    </div>
 
-    <!-- Button to create a new habit -->
-    <a href="{% url 'tracker:create_habit' %}" class="btn">Create New Habit</a>
+    <!-- Header Section -->
+    <div class="header-section">
+        <!-- Button to create a new habit -->
+        <a href="{% url 'tracker:create_habit' %}" class="btn">Créer une Nouvelle Habitude</a>
+    </div>
 
-    <table border="1">
+    <!-- Habit List Table -->
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Habit Name</th>
-                <th>Category</th>
-                <th>Frequency</th>
+                <th>Nom de l'Habitude</th>
+                <th>Catégorie</th>
+                <th>Fréquence</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,11 +124,15 @@
                 <td>{{ habit.category.name }}</td>
                 <td>{{ habit.get_frequency_display }}</td>
                 <td>
-                    <a href="{% url 'tracker:habit_report' habit.id %}">View Habit Report</a>
+                    <a href="{% url 'tracker:habit_report' habit.id %}" class="btn btn-info btn-sm">Voir le Rapport</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Things to Achieve</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill/dist/quill.snow.css">
+
+    <style>
+        body {
+            background-color: #f9fbfc;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2020/08/04/13/09/business-5462823_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: #fff;
+            text-align: center;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .banner-overlay h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .content-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .content-section h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content-section aside {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: #555;
+        }
+        .form-control, .form-check-label {
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #007bff;
+        }
+        .section-title {
+            color: #007bff;
+            margin-top: 20px;
+        }
+        .answer-text {
+            font-size: 1rem;
+            color: #555;
+        }
+        .quill-editor {
+            height: 300px;
+        }
+        
+        .transparent-bg {
+    background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
+    backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 15px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Espacement entre les sections */
+}
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Banner Section -->
+        <div class="banner">
+            <div class="banner-overlay">
+                <div class="content transparent-bg shadow-sm">
+                    <h1 class="text-center">🎯 Things to Achieve</h1>
+                    <p class="text-center">
+                        Décris les choses importantes que tu veux accomplir et planifie comment les atteindre.
+                    </p>
+            
+                </div>
+            </div>
+        </div>
+        <!-- Sommaire -->
+        <div class="content-section transparent-bg shadow-sm" style="border-left: 5px solid #e7e7e7;">
+                <p class="answer-text mb-4">
+                    C’est toujours important de mettre par écrit nos projets et les choses que l’on souhaite accomplir afin de les garder en vue tout le temps.
+                    Dans cette rubrique tu vas noter tout ce que tu as comme projet ainsi que les choses que tu souhaites apprendre par exemple.
+                    Ne te limite surtout pas écrit autant de choses que tu voudras.
+                </p>
+            
+                <div class="alert alert-info p-2 rounded" style="background-color: #e7f3fe; border-left: 5px solid #e6e8e8;">
+                    💡 <strong>Conseil :</strong> <em>Avant de commencer à noter tes objectifs et projets, 
+                        je te suggère de jeter un œil à cette méthode
+                        qui va t’aider à mettre au clair et bien définir la façon dont tu peux y arriver. 
+                        <a href="{% url 'tracker:smart_method' %}" class="btn btn-link">Smart Method</a>
+                </div>
+        </div>
+
+        <!-- Formulaire -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Objectif principal -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="main_goal">Ton objectif principal :</label>
+                    <div id="main_goal" class="quill-editor"></div>
+                    <textarea id="main_goal-text" name="main_goal" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+
+            <!-- Étapes pour atteindre cet objectif -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="steps">Les étapes nécessaires pour y parvenir :</label>
+                    <div id="steps" class="quill-editor"></div>
+                    <textarea id="steps-text" name="steps" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+
+            <!-- Motivation -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="motivation">Pourquoi est-ce important pour toi ?</label>
+                    <div id="motivation" class="quill-editor"></div>
+                    <textarea id="motivation-text" name="motivation" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+
+            <!-- Date limite -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="deadline">Date limite :</label>
+                    <input type="date" name="deadline" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Soumission -->
+            <div class="content-section text-center">
+                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/quill/dist/quill.min.js"></script>
+    <script>
+        var options = {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [] }, { 'font': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'align': [] }],
+                    ['bold', 'italic'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['blockquote', 'code-block'],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        };
+
+        // Initialisation des éditeurs Quill
+        var editorMainGoal = new Quill('#main_goal', options);
+        var editorSteps = new Quill('#steps', options);
+        var editorMotivation = new Quill('#motivation', options);
+
+        // Synchronisation des champs Quill avec les textareas
+        document.querySelector('form').addEventListener('submit', function (e) {
+            document.getElementById('main_goal-text').value = editorMainGoal.getText().trim();
+            document.getElementById('steps-text').value = editorSteps.getText().trim();
+            document.getElementById('motivation-text').value = editorMotivation.getText().trim();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

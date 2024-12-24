@@ -1,2 +1,170 @@
-<h1>{{ title }}</h1>
-<p>Page pour suivre et analyser vos finances.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilan de mes Finances</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-color: #f9fbfc;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2024/04/29/11/21/business-8727683_1280.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: #121111;
+            text-align: center;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .banner-overlay h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .dashboard {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .dashboard .card {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .dashboard .card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dashboard .card ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+        .content-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .content-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .preview-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .preview-box h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .btn-primary {
+            margin-top: 10px;
+        }
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Banner Section -->
+        <div class="banner">
+            <div class="banner-overlay">
+                <h2>Bilan de mes Finances</h2>
+                <p>Planifiez l'avenir en toute sérénité.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="dashboard mt-4">
+            <!-- 5 principes -->
+            <div class="card">
+                <h2>5 Principes Importants</h2>
+                <ul>
+                    <li>Savoir faire un budget</li>
+                    <li>Se débarrasser des dettes</li>
+                    <li>Veiller à entretenir des relations de qualité</li>
+                    <li>Épargner et investir</li>
+                    <li>Être généreux</li>
+                </ul>
+            </div>
+
+            <!-- 5 étapes -->
+            <div class="card">
+                <h2>5 Étapes pour Gérer Vos Finances</h2>
+                <ul>
+                    <li>Étape 1 : Rassembler vos documents</li>
+                    <li>Étape 2 : Analyser vos transactions</li>
+                    <li>Étape 3 : Se poser les bonnes questions</li>
+                    <li>Étape 4 : Définir vos nouveaux objectifs</li>
+                    <li>Étape 5 : Fixer votre nouveau budget</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Financial Overview Section -->
+        <div class="content-section">
+            <h2>Vue sur le tableau de ton bilan</h2>
+            <p>Aperçu rapide pour mieux vous évaluer.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="preview-box">
+                        <h4>Mois Actuel</h4>
+                        <a href="{% url 'plans:current_month' %}" class="btn btn-primary">Voir Détails</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="preview-box">
+                        <h4>Mois Précédent</h4>
+                        <a href="{% url 'plans:previous_month' %}" class="btn btn-primary">Voir Détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'core:home' %}" class="btn btn-link">Retour à l'accueil</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

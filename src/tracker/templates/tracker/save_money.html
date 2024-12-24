@@ -1,0 +1,25 @@
+<section class="saving-goals">
+    <h2>Objectifs d'Épargne</h2>
+    <div class="goal-form">
+        <h3>Ajouter un Objectif</h3>
+        <form id="goalForm">
+            <label for="goalName">Nom de l'objectif :</label>
+            <input type="text" id="goalName" placeholder="Ex: Vacances" required>
+
+            <label for="goalAmount">Montant cible (€):</label>
+            <input type="number" id="goalAmount" placeholder="Ex: 1000" required>
+
+            <label for="goalDeadline">Date limite :</label>
+            <input type="date" id="goalDeadline" required>
+
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+
+    <div class="goals-list">
+        <h3>Vos Objectifs</h3>
+        <ul id="goalsContainer">
+            <!-- Les objectifs apparaîtront ici -->
+        </ul>
+    </div>
+</section>

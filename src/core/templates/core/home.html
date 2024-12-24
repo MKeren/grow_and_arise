@@ -7,28 +7,58 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/Hom.css' %}">
-<style>
-    
+<style> 
 .welcome-section {
     margin-bottom: 20px; /* Ajoute de l'espace entre Welcome Section et le carousel */
+    background-color: white;
+    border-left: 5px solid #3a3a3a; /* Bordure colorée pour souligner l'inspiration */
+    font-family: Cardo serif;
 }
 
    .inspirational-section {
     background-color: white;
-    border-left: 5px solid #007bff; /* Bordure colorée pour souligner l'inspiration */
-    font-family: 'Georgia', serif;
+    border-left: 5px solid #3a3a3a; /* Bordure colorée pour souligner l'inspiration */
+    font-family: Cardo serif;
+
 }
 
 .inspirational-section h4 {
-    color: #007bff;
+    color: #3a3a3a !important;
+    font-family: Cardo serif;
 }
 
 .inspirational-section p {
     font-size: 1.2rem;
     line-height: 1.6;
     margin-top: 10px;
+}
+
+.daily-reminder-section h2{
+    color: #3a3a3a !important;
+    font-family: Cardo serif;
+}
+
+.daily-reminder-section p{
+    font-size: 35px;
+    text-align: center;
+}
+
+.carousel-item h1{
+    font-family: Cardo sans-serif;
+}
+
+.row h5{
+    font-family: Cardo sans-serif ;
+    font-size: 30px;
+}
+
+.row ,ul{
+    font-size: 20px;
+    font-family: Cardo sans-serif ;
 }
  
 </style>
@@ -99,20 +129,21 @@ a:hover {
 
 <div class="container">
     <!-- Welcome Section -->
-    <div class="p-4 mb-4 bg-gradient text-white rounded" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
-        <!-- Welcome Section (fixe) -->
-        <div>
-            <h1 class="mb-3 text-uppercase fw-bold">Bienvenue dans ton espace {{ user.username }} !</h1>
-            
+    <div class="welcome-section bg-gradient p-4 bg-light bg-opacity-75 shadow-sm rounded">  
+        <div>   
+            <h1 id="welcome-message" class="mb-3 fw-bold" style="font-family: Cardo serif !important; color: #3a3a3a;"></h1>
         </div>
-    
-        <!-- Carousel pour Inspirational Section et Daily Reminder -->
+        <!-- Welcome Section (fixe) -->
+        <div id="welcome-section" class="p-4 bg-light bg-opacity-75 shadow-sm rounded" style="height: 350px; background-size: cover; background-position: center;">
+            <!-- Carousel pour Inspirational Section et Daily Reminder -->
         <div id="dynamicContentCarousel" class="carousel slide mt-4" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 <!-- Inspirational Section -->
                 <div class="carousel-item active">
-                    <div class="inspirational-section p-4 bg-light bg-opacity-75 shadow-sm rounded">
-                        <h4 class="fw-bold text-primary">✨ Inspirational Quote of the Moment</h4>
+                    <div class="daily-reminder-section p-4 bg-light bg-opacity-75 shadow-sm rounded" style="height: 200px;">
+                        <h2 class="fw-bold text-primary"><i class="fa-solid fa-feather" style="color: gold; margin-right: 5px;"></i> Inspirational Quote of the Moment
+
+                        </h2>
                         <p id="inspirationalText" class="fst-italic text-secondary">
                             <!-- La citation sera injectée ici par JavaScript -->
                         </p>
@@ -121,12 +152,14 @@ a:hover {
     
                 <!-- Daily Reminder -->
                 <div class="carousel-item">
-                    <div class="daily-reminder-section p-4 bg-light bg-opacity-75 rounded shadow-sm">
-                        <h4 class="fw-bold text-primary">🍀 Daily Reminder: “Something good is going to happen to me, because God is good!”</h4>
+                    <div class="daily-reminder-section p-4 bg-light bg-opacity-75 rounded shadow-sm" style="height: 250px;">    
+                        <h2 class="fw-bold text-primary"><i class="fa-solid fa-bell" style="color: #ff9800; margin-right: 5px;"></i> Daily Reminder :
+                            <em style="font-size: 25px !important; color: #636161;">“Something good is going to happen to me, because God is good!”</em></h2>
+                        
                         <blockquote class="blockquote">
-                            <p id="verse" style="color: black !important;"></p>
+                            <p class="fst-italic text-secondary" id="verse" style="color: black !important; font-size: 20px;"></p>
                         </blockquote>
-                        <p id="encouragement" style="color: black;"></p>
+                        <p class="fst-italic text-secondary" id="encouragement" style="color: black; font-size: 22px;"></p>
                     </div>
                 </div>
             </div>
@@ -141,39 +174,40 @@ a:hover {
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        </div>
     </div>
     
 <!-- Encouragement and Widgets Section -->
-<div class="container mb-4">
+<div class="container mb-4 bg-gradient p-4 bg-light bg-opacity-75 shadow-sm rounded">
     <div class="row">
         <!-- Section Encouragement -->
         <div class="col-md-6 mb-4">
             <div class="p-4 mb-4 shadow-sm rounded bg-gradient" style="height: 400px;">
-                <h3 class="fw-bold text-white text-center" style="text-decoration: underline;">7 life-defining pre-decisions to keep in mind:</h3>
+                <h1 class="fw-bold text-center" style="text-decoration: underline;font-family: Cardo serif; color: #3a3a3a;">7 life-defining pre-decisions to keep in mind:</h1>
                 <div id="encouragementCarousel" class="carousel slide" data-bs-ride="carousel" style="height: calc(100% - 60px); display: flex; align-items: center;">
                     <div class="carousel-inner text-white text-center">
-                        <div class="p-4 mb-4 shadow-sm rounded bg-gradient position-relative" style="height: 200px;background: url('https://cdn.pixabay.com/photo/2020/02/02/03/41/man-4811938_1280.jpg') no-repeat center center / cover !important;">
+                        <div class="p-4 mb-4 shadow-sm rounded bg-gradient position-relative" style="height: 200px;background: url('https://cdn.pixabay.com/photo/2024/12/08/23/10/woman-9253765_1280.png') no-repeat center center / cover !important;">
                             <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                             <div class="carousel-item active">
-                                <h1 class="fw-bold">🔑 I will be a finisher</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be a finisher</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be ready</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be ready</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be an influencer</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be an influencer</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be devoted</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be devoted</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be generous</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be generous</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be faithful</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be faithful</h1>
                             </div>
                             <div class="carousel-item">
-                                <h1 class="fw-bold">🔑 I will be consistent</h1>
+                                <h1 class="fw-bold" style="margin-top: 10%;">🔑 I will be consistent</h1>
                             </div>
                         </div></div>
                         <!-- Carousel Controls -->
@@ -192,7 +226,7 @@ a:hover {
         <!-- Section Widgets -->
         <div class="col-md-6 mb-4">
             <div class="p-4 mb-4 shadow-sm rounded bg-gradient" style="height: 400px;">
-                <h3 class="fw-bold text-white text-center" style="text-decoration: underline;"> Widgets Utiles</h3>
+                <h1 class="fw-bold text-center" style="text-decoration: underline; font-family: Cardo serif; color: #3a3a3a;"> Useful Widgets</h1>
                 <div id="widgetsCarousel" class="carousel slide" data-bs-ride="carousel" style="height: calc(100% - 60px); display: flex; align-items: center;">
                     <div class="carousel-inner text-center">
                         <div class="carousel-item active">
@@ -237,22 +271,20 @@ a:hover {
 </div>
 
 <!-- Section Toolbox -->
-<div class="container mb-4">
+<div class="container mb-4 bg-gradient p-4 bg-light bg-opacity-75 shadow-sm rounded">
     <div class="p-4 mb-4 shadow-sm rounded bg-gradient" >
-    <h4 class="fw-bold text-white text-center mb-4">🧰 Ma Boîte à Outils</h4>
+    <h1 class="fw-bold text-center" style="text-decoration: underline;font-family: Cardo serif; color: #3a3a3a;"><i class="fa-solid fa-cogs"></i>Toolbox</h1>
     
     <div class="row g-4">
         <!-- Section 1: My Daily Success Tools -->
         <div class="col-md-6">
-            <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2021/01/28/07/00/checklist-5957074_1280.jpg') no-repeat center center / cover;">
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
+            <div class="p-4 shadow-sm rounded position-relative" style="height: 200px; background: url('https://cdn.pixabay.com/photo/2017/02/18/11/00/checklist-2077020_1280.jpg') no-repeat center center / cover;">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
-                    <h5 class="fw-bold">✨ My Daily Success Tools</h5>
+                    <h5 class="fw-bold">✨ My Daily Tools</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-calendar-day text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Planning de la Journée</a></li>
-                        <li><i class="fas fa-stream text-info me-2"></i><a href="{% url 'tracker:habits' %}" class="text-white">Mes Routines Journalières</a></li>
+                        <li><i class="fas fa-calendar-check text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Daily Planning</a></li>
+                        <li><i class="fas fa-stream text-info me-2"></i><a href="{% url 'tracker:habits' %}" class="text-white">Habit Tracker</a></li>
                     </ul>
                 </div>
             </div>
@@ -261,79 +293,84 @@ a:hover {
         <!-- Section 2: My Plans -->
         <div class="col-md-6">
             <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2015/09/02/12/41/office-918428_1280.jpg') no-repeat center center / cover;">
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2019/03/14/08/21/kanban-4054379_1280.jpg') no-repeat center center / cover;">
                 <div class="position-absolute top-0 start-0 w-100 h-100" 
                      style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
                     <h5 class="fw-bold">📋 My Plans</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-wallet text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">Bilan de Mes Finances</a></li>
-                        <li><i class="fas fa-heart text-primary me-2"></i><a href="{% url 'tracker:self_evaluation' %}" class="text-white">Auto-évaluation</a></li>
+                        <li><i class="fas fa-chart-line text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Succes Plan</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
+    
         <!-- Section 3: Finances and Budget -->
         <div class="col-md-6">
             <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2016/11/22/19/03/checkbook-1850938_1280.jpg') no-repeat center center / cover;">
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2012/09/20/20/39/accounting-57284_1280.jpg') no-repeat center center / cover;">
                 <div class="position-absolute top-0 start-0 w-100 h-100" 
                      style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
                     <h5 class="fw-bold">💰 Finances and Budget</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-wallet text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">Bilan de Mes Finances</a></li>
+                        <li><i class="fas fa-piggy-bank text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">My Finances Overview</a></li>
+                        <li><i class="fas fa-credit-card text-danger me-2"></i><a href="{% url 'plans:finance_review' %}" class="text-white">Finance Overview</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
+    
         <!-- Section 4: Relationship with God -->
         <div class="col-md-6">
             <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2017/02/07/11/29/people-2045566_1280.jpg') no-repeat center center / cover;">
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2021/11/02/21/57/prayer-6764197_1280.jpg') no-repeat center center / cover;">
                 <div class="position-absolute top-0 start-0 w-100 h-100" 
                      style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
-                    <h5 class="fw-bold">🙏 Relationship with God</h5>
+                    <h5 class="fw-bold">🙏 Devotional Section</h5>
                     <ul class="list-unstyled">
                         <li><i class="fas fa-praying-hands text-success me-2"></i><a href="{% url 'core:prayer_room' %}" class="text-white">My Prayer Room</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
+    
         <!-- Section 5: Tips -->
         <div class="col-md-6">
             <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2017/03/27/14/56/smart-2173106_1280.jpg') no-repeat center center / cover;">
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2021/02/20/09/42/carpenter-6032792_1280.jpg') no-repeat center center / cover;">
                 <div class="position-absolute top-0 start-0 w-100 h-100" 
                      style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
                     <h5 class="fw-bold">💡 Tips</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-lightbulb text-warning me-2"></i><a href="{% url 'tracker:no_procrastination' %}" class="text-white">Conseils pour ne plus procrastiner</a></li>
+                        <li><i class="fas fa-bell-slash text-warning me-2"></i><a href="{% url 'tracker:no_procrastination' %}" class="text-white">Overcoming Procrastination</a></li>
+                        <li><i class="fas fa-clock text-warning me-2"></i><a href="{% url 'tracker:pomodoro' %}" class="text-white">Pomodoro Technique</a></li>
+                        <li><i class="fas fa-check-circle text-warning me-2"></i><a href="{% url 'tracker:smart_method' %}" class="text-white">SMART Goals</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Section 6: Bilans -->
+    
+        <!-- Section 6: Reviews -->
         <div class="col-md-6">
             <div class="p-4 shadow-sm rounded position-relative" 
-                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2016/02/19/10/00/graph-1206576_1280.jpg') no-repeat center center / cover;">
+                 style="height: 200px; background: url('https://cdn.pixabay.com/photo/2015/11/03/09/24/graphic-1020365_1280.jpg') no-repeat center center / cover;">
                 <div class="position-absolute top-0 start-0 w-100 h-100" 
                      style="background-color: rgba(0, 0, 0, 0.5); border-radius: inherit;"></div>
                 <div class="position-relative text-white">
-                    <h5 class="fw-bold">📊 Bilans</h5>
+                    <h5 class="fw-bold">📊 Reviews</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-chart-line text-warning me-2"></i><a href="{% url 'plans:daily_planning' %}" class="text-white">Bilan Quotidien</a></li>
+                        <li><i class="fas fa-tasks text-info me-2"></i><a href="{% url 'plans:things_to_achieve' %}" class="text-white">Things to Achieve</a></li>
+                        <li><i class="fas fa-check-square text-primary me-2"></i><a href="{% url 'tracker:self_evaluation' %}" class="text-white">Self Evaluation</a></li>
+                    
                     </ul>
                 </div>
             </div>
         </div>
-    </div></div>
+    </div>
+       
 </div>
 
 
@@ -509,4 +546,56 @@ getInspirationalQuote();
 
 </script>
 
+<script>
+    // Remplacez cette variable par le nom de l'utilisateur obtenu dynamiquement (par exemple, via une variable Django)
+    const userName = "{{ user.username }}";
+
+    // Fonction pour définir l'arrière-plan et le message de bienvenue en fonction de l'heure
+    function updateWelcomeSection() {
+        const currentHour = new Date().getHours();
+        const welcomeMessage = document.getElementById("welcome-message");
+        const welcomeSection = document.getElementById("welcome-section");
+        
+        let message = "";
+        let backgroundUrl = "";
+        let icon = ""; // Icône correspondant au moment de la journée
+
+        // Définir le message et l'image selon l'heure
+        if (currentHour >= 0 && currentHour < 6) {
+            message = `Good Morning, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2017/07/08/17/44/daisies-2485064_1280.jpg";
+            icon = `<i class="fa-solid fa-moon" style="color: #673ab7; margin-right: 10px;"></i>`;
+            icon = `<i class="fa-solid fa-sun" style="color: #fbc02d; margin-right: 10px;"></i>`;
+        } else if (currentHour >= 6 && currentHour < 12) {
+            message = `Good Morning, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2019/08/02/14/33/gerbera-4379811_1280.jpg";
+
+        } else if (currentHour >= 12 && currentHour < 14) {
+            message = `Good Afternoon, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2019/07/22/14/31/heart-4355253_1280.jpg";
+            icon = `<i class="fa-solid fa-clock" style="color: #ffa726; margin-right: 10px;"></i>`;
+        } else if (currentHour >= 14 && currentHour < 18) {
+            message = `Good Afternoon, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2019/01/24/10/42/nature-3952236_1280.jpg";
+            icon = `<i class="fa-solid fa-clock" style="color: #ffa726; margin-right: 10px;"></i>`;
+        } else if (currentHour >= 18 && currentHour < 22) {
+            message = `Good Evening, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2022/07/27/03/23/shilouette-7347044_1280.jpg";
+            icon = `<i class="fa-solid fa-moon" style="color: #673ab7; margin-right: 10px;"></i>`;
+        } else {
+            message = `Good Evening, ${userName}!`;
+            backgroundUrl = "https://cdn.pixabay.com/photo/2024/11/13/08/47/city-9193823_1280.jpg";
+            icon = `<i class="fa-solid fa-moon" style="color: #673ab7; margin-right: 10px;"></i>`;
+        }
+
+        // Mettre à jour le texte, l'icône et l'arrière-plan
+        welcomeMessage.innerHTML = `${icon} ${message}`; // Ajouter l'icône au message
+        welcomeSection.style.backgroundImage = `url(${backgroundUrl})`;
+        welcomeSection.style.backgroundSize = "cover";
+        welcomeSection.style.backgroundRepeat = "no-repeat";
+    }
+
+    // Appeler la fonction au chargement de la page
+    updateWelcomeSection();
+</script>
 {% endblock %}

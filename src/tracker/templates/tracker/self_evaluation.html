@@ -1,2 +1,306 @@
-<h1>{{ title }}</h1>
-<p>Page pour évaluer vos progrès personnels.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Évaluation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-color: #f9fbfc;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2021/12/22/03/11/self-care-6886598_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: #fff;
+            text-align: center;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .banner-overlay h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .content-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .content-section h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content-section aside {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: #555;
+        }
+        .form-control, .form-check-label {
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #007bff;
+        }
+        .section-title {
+            color: #007bff;
+            margin-top: 20px;
+        }
+        .answer-text {
+            font-size: 1rem;
+            color: #555;
+        }
+        .quill-editor {
+            height: 300px;
+        }
+        
+        .transparent-bg {
+    background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
+    backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 15px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Espacement entre les sections */
+}
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+        <!-- Banner Section -->
+        <div class="banner">
+            <div class="banner-overlay">
+                <div class="content transparent-bg shadow-sm">
+                    <h2>Auto Évaluation</h2>
+                    <p>Évalue-toi pour mieux avancer avec Dieu et dans ta vie.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Auto Évaluation Content Section -->
+        <div class="content-section transparent-bg shadow-sm" style="border-left: 5px solid #e7e7e7;">
+                <p class="answer-text mb-4">
+                    L’auto-évaluation te permettra de réaliser où tu en es et ainsi t’aider à mieux te projeter pour la suite. 
+                    Tout ce que tu noteras ici est strictement confidentiel et tu es le seul à y avoir accès, alors sens-toi libre de t’exprimer comme tu veux.
+                </p>
+            
+                <div class="alert alert-info p-2 rounded" style="background-color: #e7f3fe; border-left: 5px solid #e6e8e8;">
+                    💡 <strong>Conseil :</strong> <em>Prends ton temps pour cette évaluation, elle t'aidera à mieux comprendre ton parcours et tes objectifs.</em> 
+                    C’est un moment personnel, alors sois honnête avec toi-même. 😉
+                </div>
+        </div>
+
+       
+        <form method="POST">
+            {% csrf_token %}
+            <!-- 3 Mots qui te définissent -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="mots">Les 3 mots qui te définissent en ce moment :</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="mot_1" class="quill-editor"></div>
+                            <textarea id="mot_1-text" name="mot_1" class="form-control" style="display:none;"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="mot_2" class="quill-editor"></div>
+                            <textarea id="mot_2-text" name="mot_2" class="form-control" style="display:none;"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="mot_3" class="quill-editor"></div>
+                            <textarea id="mot_3-text" name="mot_3" class="form-control" style="display:none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Comment tu te sens -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="sentiment">Comment tu te sens ?</label>
+                    <div id="sentiment" class="quill-editor"></div>
+                    <textarea id="sentiment-text" name="sentiment" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+        
+            <!-- Comment améliorer ce sentiment -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="amelioration">Comment tu peux améliorer ce sentiment ?</label>
+                    <div id="amelioration" class="quill-editor"></div>
+                    <textarea id="amelioration-text" name="amelioration" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+        
+            <!-- Les 5 choses dont tu es fière -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="fiers">Les 5 choses pour lesquelles je suis fière de moi :</label>
+                    <div id="fiers" class="quill-editor"></div>
+                    <textarea id="fiers-text" name="fiers" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+        
+            <!-- Difficultés rencontrées -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="difficultes">Tu as rencontré des difficultés ?</label>
+                    <div id="difficultes" class="quill-editor"></div>
+                    <textarea id="difficultes-text" name="difficultes" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+        
+            <!-- Message à Dieu -->
+            <div class="content-section">
+                <div class="form-group">
+                    <label class="section-title" for="message">🙏🏼 Si tu avais un mot à adresser à Dieu en guise de reconnaissance, ça serait…</label>
+                    <div id="message" class="quill-editor"></div>
+                    <textarea id="message-text" name="message" class="form-control" style="display:none;"></textarea>
+                </div>
+            </div>
+        
+            <!-- Fin du Formulaire -->
+            <div class="content-section">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Soumettre ton Auto-évaluation</button>
+                </div>
+            </div>
+        </form>
+        
+            <hr>
+
+            <!-- Suggestions de pages à consulter -->
+            <div class="content-section">
+            <h3 class="text-center section-title">📊 Pour mieux t’évaluer, je te suggère également de voir comment tu as géré ton argent et suivi tes habitudes.</h3>
+            <aside class="text-center">
+                👇🏻<br>
+                Voici les pages que tu dois consulter :
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'plans:finance_review' %}" class="btn btn-link">BILAN DE MES FINANCES</a></li>
+                    <li><a href="{% url 'tracker:habits' %}" class="btn btn-link">MES ROUTINES JOURNALIÈRES</a></li>
+                </ul>
+            </aside>
+            </div>
+
+            <hr>
+
+            <!-- Retour à la page d'accueil -->
+            <h3 class="text-center">— Pour revenir à la page d'accueil —</h3>
+            <div class="text-center">
+                <a href="{% url 'core:home' %}" class="btn btn-link">Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.6/dist/quill.min.js"></script>
+    <script>
+        var options = {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [] }, { 'font': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'align': [] }],
+                    ['bold', 'italic'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['blockquote', 'code-block'],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        };
+
+        var quillMot1 = new Quill('#mot_1', options);
+        var quillMot2 = new Quill('#mot_2', options);
+        var quillMot3 = new Quill('#mot_3', options);
+
+        var quillSentiment = new Quill('#sentiment', options);
+        var quillAmelioration = new Quill('#amelioration', options);
+        var quillFiers = new Quill('#fiers', options);
+        var quillDifficultes = new Quill('#difficultes', options);
+        var quillMessage = new Quill('#message', options);
+
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+    // Synchroniser les contenus des éditeurs Quill avec les textareas cachés
+    document.getElementById('mot_1-text').value = editorMot1.getText().trim();
+    document.getElementById('mot_2-text').value = editorMot2.getText().trim();
+    document.getElementById('mot_3-text').value = editorMot3.getText().trim();
+    document.getElementById('sentiment-text').value = editorSentiment.getText().trim();
+    document.getElementById('amelioration-text').value = editorAmelioration.getText().trim();
+    document.getElementById('fiers-text').value = editorFiers.getText().trim();
+    document.getElementById('difficultes-text').value = editorDifficultes.getText().trim();
+    document.getElementById('message-text').value = editorMessage.getText().trim();
+});
+
+    </script>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+    console.log("Mot 1:", editorMot1.getText().trim());
+    console.log("Mot 2:", editorMot2.getText().trim());
+    console.log("Mot 3:", editorMot3.getText().trim());
+    console.log("Sentiment:", editorSentiment.getText().trim());
+    console.log("Amélioration:", editorAmelioration.getText().trim());
+    console.log("Fiers:", editorFiers.getText().trim());
+    console.log("Difficultés:", editorDifficultes.getText().trim());
+    console.log("Message:", editorMessage.getText().trim());
+
+    // Synchroniser les contenus des éditeurs Quill avec les textareas
+    document.getElementById('mot_1-text').value = editorMot1.getText().trim();
+    document.getElementById('mot_2-text').value = editorMot2.getText().trim();
+    document.getElementById('mot_3-text').value = editorMot3.getText().trim();
+    document.getElementById('sentiment-text').value = editorSentiment.getText().trim();
+    document.getElementById('amelioration-text').value = editorAmelioration.getText().trim();
+    document.getElementById('fiers-text').value = editorFiers.getText().trim();
+    document.getElementById('difficultes-text').value = editorDifficultes.getText().trim();
+    document.getElementById('message-text').value = editorMessage.getText().trim();
+});
+
+editorMot1.on('text-change', function () {
+    console.log("Contenu de Mot 1:", editorMot1.getText());
+});
+
+    </script>
+
+</body>
+</html>
+{% endblock %}

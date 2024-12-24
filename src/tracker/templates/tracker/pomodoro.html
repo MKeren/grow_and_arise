@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technique Pomodoro Améliorée</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .pomodoro-container {
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .pomodoro-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-start {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-pause {
+            background-color: #ffc107;
+            color: #fff;
+        }
+
+        .btn-reset {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .phase {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .task-counter {
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+
+        .task-counter span {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .btn-task {
+            margin-top: 10px;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="pomodoro-container">
+        <h1 class="pomodoro-title">⏱ Technique Pomodoro Améliorée</h1>
+        <div class="timer" id="timer">25:00</div>
+        <p class="phase" id="phase">Phase : Focus</p>
+
+        <div class="btn-container">
+            <button class="btn btn-start" id="start">Démarrer</button>
+            <button class="btn btn-pause" id="pause">Pause</button>
+            <button class="btn btn-reset" id="reset">Réinitialiser</button>
+        </div>
+
+        <div class="task-counter">
+            Tâches terminées : <span id="task-count">0</span>
+        </div>
+        <button class="btn btn-task" id="add-task">Ajouter une tâche terminée</button>
+    </div>
+
+    <audio id="alert-sound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+
+    <script>
+        let timerDisplay = document.getElementById("timer");
+        let phaseDisplay = document.getElementById("phase");
+        let startButton = document.getElementById("start");
+        let pauseButton = document.getElementById("pause");
+        let resetButton = document.getElementById("reset");
+        let taskCountDisplay = document.getElementById("task-count");
+        let addTaskButton = document.getElementById("add-task");
+        let alertSound = document.getElementById("alert-sound");
+
+        // Initial values
+        let focusTime = 25 * 60; // 25 minutes
+        let shortBreakTime = 5 * 60; // 5 minutes
+        let longBreakTime = 15 * 60; // 15 minutes
+        let currentTime = focusTime;
+        let isPaused = true;
+        let phase = "Focus"; // Default phase
+        let cycles = 0;
+        let timerInterval;
+        let taskCount = localStorage.getItem("taskCount") || 0;
+
+        // Update task count display
+        taskCountDisplay.textContent = taskCount;
+
+        // Update timer display
+        function updateTimerDisplay() {
+            let minutes = Math.floor(currentTime / 60);
+            let seconds = currentTime % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
+                .toString()
+                .padStart(2, "0")}`;
+        }
+
+        // Play alert sound
+        function playAlertSound() {
+            alertSound.play();
+        }
+
+        // Switch phase
+        function switchPhase() {
+            if (phase === "Focus") {
+                cycles++;
+                if (cycles % 4 === 0) {
+                    phase = "Pause longue";
+                    currentTime = longBreakTime;
+                } else {
+                    phase = "Pause courte";
+                    currentTime = shortBreakTime;
+                }
+            } else {
+                phase = "Focus";
+                currentTime = focusTime;
+            }
+            phaseDisplay.textContent = `Phase : ${phase}`;
+            updateTimerDisplay();
+            playAlertSound(); // Play sound when switching phase
+        }
+
+        // Timer countdown logic
+        function startTimer() {
+            if (isPaused) {
+                isPaused = false;
+                timerInterval = setInterval(() => {
+                    if (currentTime > 0) {
+                        currentTime--;
+                        updateTimerDisplay();
+                    } else {
+                        switchPhase();
+                    }
+                }, 1000);
+            }
+        }
+
+        // Pause timer
+        function pauseTimer() {
+            isPaused = true;
+            clearInterval(timerInterval);
+        }
+
+        // Reset timer
+        function resetTimer() {
+            isPaused = true;
+            clearInterval(timerInterval);
+            phase = "Focus";
+            currentTime = focusTime;
+            cycles = 0;
+            phaseDisplay.textContent = `Phase : ${phase}`;
+            updateTimerDisplay();
+        }
+
+        // Add task
+        function addTask() {
+            taskCount++;
+            localStorage.setItem("taskCount", taskCount);
+            taskCountDisplay.textContent = taskCount;
+        }
+
+        // Event listeners
+        startButton.addEventListener("click", startTimer);
+        pauseButton.addEventListener("click", pauseTimer);
+        resetButton.addEventListener("click", resetTimer);
+        addTaskButton.addEventListener("click", addTask);
+
+        // Initial display
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
+{% endblock %}

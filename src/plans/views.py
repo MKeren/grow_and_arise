@@ -1,6 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from rest_framework import viewsets
-from .models import Plan
+from .models import Plan, ThingsToAchieve
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -60,3 +61,28 @@ def my_view(request):
     my_string = "lundi,mardi,mercredi"  # Exemple
     split_days = my_string.split(",")
     return render(request, "plans/template.html", {"split_days": split_days})
+
+def current_month(request):
+    return render(request, 'plans/current_month.html')
+
+def previous_month(request):
+    return render(request, 'plans/previous_month.html')
+
+def things_to_achieve(request):
+    if request.method == 'POST':
+        main_goal = request.POST.get('main_goal', '').strip()
+        steps = request.POST.get('steps', '').strip()
+        motivation = request.POST.get('motivation', '').strip()
+        deadline = request.POST.get('deadline', '').strip()
+
+        # Sauvegarde dans la base de données
+        ThingsToAchieve.objects.create(
+            user=request.user,
+            main_goal=main_goal,
+            steps=steps,
+            motivation=motivation,
+            deadline=deadline
+        )
+        return HttpResponseRedirect('/success-page/')  # Redirige après soumission
+
+    return render(request, 'plans/things_to_achieve.html')

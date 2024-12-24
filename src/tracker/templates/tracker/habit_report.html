@@ -1,46 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Habit Report for {{ habit.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de l'Habitude : {{ habit.name }}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Style personnalisé */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section h1 {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .header-section .btn {
+            background-color: #6dd5ed;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        .header-section .btn:hover {
+            background-color: #2193b0;
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2018/03/04/22/27/office-3199438_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: white;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .banner-overlay h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .banner-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .report-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .report-section h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .report-section p {
+            font-size: 1.1rem;
+        }
+        .btn-back {
+            background-color: #e9ecef;
+            color: #6c757d;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+        .btn-back:hover {
+            background-color: #ced4da;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Habit Report for "{{ habit.name }}"</h1>
-    <p><strong>Motivation:</strong> {{ habit.motivation }}</p>
-    <p><strong>Category:</strong> {{ habit.category }}</p>
-    <p><strong>Frequency:</strong> {{ habit.get_frequency_display }}</p>
+<div class="container">
+    <!-- Banner Section -->
+    <div class="banner">
+        <div class="banner-overlay">
+            <h2>Rapport de l'Habitude : {{ habit.name }}</h2>
+            <p>Analyse de tes progrès pour cette habitude.</p>
+        </div>
+    </div>
 
-    <h2>Progress Summary</h2>
-    <canvas id="progressChart" width="400" height="200"></canvas>
+    <!-- Header Section -->
+    <div class="header-section">
+        <!-- Button to go back to Habit List -->
+        <a href="{% url 'tracker:habits' %}" class="btn-back">Retour à la Liste des Habitudes</a>
+    </div>
 
-    <h2>Habit Tracking Table</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Completed</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for date, completed in progress.items %}
-            <tr>
-                <td>{{ date }}</td>
-                <td>
-                    <input type="checkbox" {% if completed %}checked{% endif %} disabled>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Habit Report Section -->
+    <div class="report-section">
+        <h3>Informations de l'Habitude</h3>
+        <p><strong>Motivation :</strong> {{ habit.motivation }}</p>
+        <p><strong>Catégorie :</strong> {{ habit.category }}</p>
+        <p><strong>Fréquence :</strong> {{ habit.get_frequency_display }}</p>
 
-     <!-- Form to update tracking -->
-     <h3>Update Tracking</h3>
-     <form method="POST">
-         {% csrf_token %}
-         {{ tracking_form.as_p }}
-         <button type="submit">Update Tracking</button>
-     </form>
+        <!-- Progress Chart -->
+        <h4>Résumé des Progrès</h4>
+        <canvas id="progressChart" width="400" height="200"></canvas>
+
+        <h4>Tableau de Suivi de l'Habitude</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Complété</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for date, completed in progress.items %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>
+                        <input type="checkbox" {% if completed %}checked{% endif %} disabled>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Form to update tracking -->
+        <h3>Mettre à jour le Suivi</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ tracking_form.as_p }}
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        </form>
+    </div>
 
     <!-- Add data in a script tag for safety -->
     <script type="application/json" id="chart-data">
@@ -58,9 +164,9 @@
         const progressChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Completed', 'Missed'],
+                labels: ['Complété', 'Manqué'],
                 datasets: [{
-                    label: 'Progress',
+                    label: 'Progrès',
                     data: [chartData.completed_count, chartData.missed_count],
                     backgroundColor: ['#4caf50', '#f44336'], // Green and red
                     borderColor: ['#4caf50', '#f44336'],
@@ -88,5 +194,9 @@
             }
         });
     </script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+{% endblock %}

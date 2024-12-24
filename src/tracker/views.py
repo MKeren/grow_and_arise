@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Task, Habit
-from .forms import HabitTrackingForm, TaskForm, HabitForm
+from .models import AutoEvaluation, Task, Habit
+from .forms import EvaluationForm, HabitTrackingForm, TaskForm, HabitForm
 from django.views.generic.edit import CreateView
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
@@ -32,8 +32,53 @@ def create_task(request):
         form = TaskForm()
     return render(request, 'tracker/create_task.html', {'form': form})
 
+@login_required
 def self_evaluation(request):
-    return render(request, 'tracker/self_evaluation.html', {'title': _('Auto-évaluation')})
+    if request.method == 'POST':
+        print(request.POST)  # Affiche les données reçues
+        
+        mots_1 = request.POST.get('mots_1', '').strip()
+        mots_2 = request.POST.get('mots_2', '').strip()
+        mots_3 = request.POST.get('mots_3', '').strip()
+        sentiment = request.POST.get('sentiment', '').strip()
+        amelioration = request.POST.get('amelioration', '').strip()
+        fiers = request.POST.get('fiers', '').strip()
+        difficultes = request.POST.get('difficultes', '').strip()
+        message = request.POST.get('message', '').strip()
+
+        # Combine les 3 mots en une seule chaîne pour correspondre au champ `mots`
+        mots = ', '.join(filter(None, [mots_1, mots_2, mots_3]))
+
+        # Crée une nouvelle instance AutoEvaluation et enregistre-la
+        evaluation = AutoEvaluation.objects.create(
+            user=request.user,
+            mots=mots,
+            sentiment=sentiment,
+            amelioration=amelioration,
+            fiers=fiers,
+            difficultes=difficultes,
+            message=message
+        )
+        evaluation.save()
+
+        return redirect('tracker:evaluation_list')  # Redirige vers la liste des évaluations
+
+    return render(request, 'tracker/self_evaluation.html')
+
+@login_required
+def evaluation_list(request):
+    # Récupérer toutes les évaluations de l'utilisateur connecté, triées par date
+    evaluations = AutoEvaluation.objects.filter(user=request.user).order_by('-date')
+    
+    # Passer les évaluations au template
+    return render(request, 'tracker/evaluation_list.html', {'evaluations': evaluations})
+
+@login_required
+def evaluation_detail(request, evaluation_id):
+    # Récupérer l'évaluation par son ID et s'assurer qu'elle appartient à l'utilisateur connecté
+    evaluation = get_object_or_404(AutoEvaluation, id=evaluation_id, user=request.user)
+    
+    return render(request, 'tracker/evaluation_detail.html', {'evaluation': evaluation})
 
 def smart_method(request):
     return render(request, 'tracker/smart_method.html', {'title': _('La Méthode SMART')})
@@ -112,3 +157,6 @@ def load_categories():
     categories = ["Food", "Self-care", "Perfect Morning", "Self-development", "Family"]
     for category in categories:
         HabitCategory.objects.get_or_create(name=category)
+
+def pomodoro_view(request):
+    return render(request, 'tracker/pomodoro.html')
