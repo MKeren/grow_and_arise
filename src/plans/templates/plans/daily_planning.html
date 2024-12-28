@@ -8,217 +8,596 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planning de la Journée</title>
-    <!-- DataTables CSS -->
+
+    <!-- CSS pour DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <!-- jQuery (obligatoire pour DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
-    <!-- Liens vers Bootstrap et CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        /* Style personnalisé */
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-        .bg-gradient {
-            background: linear-gradient(135deg, #6dd5ed, #2193b0);
-            color: #fff;
-        }
-        h1, h2, h5 {
-            color: #333;
-        }
-        .accordion-button {
-            font-size: 1.2rem;
-        }
-        .accordion-button:hover {
-        background: linear-gradient(to right, #3a3a3a, #c4c7c7); /* Inverse le gradient */
-        color: #ffffff;
-        transform: translateY(-3px); /* Élève légèrement le bouton */
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Accentue l'ombre */
-        }
+     <!-- Liens vers Bootstrap et CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="{% static 'css/daily_plan.css' %}">
+     
 
-        .accordion-button:active {
-            transform: translateY(1px); /* Effet d'enfoncement lors du clic */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) ; /* Réduit légèrement l'ombre */
-        }
-
-        .progress {
-            height: 20px;
-        }
-        .btn-outline-primary {
-            font-size: 0.9rem;
-        }
-
-        /* Style global pour un fond légèrement transparent */
-.transparent-bg {
-    background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
-    backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 15px; /* Espacement intérieur */
-    margin-bottom: 20px; /* Espacement entre les sections */
-}
-
-    </style>
 </head>
 
 <body>
-<div class="container py-4">
-    <!-- Header avec une bannière -->
-    <div class="banner shadow-sm rounded mb-4" style="position:relative; height:250px; overflow: hidden;">
-        <!-- Image de fond -->
-        <img src="https://cdn.pixabay.com/photo/2020/02/02/08/01/planning-4812283_1280.jpg">
-        <!-- Texte sur la bannière -->
-        <div class="banner-overlay d-flex flex-column justify-content-center align-items-center text-white text-center" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); font-family: Cardo serif;">
-            <h1 class="fw-bold mb-2" style="color: #f8f9fa;">Planning de la Journée</h1>
-            <p class="mb-0"><h3>Organise ta journée pour gagner du temps et être plus productif !</h3></p>
+    <div class="container py-4">
+        <!-- Header with a banner -->
+        <div class="banner shadow-sm rounded mb-4" style="position:relative; height:250px; overflow: hidden;">
+            <!-- Background image -->
+            <img src="https://cdn.pixabay.com/photo/2020/02/02/08/01/planning-4812283_1280.jpg">
+            <!-- Text on the banner -->
+            <div class="banner-overlay d-flex flex-column justify-content-center align-items-center text-white text-center" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); font-family: Cardo serif;">
+                <h1 class="fw-bold mb-2" style="color: #f8f9fa;">Daily Schedule</h1>
+                <p class="mb-0"><h3>Organize your day to save time and be more productive!</h3></p>
+            </div>
         </div>
     
-    </div>
-    <!-- Corps de la section - Sommaire -->
-<div class="content transparent-bg shadow-sm" style="border-left: 5px solid #3a3a3a; font-family: Cardo serif;">
-    <h2 class="fw-bold mb-3 text-primary">Daily planning is a proactive way to design your day around your priorities, ensuring that you make progress towards your goals while maintaining balance in your life.</h2>
-    <p class="mb-4">
-        <strong>Ici, tu vas organiser le planning de ta journée :</strong> ce que tu as à faire et où tu dois te rendre. 
-        En fin de journée, tu pourras cocher les activités accomplies pour suivre ton avancement.
-    </p>
-    <div class=" p-4 rounded" style="background-color: #cacaca; ">
-        💡 <strong>Conseil :</strong> <em>Je te conseille de toujours préparer ton planning la veille.</em> 
-        Cela te permettra de gagner du temps et d’être plus productif. 😉
-    </div>
-</div>
-
-<!-- Section: Planning Hebdomadaire -->
-<div class="accordion shadow-sm" id="weeklyPlanner">
-    <!-- LUNDI -->
-    <div class="accordion-item mb-3 transparent-bg">
-        <h2 class="accordion-header" id="headingLUNDI">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLUNDI" aria-expanded="true" aria-controls="collapseLUNDI">
-                <strong>LUNDI</strong>
-            </button>
-        </h2>
-        <div id="collapseLUNDI" class="accordion-collapse collapse show" aria-labelledby="headingLUNDI" data-bs-parent="#weeklyPlanner">
-            <div class="accordion-body">
-                <!-- Sections -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <h5>🌅 <strong>Matin</strong></h5>
-                        <ul id="morningTasksLundi" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksLundi')">Ajouter une tâche</button>
+        <!-- Section Body - Summary -->
+        <div class="content transparent-bg shadow-sm" style="border-left: 5px solid #3a3a3a; font-family: Cardo serif;">
+            <h5>Daily planning is a proactive way to design your day around your priorities, ensuring that you make progress towards your goals while maintaining balance in your life.</h5>
+            <p class="mb-4">
+                <h5> <strong>Here, you will organize your day's schedule:</strong> what you need to do and where you need to go. 
+                At the end of the day, you can check off the completed activities to track your progress.</h5>
+            </p>
+            <div class="p-4 rounded" style="background-color: #cacaca;">
+                💡 <strong>Tip:</strong><h5><em>I recommend always preparing your schedule the day before. 
+                This will help you save time and be more productive. 😉</em></h5>
+            </div>
+        </div>
+    
+       <!-- Section: Weekly Planning -->
+        <div class="accordion shadow-sm" id="weeklyPlanner" style="font-family: Cardo serif;">
+        <!-- MONDAY -->
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingMONDAY">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMONDAY" aria-expanded="true" aria-controls="collapseMONDAY">
+                    <strong>MONDAY</strong> <span id="dateMonday"></span>
+                </button>
+            </h2>
+            <div id="collapseMONDAY" class="accordion-collapse collapse show" aria-labelledby="headingMONDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <!-- Sections -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksMonday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksMonday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksMonday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksMonday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksMonday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksMonday')">Add a Task</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h5>🔅 <strong>Après-midi</strong></h5>
-                        <ul id="afternoonTasksLundi" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksLundi')">Ajouter une tâche</button>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>🌙 <strong>Soir</strong></h5>
-                        <ul id="eveningTasksLundi" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksLundi')">Ajouter une tâche</button>
-                    </div>
-                </div>
-                <!-- Progress Bar -->
-                <div class="mt-4">
-                    <div class="progress">
-                        <div id="progressBarLundi" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    <!-- Progress Bar -->
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarMonday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- AUTRES JOURS -->
-    {% for day in days %}
-    <div class="accordion-item mb-3 transparent-bg">
-        <h2 class="accordion-header" id="heading{{ day }}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day }}" aria-expanded="false" aria-controls="collapse{{ day }}">
-                <strong>{{ day }}</strong>
-            </button>
-        </h2>
-        <div id="collapse{{ day }}" class="accordion-collapse collapse" aria-labelledby="heading{{ day }}" data-bs-parent="#weeklyPlanner">
-            <div class="accordion-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h5>🌅 <strong>Matin</strong></h5>
-                        <ul id="morningTasks{{ day }}" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasks{{ day }}')">Ajouter une tâche</button>
+    
+        <!-- OTHER DAYS -->
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingTUESDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTUESDAY" aria-expanded="false" aria-controls="collapseTUESDAY">
+                    <strong>TUESDAY</strong> <span id="dateTuesday"></span>
+                </button>
+            </h2>
+            <div id="collapseTUESDAY" class="accordion-collapse collapse" aria-labelledby="headingTUESDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksTuesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksTuesday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksTuesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksTuesday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksTuesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksTuesday')">Add a Task</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h5>🔅 <strong>Après-midi</strong></h5>
-                        <ul id="afternoonTasks{{ day }}" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasks{{ day }}')">Ajouter une tâche</button>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>🌙 <strong>Soir</strong></h5>
-                        <ul id="eveningTasks{{ day }}" class="list-unstyled"></ul>
-                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasks{{ day }}')">Ajouter une tâche</button>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <div class="progress">
-                        <div id="progressBar{{ day }}" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarTuesday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% endfor %}
-
-</div>
-
-<!-- Data Section -->
-<div class="container py-4 transparent-bg">
-    <h2>Performance Hebdomadaire</h2>
-    <div class="alert alert-info" id="coherenceMessage"></div>
-    <canvas id="performanceChart" width="400" height="200"></canvas>
-
-    <h3>Récapitulatif des Semaines Précédentes</h3>
-    <table id="performanceTable" class="table table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Performance (%)</th>
-            </tr>
-        </thead>
-        <tbody id="weeklySummary"></tbody>
-    </table>
     
-</div>
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingWEDNESDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWEDNESDAY" aria-expanded="false" aria-controls="collapseWEDNESDAY">
+                    <strong>WEDNESDAY</strong> <span id="dateWednesday"></span>
+                </button>
+            </h2>
+            <div id="collapseWEDNESDAY" class="accordion-collapse collapse" aria-labelledby="headingWEDNESDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksWednesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksWednesday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksWednesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksWednesday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksWednesday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksWednesday')">Add a Task</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarWednesday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingTHURSDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTHURSDAY" aria-expanded="false" aria-controls="collapseTHURSDAY">
+                    <strong>THURSDAY</strong> <span id="dateThursday"></span>
+                </button>
+            </h2>
+            <div id="collapseTHURSDAY" class="accordion-collapse collapse" aria-labelledby="headingTHURSDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksThursday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksThursday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksThursday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksThursday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksThursday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksThursday')">Add a Task</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarThursday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingFRIDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFRIDAY" aria-expanded="false" aria-controls="collapseFRIDAY">
+                    <strong>FRIDAY</strong> <span id="dateFriday"></span>
+                </button>
+            </h2>
+            <div id="collapseFRIDAY" class="accordion-collapse collapse" aria-labelledby="headingFRIDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksFriday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksFriday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksFriday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksFriday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksFriday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksFriday')">Add a Task</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarFriday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingSATURDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSATURDAY" aria-expanded="false" aria-controls="collapseSATURDAY">
+                    <strong>SATURDAY</strong> <span id="dateSaturday"></span>
+                </button>
+            </h2>
+            <div id="collapseSATURDAY" class="accordion-collapse collapse" aria-labelledby="headingSATURDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksSaturday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksSaturday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksSaturday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksSaturday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksSaturday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksSaturday')">Add a Task</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarSaturday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="accordion-item mb-3 transparent-bg">
+            <h2 class="accordion-header" id="headingSUNDAY">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSUNDAY" aria-expanded="false" aria-controls="collapseSUNDAY">
+                    <strong>SUNDAY</strong> <span id="dateSunday"></span>
+                </button>
+            </h2>
+            <div id="collapseSUNDAY" class="accordion-collapse collapse" aria-labelledby="headingSUNDAY" data-bs-parent="#weeklyPlanner">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>🌅 <strong>Morning</strong></h5>
+                            <ul id="morningTasksSunday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('morningTasksSunday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🔅 <strong>Afternoon</strong></h5>
+                            <ul id="afternoonTasksSunday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('afternoonTasksSunday')">Add a Task</button>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>🌙 <strong>Evening</strong></h5>
+                            <ul id="eveningTasksSunday" class="list-unstyled"></ul>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="addTask('eveningTasksSunday')">Add a Task</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="progress">
+                            <div id="progressBarSunday" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
-</div>
+    <!-- Data Section -->
+    <div class="container py-4 transparent-bg " style="font-family: Cardo serif;">
+    
+        <h2>Weekly Performance</h2>
+        <div class="alert alert-info" id="coherenceMessage"></div>
+        <canvas id="performanceChart" width="400" height="200"></canvas>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <p><h3>Weekly Summary</h3></p>
+        <table id="performanceTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Semaine</th>
+                    <th>Performance (%)</th>
+                    <th>Résumé</th>
+                </tr>
+            </thead>
+            <tbody id="weeklySummary"></tbody>
+        </table>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Moment.js pour le formatage des dates -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script>
+       
+    </script>
 
 <script>
-// Ajout d'une nouvelle tâche
-function addTask(listId) {
-    const list = document.getElementById(listId);
-    const newTask = document.createElement("li");
-    newTask.innerHTML = `
-        <input type="checkbox" class="me-2" onchange="updateProgress('${listId.split('Tasks')[1]}')">
-        <input contenteditable="true"  class="form-control mb-2" onblur="updateTaskText(this)" placeholder="Ajouter une tâche..." /input>
-        <button class="btn btn-sm btn-danger ms-2" onclick="removeTask(this)">Supprimer</button>
-    `;
-    list.appendChild(newTask);
+    // Ajout d'une nouvelle tâche
+    function addTask(listId) {
+        const list = document.getElementById(listId);
+        const newTask = document.createElement("li");
+        newTask.innerHTML = `
+            <input type="checkbox" class="me-2" onchange="updateProgress('${listId.split('Tasks')[1]}')">
+            <input contenteditable="true"  class="form-control mb-2" onblur="updateTaskText(this)" placeholder="Ajouter une tâche..." /input>
+            <button class="btn btn-sm btn-danger ms-2" onclick="removeTask(this)">Supprimer</button>
+        `;
+        list.appendChild(newTask);
+    }
+    
+    // Supprimer une tâche
+    function removeTask(button) {
+        button.parentElement.remove();
+    }
+    
+    // Mise à jour du texte de la tâche lorsqu'on quitte le champ (focus perdu)
+    function updateTaskText(taskText) {
+        taskText.innerText = taskText.innerText.trim(); // Enlève les espaces superflus autour du texte
+        updateProgress(taskText.closest('.accordion-body').querySelector('.accordion-header').textContent.trim()); // Met à jour la progression après modification
+    }
+    
+    // Calcul de la progression
+    function updateProgress(day) {
+        const sections = ['morningTasks' + day, 'afternoonTasks' + day, 'eveningTasks' + day];
+        let totalTasks = 0, completedTasks = 0;
+    
+        sections.forEach(sectionId => {
+            const tasks = document.querySelectorAll(`#${sectionId} input[type='checkbox']`);
+            tasks.forEach(task => {
+                totalTasks++;
+                if (task.checked) completedTasks++;
+            });
+        });
+    
+        const progressBar = document.getElementById(`progressBar${day}`);
+        const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+        progressBar.style.width = `${percentage}%`;
+        progressBar.setAttribute('aria-valuenow', percentage);
+        progressBar.innerText = `${percentage}%`;
+    
+        // Sauvegarde dans localStorage
+        saveWeeklyData(day, completedTasks, totalTasks);
+    }
+    
+    // Sauvegarde des données dans localStorage
+    function saveWeeklyData(day, completedTasks, totalTasks) {
+        let weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+        weeklyData[day] = {
+            completed: completedTasks,
+            total: totalTasks,
+            percentage: (completedTasks / totalTasks) * 100
+        };
+        localStorage.setItem('weeklyData', JSON.stringify(weeklyData));
+    }
+         
+    $(document).ready(function() {
+        // Initialiser DataTables après que le tableau est peuplé
+        $('#performanceTable').DataTable({
+            "columnDefs": [
+                {
+                    "targets": 0, // Première colonne (Date)
+                    "render": function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return moment(data).format('dddd, DD MMMM YYYY'); // Format complet (jour, date, mois, année)
+                        }
+                        return data; // Format brut pour les traitements internes
+                    }
+                }
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json" // Traduction française
+            },
+            "pageLength": 5 // Nombre de lignes par page par défaut
+        });
+    });
+    
+    // Vérification de la cohérence des performances
+    function checkCoherence() {
+        const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+        const percentages = Object.values(weeklyData).map(data => data.percentage);
+        const consistencyMessage = document.getElementById('coherenceMessage');
+    
+        if (percentages.length < 2) {
+            consistencyMessage.textContent = 'Pas encore de données suffisantes pour vérifier la cohérence.';
+        } else {
+            const isConsistent = percentages.every(val => Math.abs(val - percentages[0]) < 10);
+            consistencyMessage.textContent = isConsistent ? 'Cohérence des performances maintenue.' : 'Les performances varient trop pour une cohérence optimale.';
+        }
+    }
+    
+    // Initialisation
+    window.onload = function() {
+        showPerformanceGraph();
+        displayWeeklySummary();
+        checkCoherence();
+    };
+</script>
+
+<script>
+    // Fonction pour calculer la performance moyenne de la semaine
+function calculatePerformance(weeklyData) {
+    let totalPerformance = 0;
+    let completedDays = 0;
+
+    // Calculer la performance totale
+    weeklyData.forEach(dayData => {
+        if (dayData.performance !== null) { // Si les données sont présentes
+            totalPerformance += dayData.performance;
+            completedDays++;
+        }
+    });
+
+    // Si tous les jours sont complétés, on calcule la moyenne
+    if (completedDays === 7) {
+        return totalPerformance / completedDays;
+    }
+    return null; // Pas encore assez de données
 }
 
-// Supprimer une tâche
-function removeTask(button) {
-    button.parentElement.remove();
+// Fonction pour déterminer le résumé en fonction de la performance
+function getSummary(performance) {
+    if (performance === null) return ""; // Pas encore de résumé
+    if (performance >= 80) return "Excellent";
+    if (performance >= 60) return "Bon";
+    if (performance >= 40) return "Moyenne";
+    return "À améliorer";
 }
 
-// Mise à jour du texte de la tâche lorsqu'on quitte le champ (focus perdu)
-function updateTaskText(taskText) {
-    taskText.innerText = taskText.innerText.trim(); // Enlève les espaces superflus autour du texte
-    updateProgress(taskText.closest('.accordion-body').querySelector('.accordion-header').textContent.trim()); // Met à jour la progression après modification
+// Fonction pour obtenir la date du début de la semaine (lundi)
+function getWeekStartDate(dateString) {
+    const date = new Date(dateString);
+    const dayOfWeek = date.getDay();
+    const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Si dimanche, recule à lundi précédent
+    const monday = new Date(date);
+    monday.setDate(date.getDate() + diffToMonday);
+    return monday.toLocaleDateString('fr-FR'); // Retourne la date formatée en français
 }
 
-// Calcul de la progression
+</script>
+<!-- Ajoutez ce code dans la section <script> de votre fichier -->
+<script>
+    // Fonction pour déterminer la couleur en fonction du pourcentage
+    function getColor(percentage) {
+        if (percentage >= 80) return 'rgba(75, 192, 192, 1)'; // Vert
+        if (percentage >= 60) return 'rgba(255, 206, 86, 1)'; // Orange
+        return 'rgba(255, 99, 132, 1)'; // Rouge
+    }
+
+    // Affichage du graphique de performance
+    function showPerformanceGraph() {
+    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    const days = Object.keys(weeklyData);
+    const data = days.map(day => weeklyData[day].percentage);
+
+    // Obtenez la date de début de la semaine (lundi)
+    const startOfWeek = getWeekStartDate(days[0]); // Supposons que le premier jour est le lundi
+    const weekDates = getWeekDates(startOfWeek); // Obtenez les dates de la semaine
+
+    // Utilisez les dates pour les étiquettes
+    const labels = weekDates.map((date, index) => `${days[index]} (${date})`); // Ajout de la date actuelle
+
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Performance (%)',
+                data: data,
+                backgroundColor: data.map(getColor), // Utilisation de la fonction getColor pour les couleurs
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+} 
+// Fonction pour réinitialiser les données
+    function resetData() {
+        localStorage.removeItem('weeklyData'); // Supprime les données stockées
+        location.reload(); // Recharge la page pour mettre à jour le graphique
+    }
+
+    // Ajout du bouton de réinitialisation sous le graphique
+    $(document).ready(function() {
+        $('#performanceChart').after('<button class="btn btn-danger mt-3" onclick="resetData()">Réinitialiser les données</button>');
+    });
+</script>
+
+<script>
+    // Fonction pour calculer les dates de la semaine à partir d'une date donnée (lundi)
+function setWeekDates(startDate) {
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const start = new Date(startDate);
+    
+    // Affiche la date pour chaque jour de la semaine
+    daysOfWeek.forEach((day, index) => {
+        const currentDate = new Date(start);
+        currentDate.setDate(start.getDate() + index); // Ajoute l'index pour obtenir le jour correct
+        const formattedDate = currentDate.toLocaleDateString('fr-FR'); // Formatage de la date en français
+        document.getElementById(`date${day}`).innerText = `(${formattedDate})`; // Affiche la date à côté du jour
+    });
+}
+
+// Fonction pour afficher la date actuelle à côté de chaque jour de la semaine
+function setCurrentWeekDates() {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0 = Dimanche, 1 = Lundi, ..., 6 = Samedi
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Calculer l'offset pour obtenir le lundi
+    const mondayDate = new Date(today);
+    mondayDate.setDate(today.getDate() + mondayOffset); // Obtenir la date du lundi
+
+    // Afficher la date pour chaque jour de la semaine
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(mondayDate);
+        currentDate.setDate(mondayDate.getDate() + i); // Ajouter l'index pour obtenir le jour correct
+        const formattedDate = currentDate.toLocaleDateString('fr-FR'); // Formatage de la date en français
+        document.getElementById(`date${dayNames[i]}`).innerText = `(${formattedDate})`; // Affiche la date à côté du jour
+    }
+}
+
+// Appel de la fonction pour définir les dates de la semaine
+setCurrentWeekDates();
+
+</script>
+
+<script>
+function getWeekDates(startDate) {
+    const weekDates = [];
+    const start = new Date(startDate);
+    
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(start);
+        currentDate.setDate(start.getDate() + i);
+        weekDates.push(currentDate.toLocaleDateString('fr-FR')); // Formatage en français
+    }
+    
+    return weekDates;
+}
+
+function setCurrentWeekDate() {
+    const today = new Date();
+    const mondayDate = getStartOfWeek(today); // Obtenir la date du lundi
+    const weekDates = getWeekDates(mondayDate); // Obtenir les dates de la semaine
+
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(mondayDate);
+        currentDate.setDate(mondayDate.getDate() + i);
+        const formattedDate = currentDate.toLocaleDateString('fr-FR'); // Formatage en français
+        document.getElementById(`date${dayNames[i]}`).innerText = `(${formattedDate})`; // Affiche la date à côté du jour
+    }
+}
+
+</script>
+
+<script>
+    // Modification de la fonction updateProgress pour stocker la date complète
 function updateProgress(day) {
     const sections = ['morningTasks' + day, 'afternoonTasks' + day, 'eveningTasks' + day];
     let totalTasks = 0, completedTasks = 0;
@@ -237,36 +616,48 @@ function updateProgress(day) {
     progressBar.setAttribute('aria-valuenow', percentage);
     progressBar.innerText = `${percentage}%`;
 
-    // Sauvegarde dans localStorage
-    saveWeeklyData(day, completedTasks, totalTasks);
+    // Récupérer la date réelle à partir de l'élément span
+    const dateSpan = document.getElementById(`date${day}`);
+    const dateText = dateSpan.innerText.replace(/[()]/g, ''); // Enlever les parenthèses
+    const fullDate = dateText;
+
+    // Sauvegarde avec la date complète comme clé
+    saveWeeklyData(fullDate, completedTasks, totalTasks, day);
 }
 
-// Sauvegarde des données dans localStorage
-function saveWeeklyData(day, completedTasks, totalTasks) {
+// Modification de la fonction saveWeeklyData pour inclure le jour de la semaine
+function saveWeeklyData(fullDate, completedTasks, totalTasks, weekday) {
     let weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
-    weeklyData[day] = {
+    weeklyData[fullDate] = {
         completed: completedTasks,
         total: totalTasks,
-        percentage: (completedTasks / totalTasks) * 100
+        percentage: totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0,
+        weekday: weekday // Stocker le jour de la semaine
     };
     localStorage.setItem('weeklyData', JSON.stringify(weeklyData));
 }
 
-// Affichage du graphique de performance
+// Modification de la fonction showPerformanceGraph
 function showPerformanceGraph() {
     const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
-    const days = Object.keys(weeklyData);
-    const data = days.map(day => weeklyData[day].percentage);
+    const dates = Object.keys(weeklyData).sort((a, b) => new Date(a) - new Date(b));
+    const data = dates.map(date => weeklyData[date].percentage);
+    
+    // Créer les labels avec le jour de la semaine et la date
+    const labels = dates.map(date => {
+        const weekday = weeklyData[date].weekday;
+        return `${weekday} (${date})`;
+    });
 
     const ctx = document.getElementById('performanceChart').getContext('2d');
     const performanceChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: days,
+            labels: labels,
             datasets: [{
                 label: 'Performance (%)',
                 data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: data.map(getColor),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
@@ -282,64 +673,197 @@ function showPerformanceGraph() {
     });
 }
 
-// Affichage du résumé des performances hebdomadaires
-function displayWeeklySummary() {
-    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
-    const summaryTable = document.getElementById('weeklySummary');
-    summaryTable.innerHTML = ''; // Réinitialiser le tableau avant d'ajouter les nouvelles lignes
-    
-    for (const [day,data] of Object.entries(weeklyData)) {
-        const row = `<tr><td>${day}</td><td>${data.percentage.toFixed(2)}%</td></tr>`;
-        summaryTable.innerHTML += row;
-    }
+// Modification de la fonction displayWeeklySummary
+</script>
+
+<script>
+   // Fonction simplifiée pour obtenir la date du lundi
+function getStartOfWeek(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    d.setDate(d.getDate() - day + (day === 0 ? -6 : 1));
+    return d;
 }
 
-$(document).ready(function() {
-    // Initialiser DataTables après que le tableau est peuplé
-    $('#performanceTable').DataTable({
-        "columnDefs": [
-            {
-                "targets": 0, // Première colonne (Date)
-                "render": function(data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        return moment(data).format('dddd, DD MMMM YYYY'); // Format complet (jour, date, mois, année)
+// Fonction simplifiée pour grouper les données par semaine
+
+// Fonction modifiée pour sauvegarder les données
+function saveWeeklyData(fullDate, completedTasks, totalTasks, weekday) {
+    let weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+    weeklyData[fullDate] = {
+        completed: completedTasks,
+        total: totalTasks,
+        percentage: totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0,
+        weekday: weekday
+    };
+    localStorage.setItem('weeklyData', JSON.stringify(weeklyData));
+
+}
+</script>
+
+<script>
+    // Modification de la fonction displayWeeklySummary pour une meilleure intégration
+    function displayWeeklySummary() {
+        const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
+        const summaryTable = document.getElementById('weeklySummary');
+        summaryTable.innerHTML = '';
+    
+        // Grouper les données par semaine
+        const groupedByWeek = {};
+        
+        for (const [dateStr, data] of Object.entries(weeklyData)) {
+            try {
+                // Vérifier si la date est au format français (dd/mm/yyyy)
+                const dateParts = dateStr.split('/');
+                if (dateParts.length === 3) {
+                    // Créer la date en respectant le format français
+                    const date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                    const weekStart = getStartOfWeek(date);
+                    const weekKey = weekStart.toLocaleDateString('fr-FR');
+    
+                    if (!groupedByWeek[weekKey]) {
+                        groupedByWeek[weekKey] = {
+                            performances: [],
+                            startDate: weekStart,
+                            dates: []
+                        };
                     }
-                    return data; // Format brut pour les traitements internes
+                    groupedByWeek[weekKey].performances.push(data.percentage);
+                    groupedByWeek[weekKey].dates.push(dateStr);
+                }
+            } catch (e) {
+                console.error('Erreur lors du traitement de la date:', dateStr, e);
+            }
+        }
+    
+        // Créer les lignes du tableau avec plus de détails
+        for (const [weekStart, weekData] of Object.entries(groupedByWeek)) {
+            const averagePerformance = weekData.performances.reduce((a, b) => a + b, 0) / 
+                                     weekData.performances.length || 0;
+            
+            let summary = getSummaryWithDetails(averagePerformance, weekData.performances.length);
+            let performanceClass = getPerformanceClass(averagePerformance);
+    
+            const formattedDate = weekData.startDate.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+    
+            const row = `
+                <tr>
+                    <td>Semaine du ${formattedDate}</td>
+                    <td class="${performanceClass}">${averagePerformance.toFixed(1)}%</td>
+                    <td>${summary}</td>
+                </tr>`;
+            summaryTable.innerHTML += row;
+        }
+    
+        // Réinitialiser et configurer DataTables avec des options avancées
+        if ($.fn.DataTable.isDataTable('#performanceTable')) {
+            $('#performanceTable').DataTable().destroy();
+        }
+        
+        $('#performanceTable').DataTable({
+        dom: '<"top"B>rt<"bottom"lip><"clear">',
+       
+        "order": [[0, "desc"]],
+        "pageLength": 5,
+        "responsive": true,
+        "initComplete": function(settings, json) {
+            updateChartWithTableData();
+        }
+        
+    });
+
+    }
+        document.addEventListener('DOMContentLoaded', function() {
+            displayWeeklySummary();
+        });
+    
+    // Fonction utilitaire pour obtenir un résumé détaillé
+    function getSummaryWithDetails(performance, daysCount) {
+        let summary = "";
+        if (performance >= 90) {
+            summary = `<span class="text-success">Excellente performance</span> (${daysCount} jours)`;
+        } else if (performance >= 70) {
+            summary = `<span class="text-primary">Bonne performance</span> (${daysCount} jours)`;
+        } else if (performance >= 50) {
+            summary = `<span class="text-warning">Performance moyenne</span> (${daysCount} jours)`;
+        } else {
+            summary = `<span class="text-danger">Performance à améliorer</span> (${daysCount} jours)`;
+        }
+        return summary;
+    }
+    
+    // Fonction utilitaire pour obtenir la classe CSS selon la performance
+    function getPerformanceClass(performance) {
+        if (performance >= 90) return 'table-success';
+        if (performance >= 70) return 'table-primary';
+        if (performance >= 50) return 'table-warning';
+        return 'table-danger';
+    }
+    
+    // Fonction pour mettre à jour le graphique avec les données du tableau
+    function updateChartWithTableData() {
+        const table = $('#performanceTable').DataTable();
+        const data = [];
+        const labels = [];
+    
+        table.rows().every(function() {
+            const rowData = this.data();
+            labels.push(rowData[0]); // Date
+            data.push(parseFloat(rowData[1])); // Performance (supprime le %)
+        });
+    
+        updatePerformanceChart(labels, data);
+    }
+    
+    // Fonction de mise à jour du graphique
+    function updatePerformanceChart(labels, data) {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        
+        if (window.performanceChart) {
+            window.performanceChart.destroy();
+        }
+    
+        window.performanceChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Performance hebdomadaire (%)',
+                    data: data,
+                    backgroundColor: data.map(getColor),
+                    borderColor: data.map(value => getColor(value)),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Performance: ${context.raw.toFixed(1)}%`;
+                            }
+                        }
+                    }
                 }
             }
-        ],
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json" // Traduction française
-        },
-        "pageLength": 5 // Nombre de lignes par page par défaut
-    });
-});
-
-// Vérification de la cohérence des performances
-function checkCoherence() {
-    const weeklyData = JSON.parse(localStorage.getItem('weeklyData')) || {};
-    const percentages = Object.values(weeklyData).map(data => data.percentage);
-    const consistencyMessage = document.getElementById('coherenceMessage');
-
-    if (percentages.length < 2) {
-        consistencyMessage.textContent = 'Pas encore de données suffisantes pour vérifier la cohérence.';
-    } else {
-        const isConsistent = percentages.every(val => Math.abs(val - percentages[0]) < 10);
-        consistencyMessage.textContent = isConsistent ? 'Cohérence des performances maintenue.' : 'Les performances varient trop pour une cohérence optimale.';
+        });
     }
-}
 
-// Initialisation
-window.onload = function() {
-    showPerformanceGraph();
-    displayWeeklySummary();
-    checkCoherence();
-};
-</script>
-<!-- Moment.js pour le formatage des dates -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-
+   </script>
+    
 </body>
 </html>
 {% endblock %}
+

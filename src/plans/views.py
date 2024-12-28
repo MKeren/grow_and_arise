@@ -44,7 +44,7 @@ def plan_detail(request, pk):
     return render(request, 'plans/plan_detail.html', {'plan': plan})
 
 
-def daily_planning(request):
+#def daily_planning(request):
     return render(request, 'plans/daily_planning.html', {'title': _('Planning de la Journée')})
 
 def daily_routines(request):
@@ -54,7 +54,7 @@ def finance_review(request):
     return render(request, 'plans/finance_review.html', {'title': _('Bilan de Mes Finances')})
 
 def daily_planning(request):
-    days = ["MARDI", "MERCREDI", "JEUDI", "VENDREDI", "SAMEDI", "DIMANCHE"]
+    days = ["TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
     return render(request, 'plans/daily_planning.html', {'days': days})
 
 def my_view(request):
