@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Tracking</title>
-</head>
-<body>
-    <h1>Update Tracking for {{ habit.name }}</h1>
-    <form method="post">
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Modifier l'habitude</h2>
+    <form method="post" action="{% url 'tracker:update_habit' habit.id %}">
         {% csrf_token %}
-        {{ tracking_form.as_p }}
-        <button type="submit">Update</button>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success mt-3">
+            <i class="fas fa-save me-2"></i>Enregistrer
+        </button>
+        <a href="{% url 'tracker:habit_report' habit.id %}" class="btn btn-secondary mt-3">Annuler</a>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

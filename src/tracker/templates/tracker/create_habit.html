@@ -7,146 +7,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer une Nouvelle Habitude</title>
+    <title>Créer une nouvelle habitude</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Styles de base */
         body {
+            font-family: 'Cardo', serif;
             background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
         }
-        .container {
-            margin-top: 30px;
-        }
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header-section h1 {
-            font-size: 2rem;
-            color: #333;
-            font-weight: 600;
-        }
-        .header-section .btn {
-            background-color: #6dd5ed;
-            color: white;
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            text-decoration: none;
-        }
-        .header-section .btn:hover {
-            background-color: #2193b0;
-        }
-        .banner {
+
+        .banner-header {
             height: 250px;
-            background-image: url('https://cdn.pixabay.com/photo/2018/03/04/22/27/office-3199438_1280.jpg');
+            background-image: url('https://cdn.pixabay.com/photo/2017/12/18/13/59/create-3026190_1280.jpg');
             background-size: cover;
             background-position: center;
             position: relative;
-            color: white;
+            border-radius: 8px;
+            margin-bottom: 30px;
         }
-        .banner-overlay {
+
+        .header-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
             text-align: center;
-        }
-        .banner-overlay h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .banner-overlay p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .form-section {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-        .form-section label {
-            font-size: 1.1rem;
+
+        .content-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+
+        .form-group {
+            margin-bottom: 25px;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
+
+        .form-label {
+            font-weight: 600;
+            color: #3a3a3a;
+            margin-bottom: 8px;
         }
-        .btn-link {
-            color: #007bff;
-            font-size: 1rem;
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 12px;
         }
-        .btn-link:hover {
-            color: #0056b3;
+
+        .form-control:focus {
+            border-color: #3a3a3a;
+            box-shadow: 0 0 0 0.2rem rgba(58, 58, 58, 0.25);
+        }
+
+        .btn-custom {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #505050;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .frequency-options {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .frequency-options.active {
+            display: block;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- Banner Section -->
-        <div class="banner">
-            <div class="banner-overlay">
-                <h2>Créer une Nouvelle Habitude</h2>
-                <p>Commencez votre voyage vers un mode de vie plus sain et productif.</p>
+        <!-- Banner Header -->
+        <div class="banner-header">
+            <div class="header-overlay">
+                <h1 class="fw-bold mb-3"><i class="fas fa-plus-circle me-2"></i> Create a New Habit</h1>
+
+                <p class="fs-5">Définis tes objectifs et commence à suivre ton progrès</p>
             </div>
         </div>
 
-        <!-- Header Section -->
-        <div class="header-section">
-            <h1>Créer une Nouvelle Habitude</h1>
-        </div>
-
-        <!-- Form Section -->
-        <div class="form-section">
-            <form method="POST">
+        <!-- Main Content Section -->
+        <div class="content-section">
+            <form method="post">
                 {% csrf_token %}
-
-                <!-- Habit Name -->
-                <div class="mb-3">
-                    <label for="id_name" class="form-label"><strong>Nom de l'Habitude</strong></label>
+                <div class="form-group">
+                    <label for="id_category">Category</label>
+                    {{ form.category }}
+                </div>
+                <div class="form-group">
+                    <label for="id_name">Habit Name</label>
                     {{ form.name }}
                 </div>
-
-                <!-- Motivation -->
-                <div class="mb-3">
-                    <label for="id_motivation" class="form-label"><strong>Qu'est-ce qui vous motive à adopter cette habitude ?</strong></label>
-                    {{ form.motivation }}
+                <div class="form-group">
+                    <label for="id_description">Description</label>
+                    {{ form.description }}
                 </div>
-
-                <!-- Frequency -->
-                <div class="mb-3">
-                    <label for="id_frequency" class="form-label"><strong>Fréquence</strong></label>
+                <div class="form-group">
+                    <label for="id_target_frequency">Target Frequency</label>
+                    {{ form.target_frequency }}
+                </div>
+                <div class="form-group">
+                    <label for="id_frequency">Frequency</label>
                     {{ form.frequency }}
                 </div>
-
-                <!-- Categories -->
-                <div class="mb-3">
-                    <label for="id_category" class="form-label"><strong>Catégorie</strong></label>
-                    {{ form.category }}
-                    <div class="form-text">
-                        Catégories suggérées : Alimentation, Bien-être, Matin Idéal, Développement Personnel, Famille.
-                    </div>
+                <div class="form-group">
+                    <label for="id_motivation">Motivation</label>
+                    {{ form.motivation }}
                 </div>
-
-                <!-- Submit Button -->
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Créer l'Habitude</button>
+                <div class="form-group">
+                    <label for="id_occurrences">Number of Occurrences</label>
+                    {{ form.occurrences }}
                 </div>
+                <button type="submit" class="btn btn-primary">Create Habit</button>
             </form>
         </div>
 
-        <!-- Back Button -->
-        <div class="mt-4 text-center">
-            <a href="{% url 'tracker:habits' %}" class="btn btn-link">Retour à la Liste des Habitudes</a>
-        </div>
     </div>
+
+    <script>
+        document.getElementById('frequencySelect').addEventListener('change', function() {
+            const frequencyDetails = document.getElementById('frequencyDetails');
+            frequencyDetails.classList.add('active');
+            
+            const occurrenceInput = document.querySelector('input[name="occurrence_count"]');
+            switch(this.value) {
+                case 'daily':
+                    occurrenceInput.max = "24";
+                    break;
+                case 'weekly':
+                    occurrenceInput.max = "7";
+                    break;
+                case 'monthly':
+                    occurrenceInput.max = "31";
+                    break;
+                case 'yearly':
+                    occurrenceInput.max = "365";
+                    break;
+            }
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import AutoEvaluation, Task, Habit
+from .models import AutoEvaluation, HabitCategory, HabitTracking, Task, Habit
 
 admin.site.register(Task)
 admin.site.register(Habit)
+admin.site.register(HabitCategory)
+admin.site.register(HabitTracking)
+
 
 @admin.register(AutoEvaluation)
 class AutoEvaluationAdmin(admin.ModelAdmin):

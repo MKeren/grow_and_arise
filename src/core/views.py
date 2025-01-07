@@ -83,7 +83,6 @@ def signup_view(request):
 def home(request):
     plans = Plan.objects.filter(creator=request.user)
     tasks = Task.objects.filter(user=request.user).order_by('-id')[:5]
-    #return render(request, "core/home.html", {"user": request.user})
     return render(request, 'core/home.html', {'plans': plans, 'tasks': tasks})
 
 def index(request):

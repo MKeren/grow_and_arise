@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views  # Nous importons les vues pour chaque route
+from . import views  
 
 app_name = 'tracker'
 
@@ -8,11 +8,14 @@ urlpatterns = [
     path('create_task/', views.create_task, name='create_task'),
 
     path('habits/', views.habit_list, name='habits'),
-    #path('habit_tracker/', views.habit_tracker, name='habit_tracker'),
     path('create/', views.create_habit, name='create_habit'),
     path('update-tracking/<int:habit_id>/', views.update_tracking_view, name='update_tracking'),
     path('<int:habit_id>/report/', views.habit_report_view, name='habit_report'),
+    path("delete/<int:habit_id>/", views.delete_habit, name="delete_habit"),
     path('load_categories/', views.load_categories, name='load_categories'),
+    path('update-habit/<int:habit_id>/', views.update_habit, name='update_habit'),
+    #path('habit/<int:habit_id>/update/', views.update_habit, name='habit_update'),
+
 
     path('tasks/create/', views.TaskCreateView.as_view(), name='create_task'),
     path('smart-method/', views.smart_method, name='smart_method'),

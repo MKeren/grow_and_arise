@@ -9,146 +9,281 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapport de l'Habitude : {{ habit.name }}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    
     <style>
-        /* Style personnalisé */
         body {
+            font-family: 'Cardo', serif;
             background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
         }
-        .container {
-            margin-top: 30px;
-        }
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header-section h1 {
-            font-size: 2rem;
-            color: #333;
-            font-weight: 600;
-        }
-        .header-section .btn {
-            background-color: #6dd5ed;
-            color: white;
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            text-decoration: none;
-        }
-        .header-section .btn:hover {
-            background-color: #2193b0;
-        }
-        .banner {
+
+        .banner-header {
             height: 250px;
             background-image: url('https://cdn.pixabay.com/photo/2018/03/04/22/27/office-3199438_1280.jpg');
             background-size: cover;
             background-position: center;
             position: relative;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn-custom {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #505050;
+            transform: translateY(-2px);
             color: white;
         }
-        .banner-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+
+        .btn-back {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        .banner-overlay h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+
+        .btn-back:hover {
+            background-color: #505050;
+            color: white;
         }
-        .banner-overlay p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
         }
-        .report-section {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+        .custom-table th {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 15px;
+            font-weight: 500;
+        }
+
+        .custom-table td {
+            background-color: #f8f9fa;
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .custom-table tr:hover td {
+            background-color: #f0f0f0;
+            transition: background-color 0.3s ease;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cardo', serif;
+            color: #3a3a3a;
+        }
+
+        .chart-container {
+            margin: 30px 0;
             padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        form {
             margin-top: 20px;
         }
-        .report-section h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
+
+        form p {
+            margin-bottom: 15px;
         }
-        .report-section p {
-            font-size: 1.1rem;
+
+        .btn-submit {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            transition: all 0.3s ease;
         }
-        .btn-back {
-            background-color: #e9ecef;
-            color: #6c757d;
-            font-size: 1rem;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 5px;
+
+        .btn-submit:hover {
+            background-color: #505050;
+            transform: translateY(-2px);
         }
-        .btn-back:hover {
-            background-color: #ced4da;
+
+        .progress {
+            height: 20px;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+        }
+        
+        .progress-bar {
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .checkbox-container {
+            display: inline-block;
+            margin-right: 15px;
+        }
+    </style>
+
+    <style>
+    /* Agrandir la taille des cases à cocher */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            transform: scale(1.3); /* Ajuster la taille */
         }
     </style>
 </head>
 
 <body>
-<div class="container">
-    <!-- Banner Section -->
-    <div class="banner">
-        <div class="banner-overlay">
-            <h2>Rapport de l'Habitude : {{ habit.name }}</h2>
-            <p>Analyse de tes progrès pour cette habitude.</p>
+    <div class="container">
+        <div class="banner-header">
+            <div class="header-overlay">
+                <h2 class="fw-bold mb-3">Rapport de l'Habitude : {{ habit.name }}</h2>
+                <p class="fs-5">Analyse de tes progrès pour cette habitude</p>
+                <a href="{% url 'tracker:habits' %}" class="btn-back mt-3">
+                    <i class="fas fa-arrow-left me-2"></i>Retour à la Liste des Habitudes
+                </a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3 class="mb-4">Informations de l'Habitude</h3>
+        
+            <!-- Bloc d'informations (mode rapport) -->
+            <div id="report-section" style="display: block;">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <p><i class="fas fa-signature me-2"></i><strong>Nom :</strong><br>{{ habit.name }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><i class="fas fa-bullseye me-2"></i><strong>Motivation :</strong><br>{{ habit.motivation }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><i class="fas fa-tag me-2"></i><strong>Catégorie :</strong><br>{{ habit.category }}</p>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <p><i class="fas fa-clock me-2"></i><strong>Fréquence :</strong><br>{{ habit.get_frequency_display }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><i class="fas fa-repeat me-2"></i><strong>Nombre d'occurrences :</strong><br>{{ habit.occurrences }}</p>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button id="toggle-btn" class="btn btn-primary">
+            <i class="fas fa-edit me-2"></i>Afficher le formulaire
+        </button>
+
+        <!-- Conteneur pour charger le formulaire -->
+        <div id="edit-section" style="display: none;">
+            <!-- Le formulaire sera chargé ici dynamiquement -->
+        </div>
+
+            <div class="chart-container">
+                <h4 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Résumé des Progrès</h4>
+                <canvas id="progressChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="table-responsive mt-4">
+                <h4 class="mb-3"><i class="fas fa-table me-2"></i>Tableau de Suivi de l'Habitude</h4>
+                <table id="habitTrackingTable" class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Suivi</th>
+                            <th>Progrès du jour</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        {% for date, tracking_data in progress.items %}
+                        <tr>
+                            <td>{{ date }}</td>
+                            <td>
+                                <div class="checkbox-group">
+                                    {% for checkbox in tracking_data.checkboxes %}
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" 
+                                               id="check-{{ date }}-{{ forloop.counter }}"
+                                               {% if checkbox.completed %}checked{% endif %}>
+                                        <label for="check-{{ date }}-{{ forloop.counter }}">{{ forloop.counter }}</label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td style="width: 30%;">
+                                <div class="progress">
+                                    <div class="progress-bar" 
+                                         role="progressbar" 
+                                         
+                                         aria-valuenow="{{ tracking_data.progress }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        {{ tracking_data.progress }}%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button id="add-row-btn" class="btn-custom mt-3">
+                    <i class="fas fa-plus me-2"></i>Ajouter une Ligne
+                </button>
+            </div>
+
         </div>
     </div>
 
-    <!-- Header Section -->
-    <div class="header-section">
-        <!-- Button to go back to Habit List -->
-        <a href="{% url 'tracker:habits' %}" class="btn-back">Retour à la Liste des Habitudes</a>
-    </div>
+<!--sripts -->
 
-    <!-- Habit Report Section -->
-    <div class="report-section">
-        <h3>Informations de l'Habitude</h3>
-        <p><strong>Motivation :</strong> {{ habit.motivation }}</p>
-        <p><strong>Catégorie :</strong> {{ habit.category }}</p>
-        <p><strong>Fréquence :</strong> {{ habit.get_frequency_display }}</p>
-
-        <!-- Progress Chart -->
-        <h4>Résumé des Progrès</h4>
-        <canvas id="progressChart" width="400" height="200"></canvas>
-
-        <h4>Tableau de Suivi de l'Habitude</h4>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Complété</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for date, completed in progress.items %}
-                <tr>
-                    <td>{{ date }}</td>
-                    <td>
-                        <input type="checkbox" {% if completed %}checked{% endif %} disabled>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <!-- Form to update tracking -->
-        <h3>Mettre à jour le Suivi</h3>
-        <form method="POST">
-            {% csrf_token %}
-            {{ tracking_form.as_p }}
-            <button type="submit" class="btn btn-primary">Mettre à jour</button>
-        </form>
-    </div>
-
-    <!-- Add data in a script tag for safety -->
     <script type="application/json" id="chart-data">
         {
             "completed_count": {{ completed_count }},
@@ -157,7 +292,6 @@
     </script>
 
     <script>
-        // Safely parse the data from Django
         const chartData = JSON.parse(document.getElementById('chart-data').textContent);
 
         const ctx = document.getElementById('progressChart').getContext('2d');
@@ -168,7 +302,7 @@
                 datasets: [{
                     label: 'Progrès',
                     data: [chartData.completed_count, chartData.missed_count],
-                    backgroundColor: ['#4caf50', '#f44336'], // Green and red
+                    backgroundColor: ['#4caf50', '#f44336'],
                     borderColor: ['#4caf50', '#f44336'],
                     borderWidth: 1
                 }]
@@ -193,8 +327,194 @@
                 }
             }
         });
+
+        $(document).ready(function() {
+            $('#habitTrackingTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/French.json"
+                },
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+            });
+        });
     </script>
-</div>
+
+<script>
+    // Fonction pour recalculer la progression et mettre à jour le graphique
+    function updateProgressAndChart() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const totalCheckboxes = checkboxes.length;
+        let completedCheckboxes = 0;
+
+        // Compter les cases cochées
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                completedCheckboxes++;
+            }
+        });
+
+        // Calculer la progression
+        const progressPercentage = Math.round((completedCheckboxes / totalCheckboxes) * 100);
+
+        // Mettre à jour les barres de progression
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+            bar.style.width = `${progressPercentage}%`;
+            bar.textContent = `${progressPercentage}%`;
+            bar.setAttribute('aria-valuenow', progressPercentage);
+        });
+
+        // Mettre à jour le graphique
+        progressChart.data.datasets[0].data = [completedCheckboxes, totalCheckboxes - completedCheckboxes];
+        progressChart.update();
+    }
+
+    // Ajouter un gestionnaire d'événements sur toutes les cases à cocher
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgressAndChart);
+        });
+    });
+</script>
+
+<script>
+    // Détection du type d'habitude
+    const habitType = "{{ habit.get_frequency_display }}";
+
+    // Ajouter une nouvelle ligne
+    document.getElementById('add-row-btn').addEventListener('click', () => {
+        const tableBody = document.getElementById('table-body');
+
+        // Générer une nouvelle date en fonction du type d'habitude
+        let newDate;
+        const today = new Date();
+        if (habitType === 'Daily') {
+            newDate = today.toLocaleDateString('fr-FR');
+        } else if (habitType === 'Weekly') {
+            const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
+            newDate = `Semaine du ${monday.toLocaleDateString('fr-FR')}`;
+        } else if (habitType === 'Monthly') {
+            newDate = today.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        } else if (habitType === 'Yearly') {
+            newDate = today.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+        }
+
+        // Ajouter une nouvelle ligne
+        const newRow = `
+            <tr>
+                <td>${newDate}</td>
+                <td>
+                    <div class="checkbox-group">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="new-checkbox">
+                            <label for="new-checkbox">1</label>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 30%;">
+                    <div class="progress">
+                        <div class="progress-bar" 
+                             role="progressbar" 
+                             style="width: 0%" 
+                             aria-valuenow="0" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">0%</div>
+                    </div>
+                </td>
+            </tr>
+        `;
+        tableBody.insertAdjacentHTML('beforeend', newRow);
+
+        // Mettre à jour les événements des cases à cocher
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgressAndChart);
+        });
+    });
+</script>
+
+<!--A revoir -->
+<script>
+    // Toggle between report and edit modes
+    document.getElementById('update-btn').addEventListener('click', () => {
+        document.getElementById('report-section').style.display = 'none';
+        document.getElementById('edit-section').style.display = 'block';
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+        document.getElementById('edit-section').style.display = 'none';
+        document.getElementById('report-section').style.display = 'block';
+    });
+
+    // Initialize DataTable for habit tracking
+    $(document).ready(function () {
+        $('#habitTrackingTable').DataTable();
+    });
+
+   
+</script>
+
+<script>
+    // Gestion du clic sur le bouton Mettre à jour
+    document.getElementById('update-btn').addEventListener('click', function () {
+        const editSection = document.getElementById('edit-section');
+        if (editSection.style.display === 'none' || editSection.style.display === '') {
+            editSection.style.display = 'block'; // Affiche le formulaire
+            this.innerHTML = '<i class="fas fa-save me-2"></i>Masquer'; // Change le texte du bouton
+        } else {
+            editSection.style.display = 'none'; // Masque le formulaire
+            this.innerHTML = '<i class="fas fa-save me-2"></i>Mettre à jour'; // Rétablit le texte du bouton
+        }
+    });
+
+    // Gestion du clic sur le bouton Annuler
+    document.getElementById('cancel-btn').addEventListener('click', function () {
+        const editSection = document.getElementById('edit-section');
+        editSection.style.display = 'none'; // Masque le formulaire
+        document.getElementById('update-btn').innerHTML = '<i class="fas fa-save me-2"></i>Mettre à jour'; // Rétablit le texte du bouton principal
+    });
+</script>
+<!--A revoir -->
+
+<script>
+    const toggleBtn = document.getElementById('toggle-btn');
+    const editSection = document.getElementById('edit-section');
+
+    toggleBtn.addEventListener('click', function () {
+        if (editSection.style.display === 'none' || editSection.style.display === '') {
+            console.log("{% url 'tracker:update_habit' habit.id %}");
+
+            // Afficher et charger le formulaire
+            fetch("{% url 'tracker:update_habit' habit.id %}") // URL du formulaire
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors du chargement du formulaire.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    editSection.innerHTML = html;
+                    editSection.style.display = 'block';
+                    toggleBtn.innerHTML = '<i class="fas fa-times me-2"></i>Masquer le formulaire';
+                    toggleBtn.classList.remove('btn-primary');
+                    toggleBtn.classList.add('btn-danger');
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Impossible de charger le formulaire.');
+                });
+        } else {
+            // Masquer le formulaire
+            editSection.style.display = 'none';
+            editSection.innerHTML = ''; // Optionnel : Nettoyer le contenu
+            toggleBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Afficher le formulaire';
+            toggleBtn.classList.remove('btn-danger');
+            toggleBtn.classList.add('btn-primary');
+        }
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

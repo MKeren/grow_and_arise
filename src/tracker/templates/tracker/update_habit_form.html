@@ -1,0 +1,39 @@
+<form method="post" id="update-form" action="{% url 'tracker:update_habit' habit.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success mt-3">Enregistrer</button>
+    <button type="button" id="cancel-btn" class="btn btn-secondary mt-3">Annuler</button>
+</form>
+
+<script>
+    // Gérer la soumission du formulaire
+    document.getElementById('update-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Habitude mise à jour avec succès !');
+                    location.reload(); // Recharger la page pour voir les changements
+                } else {
+                    alert('Erreur lors de la mise à jour.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue.');
+            });
+    });
+
+    // Gérer le bouton Annuler
+    document.getElementById('cancel-btn').addEventListener('click', function () {
+        document.getElementById('edit-section').style.display = 'none';
+    });
+</script>
