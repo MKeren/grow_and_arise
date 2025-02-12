@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,20 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Utilisateur</title>
     
-    <!-- Ajouter des liens vers des fichiers CSS -->
+    <!-- Liens CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-    <!-- Vous pouvez également ajouter d'autres fichiers CSS ou balises metadata si nécessaire -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    {% extends 'base.html' %}
-
-    {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-5">
         <h1 class="text-center mb-4">Mon Profil</h1>
 
-        <!-- Affichage des messages de succès ou d'erreur -->
+        <!-- Messages de succès ou d'erreur -->
         {% if messages %}
             <div class="alert-container">
                 {% for message in messages %}
@@ -33,40 +29,54 @@
             </div>
         {% endif %}
 
-        <!-- Formulaire de mise à jour du profil -->
-        <form method="POST" enctype="multipart/form-data" action="{% url 'profile_update' %}">
-            {% csrf_token %}
-            
-            <div class="mb-3">
-                <label for="name" class="form-label">Nom complet</label>
-                {{ form.name|add_class:"form-control" }}
-            </div>
+        <!-- Informations du profil utilisateur -->
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    {% if user.profile.photo %}
+                        <img src="{{ user.profile.photo.url }}" alt="Photo de profil" class="rounded-circle" width="150" height="150">
+                    {% else %}
+                        <img src="{% static 'images/default-profile.png' %}" alt="Photo de profil par défaut" class="rounded-circle" width="150" height="150">
+                    {% endif %}
+                </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                {{ form.email|add_class:"form-control" }}
-            </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Nom complet</th>
+                            <td>{{ user.profile.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Centres d'intérêt</th>
+                            <td>{{ user.profile.interests }}</td>
+                        </tr>
+                        <tr>
+                            <th>Objectifs</th>
+                            <td>{{ user.profile.goals }}</td>
+                        </tr>
+                        <tr>
+                            <th>Niveau de motivation</th>
+                            <td>{{ user.profile.motivation }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <div class="mb-3">
-                <label for="interests" class="form-label">Centres d'intérêt</label>
-                {{ form.interests|add_class:"form-control" }}
+                <!-- Bouton de mise à jour -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'core:profile_update' %}" class="btn btn-primary">Mettre à jour le profil</a>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label for="profile_picture" class="form-label">Photo de profil</label>
-                {{ form.profile_picture|add_class:"form-control" }}
-            </div>
-            
-            <!-- Bouton de soumission -->
-            <button type="submit" class="btn btn-primary w-100">Mettre à jour</button>
-        </form>
+        </div>
     </div>
 
-    {% endblock %}
-    
-    <!-- Ajouter des scripts JS si nécessaires -->
+    <!-- Scripts JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
+{% endblock %}

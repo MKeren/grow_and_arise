@@ -201,3 +201,5 @@ LOGIN_REDIRECT_URL = "/home/"  # Changez l'URL selon vos besoins
 LOGIN_URL = '/login/'
 
 
+MEDIA_URL = '/profiles/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profiles')

@@ -3,12 +3,240 @@
 
 {% block content %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mois Actuel</title>
+    <title>Current Month</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/daily_plan.css' %}">
+
+    <style>
+        body {
+            font-family: 'Cardo', serif !important;
+            background-color: #f8f9fa;
+        }
+    
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    
+        /* Banner styles */
+        .banner {
+            height: 250px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .banner {
+            height: 250px;
+            background-image: url('https://cdn.pixabay.com/photo/2024/04/29/11/21/business-8727683_1280.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: #121111;
+            text-align: center;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .banner-overlay h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    
+        .banner-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+        }
+    
+        /* Content section styles */
+        .content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Accordion styles */
+        .accordion-item {
+            border: none;
+            margin-bottom: 15px;
+            border-radius: 8px !important;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+    
+        .accordion-button {
+            background-color: #3a3a3a;
+            color: white;
+            font-family: 'Cardo', serif;
+            font-weight: bold;
+        }
+    
+        .accordion-button:not(.collapsed) {
+            background-color: #505050;
+            color: white;
+        }
+    
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+    
+        /* Task section styles */
+        .task-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+    
+        .btn-add-task {
+            background-color: #3a3a3a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+    
+        .btn-add-task:hover {
+            background-color: #505050;
+            transform: translateY(-2px);
+            color: white;
+        }
+    
+        /* Progress bar styles */
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    
+        .progress-bar {
+            background-color: #3a3a3a;
+            transition: width 0.3s ease;
+        }
+    
+        /* Performance section styles */
+        .performance-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+    
+        .table th {
+            background-color: #3a3a3a;
+            color: white;
+            font-weight: 500;
+            padding: 12px;
+        }
+    
+        .table td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+    
+        /* Alert styles */
+        .alert-info {
+            background-color: #f8f9fa;
+            border-left: 5px solid #3a3a3a;
+            color: #3a3a3a;
+        }
+    </style>
+    
+
+   <style>
+        
+        /* Style personnalisé */
+        body {
+           background-color: #f8f9fa;
+           font-family: 'Arial', sans-serif;
+       }
+       .bg-gradient {
+           background: linear-gradient(135deg, #6dd5ed, #2193b0);
+           color: #fff;
+       }
+       h1, h2, h5 {
+           color: #333;
+       }
+       .accordion-button {
+           font-size: 1.2rem;
+       }
+       .accordion-button:hover {
+       background: linear-gradient(to right, #3a3a3a, #c4c7c7); /* Inverse le gradient */
+       color: #ffffff;
+       transform: translateY(-3px); /* Élève légèrement le bouton */
+       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Accentue l'ombre */
+       }
+
+       .accordion-button:active {
+           transform: translateY(1px); /* Effet d'enfoncement lors du clic */
+           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) ; /* Réduit légèrement l'ombre */
+       }
+
+       .progress {
+           height: 20px;
+       }
+       .btn-outline-primary {
+           font-size: 0.9rem;
+       }
+
+       /* Style global pour un fond légèrement transparent */
+  .transparent-bg {
+   background-color: rgba(255, 255, 255, 0.25); /* Blanc avec 85% d'opacité */
+   backdrop-filter: blur(5px); /* Effet de flou pour un look moderne */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+   border-radius: 10px; /* Coins arrondis */
+   padding: 15px; /* Espacement intérieur */
+   margin-bottom: 20px; /* Espacement entre les sections */
+  }
+  
+     
+  .dt-buttons {
+  margin-bottom: 10px; /* Espacement sous les boutons */
+  }
+  
+  .dt-button {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-right: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  }
+  
+  .dt-button:hover {
+  background-color: #0056b3;
+  }
+  
+   </style>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -23,204 +251,319 @@
             font-weight: bold;
             color: #333;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
         .summary-section {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f1f1f1;
+        }
+       
+        .editable-cell {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 5px;
+            min-width: 100px;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- Section Title -->
-        <h1 class="section-title">Mois Actuel</h1>
-        <p class="text-center">
-            Si tu aspires à gagner plus, il faut que tu puisses être capable de gérer ce que tu as déjà ! 
-            Avec ce budget mensuel, tu vas pouvoir être intentionnelle avec tes finances.
-        </p>
-
-        <!-- Intro Section -->
-        <div class="mb-4">
-            <h3>Avant de commencer</h3>
-            <p>
-                Écris pour ce mois-ci tout l’argent, les économies... que tu possèdes et tous les mois, fais le point :
-            </p>
-            <ul>
-                <li>**Mes économies totales** : 150$</li>
-                <li>**Mon compte courant** : 10$</li>
-                <li>**Mes autres comptes** : 100$</li>
-                <li>**Mes investissements** : ---</li>
-            </ul>
+         <!-- Section Banner -->
+        <div class="banner">
+            <div class="banner-overlay">
+                <h2 style="color: #fcfcfc;">Current Month</h2>
+                <p>Plan the future with confidence.</p>
+            </div>
         </div>
 
-        <!-- Sources de Revenus -->
-        <div class="summary-section">
-            <h3>Sources de revenus</h3>
-            <table>
+         <!-- Sommaire -->
+        <div class="content-section transparent-bg shadow-sm" style="border-left: 5px solid #e7e7e7;">
+        
+            <div class="alert alert-info p-2 rounded" style="background-color: #e7f3fe; border-left: 5px solid #e6e8e8;">
+                💡 <strong>If you aspire to earn more, you must be able to manage what you already have! 
+                    With this monthly budget, you can be intentional with your finances.</strong>
+                    <a href="{% url 'plans:finance_review' %}" class="btn btn-link">Back to previous page</a>
+            </div>
+        </div>
+
+         <!-- Intro Section -->
+         <div class="mb-4">
+            <h3>Before you start</h3>
+            <button class="btn btn-primary mb-3" id="addRowIntro">Add Row</button>
+            <table class="table table-bordered table-editable" id="tableIntro">
                 <thead>
                     <tr>
-                        <th>Source de revenus</th>
-                        <th>Montant</th>
+                        <th>Description</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Maman</td>
-                        <td>330$</td>
+                    <!-- Dynamically populated rows will appear here -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="total-cell">0</td>
                     </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Sources of Income Section -->
+        <div class="summary-section">
+            <h3>Sources of Income</h3>
+            <button class="btn btn-primary mb-3" id="addRowIncome">Add Row</button>
+            <table class="table table-bordered table-editable" id="tableIncome">
+                <thead>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <th>Source of Income</th>
+                        <th>Amount</th>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populated rows will appear here -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="total-cell">0</td>
                     </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Fixed Charges Section -->
+        <div class="summary-section">
+            <h3>Fixed Charges</h3>
+            <button class="btn btn-primary mb-3" id="addRowCharges">Add Row</button>
+            <table class="table table-bordered table-editable" id="tableCharges">
+                <thead>
                     <tr>
+                        <th>Fixed Charges</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populated rows will appear here -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="total-cell">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+         <!-- Expected Savings Section -->
+         <div class="summary-section">
+            <h3>Expected Savings</h3>
+            <button class="btn btn-primary mb-3" id="addRowSavings">Add Row</button>
+            <table class="table table-bordered table-editable" id="tableSavings">
+                <thead>
+                    <tr>
+                        <th>Saving Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populated rows will appear here -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="total-cell">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Other Expenses Section -->
+        <div class="summary-section">
+            <h3>Other Expenses</h3>
+            <button class="btn btn-primary mb-3" id="addRowOtherExpenses">Add Row</button>
+            <table class="table table-bordered table-editable" id="tableOtherExpenses">
+                <thead>
+                    <tr>
+                        <th>Expense Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populated rows will appear here -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="total-cell">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Global Totals Section -->
+        <div class="summary-section">
+            <h3>Global Totals</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Category</th>
                         <th>Total</th>
-                        <th>6000$</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Charges Fixes -->
-        <div class="summary-section">
-            <h3>Charges fixes</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Charges fixes</th>
-                        <th>Montant</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Loyer</td>
-                        <td>112.5$</td>
+                        <td>Sources of Income</td>
+                        <td id="globalIncomeTotal">0</td>
                     </tr>
                     <tr>
-                        <td>Factures</td>
-                        <td>453.5$ (⚡️)</td>
+                        <td>Fixed Charges</td>
+                        <td id="globalChargesTotal">0</td>
                     </tr>
                     <tr>
-                        <td>Provision</td>
-                        <td>60$</td>
+                        <td>Expected Savings</td>
+                        <td id="globalSavingsTotal">0</td>
                     </tr>
                     <tr>
-                        <th>Total</th>
-                        <th></th>
+                        <td>Other Expenses</td>
+                        <td id="globalOtherExpensesTotal">0</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div> 
 
-        <!-- Autres Dépenses -->
-        <div class="summary-section">
-            <h3>Autres dépenses</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Autres dépenses</th>
-                        <th>Montant prévu</th>
-                        <th>Montant réel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Besoin personnel</td>
-                        <td></td>
-                        <td>40$</td>
-                    </tr>
-                    <tr>
-                        <td>Cadeaux</td>
-                        <td>60$</td>
-                        <td>6.09$</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Total</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Initialize DataTable
+                $('.table-editable').DataTable({
+                    searching: true,  // Enable the search box
+                    paging: true,  // Enable pagination
+                    info: false,
+                    lengthChange: true,  // Enable the number of rows to show dropdown
+                    lengthMenu: [5, 10, 15, 100],  // Options for number of entries per page
+                    pageLength: 5  // Default number of entries shown per page
+                });
 
-        <!-- Dîme et Offrandes -->
-        <div class="summary-section">
-            <h3>Dîme et Offrandes</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Dîme</th>
-                        <th>Offrandes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>600$</td>
-                        <td>20€</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                // Add Row Functionality
+                $('#addRowIntro').on('click', function() {
+                    let row = '<tr><td contenteditable="true" class="editable-cell">New Entry</td><td contenteditable="true" class="editable-cell">0</td></tr>';
+                    $('#tableIntro tbody').append(row);
+                    saveData(); // Save the data after adding a row
+                    calculateTotals(); // Recalculate totals
+                });
 
-        <!-- Calcul Final -->
-        <div class="summary-section">
-            <h3>Calcul Final</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sources de revenus</th>
-                        <th>Charges fixes</th>
-                        <th>Autres dépenses</th>
-                        <th>Économies</th>
-                        <th>Dîme</th>
-                        <th>Offrandes</th>
-                        <th>ARGENT RESTANT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>6000$</td>
-                        <td></td>
-                        <td></td>
-                        <td>600$</td>
-                        <td>20€</td>
-                        <td>250€</td>
-                        <td>250€</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                $('#addRowIncome').on('click', function() {
+                    let row = '<tr><td contenteditable="true" class="editable-cell">New Income</td><td contenteditable="true" class="editable-cell">0</td></tr>';
+                    $('#tableIncome tbody').append(row);
+                    saveData(); // Save the data after adding a row
+                    calculateTotals(); // Recalculate totals
+                });
 
-        <!-- Back Button -->
-        <div class="mt-4 text-center">
-            <a href="{% url 'core:home' %}" class="btn btn-link">Retour à l'accueil</a>
-        </div>
+                $('#addRowCharges').on('click', function() {
+                    let row = '<tr><td contenteditable="true" class="editable-cell">New Charge</td><td contenteditable="true" class="editable-cell">0</td></tr>';
+                    $('#tableCharges tbody').append(row);
+                    saveData(); // Save the data after adding a row
+                    calculateTotals(); // Recalculate totals
+                });
+
+                // Calculate Totals
+                function calculateTotals() {
+                    $('.table-editable').each(function() {
+                        let total = 0;
+                        $(this).find('tbody tr:not(.total-row)').each(function() {
+                            const value = parseFloat($(this).find('td:last-child').text()) || 0;
+                            total += value;
+                        });
+                        $(this).find('.total-cell').text(total.toFixed(2));
+                    });
+                }
+
+                // Update totals when a cell is edited
+                $(document).on('input', '[contenteditable="true"]', function() {
+                    calculateTotals();
+                    saveData();
+                });
+
+                // Save Data to LocalStorage
+                function saveData() {
+                    let introData = [];
+                    $('#tableIntro tbody tr').each(function() {
+                        let row = {
+                            description: $(this).find('td:first').text(),
+                            amount: $(this).find('td:last').text()
+                        };
+                        introData.push(row);
+                    });
+                    localStorage.setItem('introData', JSON.stringify(introData));
+
+                    let incomeData = [];
+                    $('#tableIncome tbody tr').each(function() {
+                        let row = {
+                            description: $(this).find('td:first').text(),
+                            amount: $(this).find('td:last').text()
+                        };
+                        incomeData.push(row);
+                    });
+                    localStorage.setItem('incomeData', JSON.stringify(incomeData));
+
+                    let chargesData = [];
+                    $('#tableCharges tbody tr').each(function() {
+                        let row = {
+                            description: $(this).find('td:first').text(),
+                            amount: $(this).find('td:last').text()
+                        };
+                        chargesData.push(row);
+                    });
+                    localStorage.setItem('chargesData', JSON.stringify(chargesData));
+                }
+
+                // Load Data from LocalStorage
+                function loadData() {
+                    // Clear existing rows to avoid duplication
+                    $('#tableIntro tbody').empty();
+                    $('#tableIncome tbody').empty();
+                    $('#tableCharges tbody').empty();
+
+                    // Load Intro Data
+                    let introData = JSON.parse(localStorage.getItem('introData')) || [];
+                    introData.forEach(item => {
+                        let row = `<tr><td contenteditable="true" class="editable-cell">${item.description}</td><td contenteditable="true" class="editable-cell">${item.amount}</td></tr>`;
+                        $('#tableIntro tbody').append(row);
+                    });
+
+                    // Load Income Data
+                    let incomeData = JSON.parse(localStorage.getItem('incomeData')) || [];
+                    incomeData.forEach(item => {
+                        let row = `<tr><td contenteditable="true" class="editable-cell">${item.description}</td><td contenteditable="true" class="editable-cell">${item.amount}</td></tr>`;
+                        $('#tableIncome tbody').append(row);
+                    });
+
+                    // Load Charges Data
+                    let chargesData = JSON.parse(localStorage.getItem('chargesData')) || [];
+                    chargesData.forEach(item => {
+                        let row = `<tr><td contenteditable="true" class="editable-cell">${item.description}</td><td contenteditable="true" class="editable-cell">${item.amount}</td></tr>`;
+                        $('#tableCharges tbody').append(row);
+                    });
+
+                    calculateTotals();
+                }
+
+                // Initial load
+                loadData();
+            });
+           
+        </script>
+
     </div>
 </body>
 </html>

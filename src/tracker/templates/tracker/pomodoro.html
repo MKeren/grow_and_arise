@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technique Pomodoro Améliorée</title>
+    <title>Enhanced Pomodoro Technique</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -100,41 +100,42 @@
 </head>
 <body>
     <div class="pomodoro-container">
-        <h1 class="pomodoro-title">⏱ Technique Pomodoro Améliorée</h1>
+        <h1 class="pomodoro-title">⏱ Enhanced Pomodoro Technique</h1>
         <div class="timer" id="timer">25:00</div>
-        <p class="phase" id="phase">Phase : Focus</p>
+        <p class="phase" id="phase">Phase: Focus</p>
 
         <div class="btn-container">
-            <button class="btn btn-start" id="start">Démarrer</button>
+            <button class="btn btn-start" id="start">Start</button>
             <button class="btn btn-pause" id="pause">Pause</button>
-            <button class="btn btn-reset" id="reset">Réinitialiser</button>
+            <button class="btn btn-reset" id="reset">Reset</button>
         </div>
 
         <div class="task-counter">
-            Tâches terminées : <span id="task-count">0</span>
+            Completed Tasks: <span id="task-count">0</span>
         </div>
-        <button class="btn btn-task" id="add-task">Ajouter une tâche terminée</button>
+        <button class="btn btn-task" id="add-task">Add Completed Task</button>
     </div>
 
     <audio id="alert-sound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
 
     <script>
-        let timerDisplay = document.getElementById("timer");
-        let phaseDisplay = document.getElementById("phase");
-        let startButton = document.getElementById("start");
-        let pauseButton = document.getElementById("pause");
-        let resetButton = document.getElementById("reset");
-        let taskCountDisplay = document.getElementById("task-count");
-        let addTaskButton = document.getElementById("add-task");
-        let alertSound = document.getElementById("alert-sound");
+        // DOM elements
+        const timerDisplay = document.getElementById("timer");
+        const phaseDisplay = document.getElementById("phase");
+        const startButton = document.getElementById("start");
+        const pauseButton = document.getElementById("pause");
+        const resetButton = document.getElementById("reset");
+        const taskCountDisplay = document.getElementById("task-count");
+        const addTaskButton = document.getElementById("add-task");
+        const alertSound = document.getElementById("alert-sound");
 
         // Initial values
-        let focusTime = 25 * 60; // 25 minutes
-        let shortBreakTime = 5 * 60; // 5 minutes
-        let longBreakTime = 15 * 60; // 15 minutes
+        const focusTime = 25 * 60; // 25 minutes
+        const shortBreakTime = 5 * 60; // 5 minutes
+        const longBreakTime = 15 * 60; // 15 minutes
         let currentTime = focusTime;
         let isPaused = true;
-        let phase = "Focus"; // Default phase
+        let phase = "Focus";
         let cycles = 0;
         let timerInterval;
         let taskCount = localStorage.getItem("taskCount") || 0;
@@ -142,41 +143,63 @@
         // Update task count display
         taskCountDisplay.textContent = taskCount;
 
-        // Update timer display
+        // Function to update the timer display
         function updateTimerDisplay() {
-            let minutes = Math.floor(currentTime / 60);
-            let seconds = currentTime % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
-                .toString()
-                .padStart(2, "0")}`;
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
         }
 
-        // Play alert sound
+       
+
+        // Play alert sound with user interaction authorization
         function playAlertSound() {
-            alertSound.play();
+            alertSound.currentTime = 0; // Reset the sound to the beginning
+            alertSound.play().catch((error) => {
+                console.warn("Sound alert blocked by browser until user interacts with the page.");
+            });
         }
 
-        // Switch phase
+// Start the timer
+function startTimer() {
+    // Allow sound playback after user interaction
+    alertSound.play().catch(() => {}); // This ensures the sound can play later without restrictions
+
+    if (isPaused) {
+        isPaused = false;
+        timerInterval = setInterval(() => {
+            if (currentTime > 0) {
+                currentTime--;
+                updateTimerDisplay();
+            } else {
+                switchPhase();
+            }
+        }, 1000);
+    }
+}
+
+
+        // Function to switch phases
         function switchPhase() {
             if (phase === "Focus") {
                 cycles++;
                 if (cycles % 4 === 0) {
-                    phase = "Pause longue";
+                    phase = "Long Break";
                     currentTime = longBreakTime;
                 } else {
-                    phase = "Pause courte";
+                    phase = "Short Break";
                     currentTime = shortBreakTime;
                 }
             } else {
                 phase = "Focus";
                 currentTime = focusTime;
             }
-            phaseDisplay.textContent = `Phase : ${phase}`;
+            phaseDisplay.textContent = `Phase: ${phase}`;
             updateTimerDisplay();
-            playAlertSound(); // Play sound when switching phase
+            playAlertSound();
         }
 
-        // Timer countdown logic
+        // Start the timer
         function startTimer() {
             if (isPaused) {
                 isPaused = false;
@@ -191,24 +214,24 @@
             }
         }
 
-        // Pause timer
+        // Pause the timer
         function pauseTimer() {
             isPaused = true;
             clearInterval(timerInterval);
         }
 
-        // Reset timer
+        // Reset the timer
         function resetTimer() {
             isPaused = true;
             clearInterval(timerInterval);
             phase = "Focus";
             currentTime = focusTime;
             cycles = 0;
-            phaseDisplay.textContent = `Phase : ${phase}`;
+            phaseDisplay.textContent = `Phase: ${phase}`;
             updateTimerDisplay();
         }
 
-        // Add task
+        // Add completed task
         function addTask() {
             taskCount++;
             localStorage.setItem("taskCount", taskCount);

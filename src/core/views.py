@@ -16,6 +16,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -88,6 +101,7 @@ def home(request):
 def index(request):
     return render(request, "core/index.html", {"user": request.user})
 
+#@login_required
 def profile_view(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
@@ -114,12 +128,12 @@ def update_profile(request):
             user.save()
 
             messages.success(request, "Vos informations ont été mises à jour avec succès !")
-            return redirect('profile')  # Redirection vers la page de profil
+            return redirect('core:profile_view')  # Redirection vers la page de profil
     else:
         form = UserProfileForm(initial={
-            'name': request.user.name,
+            #'name': request.user.name,
             'email': request.user.email,
-            'interests': request.user.interests,  # Ajouter l'intérêt de l'utilisateur dans la base
+            #'interests': request.user.interests,  # Ajouter l'intérêt de l'utilisateur dans la base
         })
 
     return render(request, 'core/profile_update.html', {'form': form})

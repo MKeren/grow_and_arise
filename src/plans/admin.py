@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Plan, Step
+
+from .models import Plan, Step, ThingsToAchieve
+
+admin.site.register(ThingsToAchieve)
+admin.site.register(Step)
 
 class StepInline(admin.TabularInline):
     model = Step

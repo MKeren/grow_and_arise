@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Bienvenue sur votre page de succès !</h1>
+
+    <!-- Affichage des reminders -->
+    {% if reminder_message %}
+    <div class="alert alert-warning mt-3" role="alert">
+        {{ reminder_message }}
+    </div>
+    {% endif %}
+
+    <!-- Affichage des fichiers récents -->
+    <h2 class="mt-5">Vos fichiers récents</h2>
+    {% if recent_files %}
+    <ul class="list-group">
+        {% for file in recent_files %}
+        <li class="list-group-item">
+            <strong>{{ file.name }}</strong> - {{ file.created_at|date:"d/m/Y H:i" }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Vous n'avez ajouté aucun fichier récemment.</p>
+    {% endif %}
+
+    <!-- Affichage des dossiers récents -->
+    <h2 class="mt-5">Vos dossiers récents</h2>
+    {% if recent_folders %}
+    <ul class="list-group">
+        {% for folder in recent_folders %}
+        <li class="list-group-item">
+            <strong>{{ folder.name }}</strong> - {{ folder.created_at|date:"d/m/Y H:i" }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Vous n'avez créé aucun dossier récemment.</p>
+    {% endif %}
+
+    <h1>Vos objectifs à atteindre</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+{% if things_to_achieve %}
+    <ul>
+        {% for thing in things_to_achieve %}
+            <li>
+                <h3>{{ thing.main_goal }}</h3>
+                <p><strong>Étapes :</strong> {{ thing.steps }}</p>
+                <p><strong>Motivation :</strong> {{ thing.motivation }}</p>
+                <p><strong>Date limite :</strong> {{ thing.deadline }}</p>
+                <p><strong>Créé le :</strong> {{ thing.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Vous n'avez pas encore enregistré d'objectif.</p>
+{% endif %}
+
+</div>
+{% endblock %}

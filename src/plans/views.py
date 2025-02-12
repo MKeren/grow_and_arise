@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from rest_framework import viewsets
-from .models import Plan, ThingsToAchieve
+from .models import File, Folder, Plan, ThingsToAchieve
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .forms import PlanForm
 from django.utils.translation import gettext as _
+from datetime import datetime, timedelta
 
 class PlanSerializer(ModelSerializer):
     class Meta:
@@ -68,6 +69,71 @@ def current_month(request):
 def previous_month(request):
     return render(request, 'plans/previous_month.html')
 
+def hings_to_achieve(request):
+    if request.method == 'POST':
+        main_goal = request.POST.get('main_goal', '').strip()
+        steps = request.POST.get('steps', '').strip()
+        motivation = request.POST.get('motivation', '').strip()
+        deadline = request.POST.get('deadline', '').strip()
+
+        # Sauvegarde dans la base de données
+        ThingsToAchieve.objects.create(
+            user=request.user,
+            main_goal=main_goal,
+            steps=steps,
+            motivation=motivation,
+            deadline=deadline
+        )
+        return redirect('plans:success_page')  # Redirige après soumission
+
+    return render(request, 'plans/things_to_achieve.html')
+
+from django.contrib import messages
+
+def things_to_achiev(request):
+    if request.method == 'POST':
+        main_goal = request.POST.get('main_goal', '').strip()
+        steps = request.POST.get('steps', '').strip()
+        motivation = request.POST.get('motivation', '').strip()
+        deadline = request.POST.get('deadline', '').strip()
+
+        # Vérifie que tous les champs sont remplis
+        if main_goal and steps and motivation and deadline:
+            ThingsToAchieve.objects.create(
+                user=request.user,
+                main_goal=main_goal,
+                steps=steps,
+                motivation=motivation,
+                deadline=deadline
+            )
+            messages.success(request, "Votre objectif a été enregistré avec succès !")
+            return redirect('plans:success_page')
+        else:
+            messages.error(request, "Veuillez remplir tous les champs.")
+
+    return render(request, 'plans/things_to_achieve.html')
+
+def success_page(request):
+
+     # Récupérer les objectifs de l'utilisateur connecté
+    user_things_to_achieve = ThingsToAchieve.objects.filter(user=request.user)
+    # Récupérer les fichiers et dossiers enregistrés récemment par l'utilisateur connecté
+    user = request.user
+    recent_files = File.objects.filter(user=user, created_at__gte=datetime.now() - timedelta(days=7))
+    recent_folders = Folder.objects.filter(user=user, created_at__gte=datetime.now() - timedelta(days=7))
+    
+    # Ajouter un reminder si aucun fichier récent n'a été ajouté
+    reminder_message = None
+    if not recent_files.exists() and not recent_folders.exists():
+        reminder_message = "Vous n'avez rien ajouté récemment. Pourquoi ne pas commencer maintenant ? 😊"
+
+    context = {
+        'recent_files': recent_files,
+        'recent_folders': recent_folders,
+        'reminder_message': reminder_message,
+    }
+    return render(request, 'plans/success_page.html',  {'things_to_achieve': user_things_to_achieve})
+
 def things_to_achieve(request):
     if request.method == 'POST':
         main_goal = request.POST.get('main_goal', '').strip()
@@ -83,6 +149,10 @@ def things_to_achieve(request):
             motivation=motivation,
             deadline=deadline
         )
-        return HttpResponseRedirect('/success-page/')  # Redirige après soumission
+
+        # Ajout d'un message de confirmation
+        messages.success(request, "Votre objectif a été enregistré avec succès !")
+
+        return redirect('plans:success_page')
 
     return render(request, 'plans/things_to_achieve.html')

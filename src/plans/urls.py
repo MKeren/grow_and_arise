@@ -18,6 +18,7 @@ urlpatterns = [
     path('daily-planning/', views.daily_planning, name='daily_planning'),
     path('daily-routines/', views.daily_routines, name='daily_routines'),
     path('things-to-achieve/', views.things_to_achieve, name='things_to_achieve'),
+    path('success/', views.success_page, name='success_page'),
 
     path('finance-review/', views.finance_review, name='finance_review'),
     path('current_month/', views.current_month, name='current_month'),
